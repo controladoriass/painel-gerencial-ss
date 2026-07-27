@@ -8,21 +8,30 @@ panorama grupo a grupo.
 
 > Documento de **uso interno**. Link discreto, mas público — não divulgar a clientes.
 
-## Como os dados sincronizam (IMPORTANTE)
+## De onde vêm os dados (LEIA ISTO)
 
-O painel **lê os dados ao vivo** da pasta `dados/` do repositório de indicadores por
-cliente (`dashboard-juridico`), pela URL do GitHub Pages:
+**Este painel NÃO tem dados próprios.** Ele lê, ao vivo, os mesmos arquivos JSON já
+publicados no repositório dos **indicadores jurídicos** (`dashboard-juridico`), pela
+URL do GitHub Pages:
 
     https://controladoriass.github.io/dashboard-juridico/dados/
 
-Ou seja: **você atualiza os dados num lugar só** — a rotina mensal do
-`dashboard-juridico` (`Dashboard/ATUALIZAR_MENSAL.md`). Assim que aquele repo é
-republicado, este painel reflete os números novos ao recarregar. **Nada a fazer aqui.**
+Consequências práticas:
 
-Ordem das fontes que o painel tenta (`FONTE_REMOTA` no topo do `index.html`):
+- **Você atualiza os dados num lugar só:** a rotina mensal do `dashboard-juridico`
+  (`Dashboard/ATUALIZAR_MENSAL.md`). Assim que aquele repositório é republicado, este
+  painel reflete os números novos ao recarregar a página. **Nada a fazer aqui.**
+- **Dependência:** se os JSONs forem removidos ou o repositório dos indicadores sair
+  do ar, o painel deixa de receber dado vivo e passa a mostrar o **retrato embutido**
+  (cópia congelada dentro do próprio HTML) — não quebra, mas para de atualizar.
+- **Onde trocar a fonte:** constante `FONTE_REMOTA`, no topo do `<script>` em
+  `index.html`. Se o repositório dos indicadores mudar de nome/URL, é só esse valor
+  que precisa ser ajustado.
+
+Ordem das fontes que o painel tenta, em cascata (`index.html`):
 1. **Remota** — a URL acima (dado vivo). É o que vale quando publicado/online.
 2. **`dados/` local** — só quando servido por HTTP a partir desta pasta.
-3. **Embed** (`window.DADOS_EMBED` dentro do HTML) — fallback offline / duplo-clique.
+3. **Embed** (`window.DADOS_EMBED`, dentro do HTML) — fallback offline / duplo-clique.
 
 ### Trocar a data-corte
 No `index.html`, constante `DATA_CORTE` (aparece no cabeçalho). Atualizar quando a
