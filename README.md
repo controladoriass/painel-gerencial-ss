@@ -1,10 +1,44 @@
 # Painel Gerencial de Carteira — Silva & Silva (uso interno)
 
+**No ar (link interno):** https://controladoriass.github.io/painel-gerencial-ss/
+
 Dashboard **interno** (não para clientes) com a visão consolidada do escritório:
 quem concentra o trabalho, cobertura por área, esforço × tamanho da carteira e
 panorama grupo a grupo.
 
-> Documento de **uso interno**. Não distribuir a clientes.
+> Documento de **uso interno**. Link discreto, mas público — não divulgar a clientes.
+
+## Como os dados sincronizam (IMPORTANTE)
+
+O painel **lê os dados ao vivo** da pasta `dados/` do repositório de indicadores por
+cliente (`dashboard-juridico`), pela URL do GitHub Pages:
+
+    https://controladoriass.github.io/dashboard-juridico/dados/
+
+Ou seja: **você atualiza os dados num lugar só** — a rotina mensal do
+`dashboard-juridico` (`Dashboard/ATUALIZAR_MENSAL.md`). Assim que aquele repo é
+republicado, este painel reflete os números novos ao recarregar. **Nada a fazer aqui.**
+
+Ordem das fontes que o painel tenta (`FONTE_REMOTA` no topo do `index.html`):
+1. **Remota** — a URL acima (dado vivo). É o que vale quando publicado/online.
+2. **`dados/` local** — só quando servido por HTTP a partir desta pasta.
+3. **Embed** (`window.DADOS_EMBED` dentro do HTML) — fallback offline / duplo-clique.
+
+### Trocar a data-corte
+No `index.html`, constante `DATA_CORTE` (aparece no cabeçalho). Atualizar quando a
+mensal mudar a data dos dados.
+
+### Atualizar o embed offline (opcional)
+O embed é só um retrato de segurança para abrir sem internet. Para atualizá-lo ao
+estado corrente dos JSONs locais:
+
+    python atualizar.py            # copia de ../Dashboard/dados/ e re-embute
+    python atualizar.py --no-copy  # só re-embute o que já está em ./dados/
+
+Depois, para republicar o painel (só necessário se você mexeu no visual/embed):
+
+    cp index.html _publicar/index.html
+    cd _publicar && git add -A && git commit -m "..." && git push
 
 ## Estrutura
 
