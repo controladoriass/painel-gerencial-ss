@@ -1,0 +1,7 @@
+# arquivos de trabalho — não publicar
+dados/
+atualizar.py
+_*.json
+scratchpad/
+.DS_Store
+Thumbs.db
