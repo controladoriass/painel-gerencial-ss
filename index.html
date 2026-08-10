@@ -114,6 +114,25 @@ section{margin-bottom:66px;scroll-margin-top:20px}
 @keyframes shimmer{to{transform:translateX(220%)}}
 
 /* ============ Áreas ============ */
+/* topo: donut ocupa mais espaço + card insight ao lado */
+.area-topo{display:grid;grid-template-columns:2fr 1fr;gap:22px}
+.area-donut-panel{position:relative;overflow:hidden}
+.area-donut-panel #area-donut svg circle{transition:opacity .28s ease, stroke-width .28s ease, filter .28s ease;cursor:pointer}
+.area-donut-panel #area-donut svg.hover circle{opacity:.28}
+.area-donut-panel #area-donut svg.hover circle.hi{opacity:1;stroke-width:30;filter:drop-shadow(0 4px 10px rgba(30,34,63,.25))}
+/* card Especialização */
+.area-insight{background:linear-gradient(160deg,var(--navy-deep) 0%,#191d38 100%);color:#fff;border-top-color:var(--gold);position:relative;overflow:hidden}
+.area-insight::before{content:"";position:absolute;top:-30%;right:-25%;width:70%;height:80%;background:radial-gradient(circle,rgba(181,134,66,.18),transparent 60%);pointer-events:none}
+.area-insight .ai-eyebrow{font-size:10px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--gold-soft);margin-bottom:10px;position:relative}
+.area-insight .ai-headline{font-size:38px;font-weight:800;color:#fff;letter-spacing:-1.2px;line-height:1;position:relative;font-variant-numeric:tabular-nums}
+.area-insight .ai-headline .ai-area{display:block;font-size:16px;font-weight:700;color:var(--gold-soft);letter-spacing:.4px;margin-top:8px;text-transform:none}
+.area-insight .ai-sub{font-size:12px;color:#c2c6d6;margin-top:14px;line-height:1.6;position:relative;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.area-insight .ai-list{margin-top:14px;display:flex;flex-direction:column;gap:8px;position:relative}
+.area-insight .ai-list .ai-item{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11.5px}
+.area-insight .ai-list .ai-item .lbl{color:#c2c6d6;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.area-insight .ai-list .ai-item .val{color:#fff;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.3px;font-size:12.5px}
+@media(max-width:980px){.area-topo{grid-template-columns:1fr}}
+
 .area-legend{display:flex;flex-wrap:wrap;gap:10px 16px;margin:4px 0 20px}
 .area-legend .li{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:500;color:var(--ink2)}
 .area-legend .sw{width:10px;height:10px;border-radius:2px}
@@ -322,15 +341,30 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
         <div class="sec-desc">Como a carteira de processos ativos se distribui entre as áreas — a visão do escritório inteiro e a composição de cada grupo. Revela onde a demanda se concentra e o perfil jurídico de cada cliente.</div>
       </div>
     </div>
-    <div class="grid2">
-      <div class="panel">
+    <div class="area-topo">
+      <div class="panel area-donut-panel">
         <div class="panel-label">Escritório · mix de áreas</div>
         <div id="area-donut"></div>
       </div>
-      <div class="panel">
-        <div class="panel-label">Composição por grupo</div>
-        <div class="area-legend" id="area-legend"></div>
-        <div class="stack" id="area-stack"></div>
+      <div class="panel area-insight">
+        <div class="ai-eyebrow">Especialização</div>
+        <div class="ai-headline" id="area-insight-headline"></div>
+        <div class="ai-sub" id="area-insight-sub"></div>
+        <div class="ai-list" id="area-insight-list"></div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:22px">
+      <div class="panel-label">Ranking por área do direito</div>
+      <div class="rank-toolbar">
+        <div class="metric-tabs pill" id="area-tabs"></div>
+        <div class="rank-search">
+          <input type="text" id="area-filtro" placeholder="Filtrar por grupo…" autocomplete="off">
+          <span class="rs-clear" id="area-filtro-clear" title="Limpar">×</span>
+        </div>
+      </div>
+      <div class="bars" id="area-bars"></div>
+      <div class="rank-footer">
+        <button class="rank-expand" id="area-expand"></button>
       </div>
     </div>
   </section>
@@ -650,6 +684,7 @@ function render(){
   ativarReveal();
   ativarNav();
   ativarFiltroRank();
+  ativarFiltroArea();
 }
 
 /* --- Bloco H: Rankings executivos (carrossel 3 cards, meio em destaque) --- */
@@ -983,59 +1018,238 @@ function ativarFiltroRank(){
   });
 }
 
-/* --- Áreas: donut do escritório + stack por grupo --- */
+/* --- Áreas: donut animado + card Especialização + ranking por área --- */
+// estado interno
+let curArea = '__all__';           // qual área está selecionada nas tabs
+let areaExpandido = false;
+let areaFiltro = '';
+const AREA_TOP = 15;
+
 function renderArea(){
-  // agregado do escritório (processos ativos por área)
+  // agregação do escritório
   const agg = {};
   GRUPOS.forEach(g=>Object.entries(g.area).forEach(([a,q])=>{agg[a]=(agg[a]||0)+q;}));
   const areasOrd = Object.entries(agg).sort((a,b)=>b[1]-a[1]);
   const totalAg = areasOrd.reduce((s,[,q])=>s+q,0)||1;
 
-  // donut SVG
-  const R=78, CX=110, CY=110, C=2*Math.PI*R;
+  _renderDonut(areasOrd, totalAg);
+  _renderInsight(areasOrd, totalAg);
+  _renderAreaRanking(areasOrd);
+}
+
+// A) Donut animado + hover destaque
+function _renderDonut(areasOrd, totalAg){
+  const R=88, CX=120, CY=120, C=2*Math.PI*R;
+  const segsData = [];
   let off=0;
-  const segs = areasOrd.map(([a,q],i)=>{
-    const frac=q/totalAg, len=frac*C, s=`<circle cx="${CX}" cy="${CY}" r="${R}" fill="none"
-      stroke="${colorFor(a,i)}" stroke-width="26" stroke-dasharray="${len} ${C-len}"
-      stroke-dashoffset="${-off}" transform="rotate(-90 ${CX} ${CY})"
-      data-tt="<b>${a}</b><br>${NUM(q)} ativos · ${Math.round(frac*100)}%"></circle>`;
-    off+=len; return s;
-  }).join('');
-  document.getElementById('area-donut').innerHTML = `
-    <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
-      <svg width="220" height="220" viewBox="0 0 220 220" style="flex:0 0 auto">
+  areasOrd.forEach(([a,q],i)=>{
+    const frac = q/totalAg, len = frac*C;
+    segsData.push({a, q, i, frac, off, len, cor: colorFor(a,i)});
+    off += len;
+  });
+  const segs = segsData.map(s=>`
+    <circle data-area="${s.a}" cx="${CX}" cy="${CY}" r="${R}" fill="none"
+      stroke="${s.cor}" stroke-width="28"
+      stroke-dasharray="0 ${C}"
+      stroke-dashoffset="${-s.off}"
+      transform="rotate(-90 ${CX} ${CY})"
+      data-final-dash="${s.len} ${C - s.len}"
+      data-tt="<b>${s.a}</b><br>${NUM(s.q)} ativos · ${Math.round(s.frac*100)}%<br>${_topGruposArea(s.a)}"
+    ></circle>`).join('');
+
+  // legenda ao lado
+  const legenda = areasOrd.slice(0,10).map(([a,q],i)=>`
+    <div class="ad-leg-item" data-area="${a}" style="display:flex;align-items:center;gap:8px;font-size:12px;padding:4px 6px;border-radius:4px;cursor:pointer;transition:background .18s">
+      <span style="width:12px;height:12px;border-radius:3px;background:${colorFor(a,i)};flex:0 0 auto"></span>
+      <span style="font-weight:600;color:var(--navy);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${a}">${a}</span>
+      <span style="font-weight:800;color:var(--navy2);font-variant-numeric:tabular-nums">${NUM(q)}</span>
+      <span style="color:var(--muted);font-weight:600;width:36px;text-align:right">${Math.round(q/totalAg*100)}%</span>
+    </div>`).join('');
+
+  const el = document.getElementById('area-donut');
+  el.innerHTML = `
+    <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
+      <svg id="ad-svg" width="240" height="240" viewBox="0 0 240 240" style="flex:0 0 auto">
         ${segs}
-        <text x="${CX}" y="${CY-6}" text-anchor="middle" style="font-size:26px;font-weight:800;fill:var(--navy)">${NUM(totalAg)}</text>
-        <text x="${CX}" y="${CY+14}" text-anchor="middle" style="font-size:10.5px;font-weight:600;fill:var(--muted);letter-spacing:.5px">ativos</text>
+        <text id="ad-num" x="${CX}" y="${CY-4}" text-anchor="middle" style="font-size:30px;font-weight:800;fill:var(--navy);letter-spacing:-1px">0</text>
+        <text x="${CX}" y="${CY+16}" text-anchor="middle" style="font-size:11px;font-weight:700;fill:var(--muted);letter-spacing:1px">ATIVOS</text>
       </svg>
-      <div style="flex:1;min-width:180px;display:flex;flex-direction:column;gap:8px">
-        ${areasOrd.map(([a,q],i)=>`<div style="display:flex;align-items:center;gap:8px;font-size:12px">
-          <span style="width:12px;height:12px;border-radius:3px;background:${colorFor(a,i)};flex:0 0 auto"></span>
-          <span style="font-weight:600;color:var(--navy);flex:1">${a}</span>
-          <span style="font-weight:700;color:var(--navy2)">${NUM(q)}</span>
-          <span style="color:var(--muted);font-weight:600;width:34px;text-align:right">${Math.round(q/totalAg*100)}%</span>
-        </div>`).join('')}
+      <div id="ad-legend" style="flex:1;min-width:220px;display:flex;flex-direction:column;gap:2px">
+        ${legenda}
       </div>
     </div>`;
 
-  // legenda de áreas (top áreas globais) para o stack
-  const topAreas = areasOrd.slice(0,7).map(([a])=>a);
-  document.getElementById('area-legend').innerHTML =
-    topAreas.map((a,i)=>`<span class="li"><span class="sw" style="background:${colorFor(a,i)}"></span>${a}</span>`).join('')
-    + `<span class="li"><span class="sw" style="background:${AREA_COLORS['Outros']}"></span>Outras</span>`;
+  // anima segmentos: dash cresce do 0 até o valor final
+  const svg = document.getElementById('ad-svg');
+  const circles = svg.querySelectorAll('circle');
+  setTimeout(()=>{
+    circles.forEach((c,i)=>{
+      setTimeout(()=>{
+        c.style.transition = 'stroke-dasharray 1s cubic-bezier(.22,1,.36,1)';
+        c.setAttribute('stroke-dasharray', c.dataset.finalDash);
+      }, i*60);
+    });
+    // count-up no número central
+    const numEl = document.getElementById('ad-num');
+    const dur=1100, passos=35; let k=0;
+    const iv = setInterval(()=>{
+      k++;
+      const p = k/passos, e = 1-Math.pow(1-p,5);
+      numEl.textContent = NUM(Math.round(totalAg*e));
+      if(k>=passos){ numEl.textContent = NUM(totalAg); clearInterval(iv); }
+    }, dur/passos);
+  }, 100);
 
-  // stack por grupo (proporção de áreas dentro de cada grupo, ordenado por ativos)
-  const rows=[...GRUPOS].filter(g=>Object.keys(g.area).length).sort((a,b)=>b.ativos-a.ativos);
-  document.getElementById('area-stack').innerHTML = rows.map(g=>{
-    const tot=Object.values(g.area).reduce((s,q)=>s+q,0)||1;
-    const parts = topAreas.map((a,i)=>({a,q:g.area[a]||0,c:colorFor(a,i)}));
-    const outros = tot - parts.reduce((s,p)=>s+p.q,0);
-    if(outros>0) parts.push({a:'Outras',q:outros,c:AREA_COLORS['Outros']});
-    const spans = parts.filter(p=>p.q>0).map(p=>`<span style="width:${p.q/tot*100}%;background:${p.c}" data-tt="<b>${g.nome}</b><br>${p.a}: ${NUM(p.q)} (${Math.round(p.q/tot*100)}%)"></span>`).join('');
-    return `<div class="stack-row"><div class="name" title="${g.nome}">${g.nome}</div>
-      <div class="stack-bar">${spans}</div><div class="tot">${NUM(tot)}</div></div>`;
-  }).join('');
+  // hover destaque: no segmento ou na legenda, destaca o outro
+  const destacar = (area)=>{
+    if(area){
+      svg.classList.add('hover');
+      circles.forEach(c=>c.classList.toggle('hi', c.dataset.area===area));
+      el.querySelectorAll('.ad-leg-item').forEach(li=>li.style.background = li.dataset.area===area ? 'var(--paper2)' : '');
+    } else {
+      svg.classList.remove('hover');
+      circles.forEach(c=>c.classList.remove('hi'));
+      el.querySelectorAll('.ad-leg-item').forEach(li=>li.style.background='');
+    }
+  };
+  circles.forEach(c=>{
+    c.addEventListener('mouseenter', ()=>destacar(c.dataset.area));
+    c.addEventListener('mouseleave', ()=>destacar(null));
+    c.addEventListener('click', ()=>{ curArea = c.dataset.area; renderArea(); document.getElementById('sec-area').scrollIntoView({block:'start',behavior:'smooth'}); });
+  });
+  el.querySelectorAll('.ad-leg-item').forEach(li=>{
+    li.addEventListener('mouseenter', ()=>destacar(li.dataset.area));
+    li.addEventListener('mouseleave', ()=>destacar(null));
+    li.addEventListener('click', ()=>{ curArea = li.dataset.area; renderArea(); });
+  });
   attachTT();
+}
+
+function _topGruposArea(area){
+  return [...GRUPOS]
+    .map(g=>({n:g.nome.replace(/^Grupo\s+/,''), q:g.area[area]||0}))
+    .filter(x=>x.q>0)
+    .sort((a,b)=>b.q-a.q).slice(0,5)
+    .map(x=>`${x.n}: <b>${NUM(x.q)}</b>`).join('<br>');
+}
+
+// B) Card Especialização (top áreas do escritório)
+function _renderInsight(areasOrd, totalAg){
+  const [nomeArea, qtdArea] = areasOrd[0] || ['—',0];
+  const pct = (qtdArea/totalAg*100);
+  document.getElementById('area-insight-headline').innerHTML =
+    `${pct.toFixed(1)}<span style="font-size:22px;font-weight:700;color:var(--gold-soft);margin-left:2px">%</span>
+     <span class="ai-area">${nomeArea}</span>`;
+  document.getElementById('area-insight-sub').innerHTML =
+    `<b style="color:#fff">${NUM(qtdArea)}</b> de ${NUM(totalAg)} processos ativos concentram-se na área dominante do escritório.`;
+  const proximas = areasOrd.slice(1,5).map(([a,q])=>`
+    <div class="ai-item"><span class="lbl">${a}</span><span class="val">${NUM(q)} · ${(q/totalAg*100).toFixed(1)}%</span></div>`).join('');
+  document.getElementById('area-insight-list').innerHTML = proximas;
+}
+
+// C) Ranking por área — tabs (áreas), filtro, top-3, count-up, ver todos
+function _renderAreaRanking(areasOrd){
+  const totalAll = areasOrd.reduce((s,[,q])=>s+q,0)||1;
+  // tabs: "Todas" + top 8 áreas
+  const areasTab = [{k:'__all__',lbl:'Todas'}].concat(areasOrd.slice(0,8).map(([a])=>({k:a,lbl:a})));
+  const tabs = document.getElementById('area-tabs');
+  tabs.innerHTML = areasTab.map(t=>`<button data-k="${t.k}" class="${t.k===curArea?'on':''}">${t.lbl}</button>`).join('');
+  tabs.querySelectorAll('button').forEach(b=>b.onclick=()=>{ if(b.dataset.k!==curArea){ curArea=b.dataset.k; areaExpandido=false; _renderAreaRanking(areasOrd); } });
+
+  const q = areaFiltro.trim().toLowerCase();
+  const filtroFn = g => !q || g.nome.toLowerCase().includes(q);
+
+  let ordenados, chave, labelMetrica, subFn, formatoVal, gold=false;
+  if(curArea==='__all__'){
+    // ranking por ativos (fallback)
+    ordenados = [...GRUPOS].filter(g=>g.ativos>0).filter(filtroFn).sort((a,b)=>b.ativos-a.ativos);
+    chave = g=>g.ativos;
+    labelMetrica = 'Processos ativos';
+    subFn = g=>Object.keys(g.area).length + ' áreas';
+    formatoVal = v=>NUM(v);
+  } else {
+    ordenados = [...GRUPOS].map(g=>({...g, qArea:g.area[curArea]||0})).filter(g=>g.qArea>0).filter(filtroFn).sort((a,b)=>b.qArea-a.qArea);
+    chave = g=>g.qArea;
+    labelMetrica = curArea;
+    subFn = g=>`${(g.qArea/g.ativos*100).toFixed(0)}% da carteira ativa`;
+    formatoVal = v=>NUM(v);
+    gold = true;
+  }
+
+  const limite = (areaExpandido || q) ? ordenados.length : Math.min(AREA_TOP, ordenados.length);
+  const rows = ordenados.slice(0, limite);
+  const max = Math.max(...ordenados.map(chave),1);
+
+  const container = document.getElementById('area-bars');
+  container.innerHTML = rows.length ? rows.map((g,i)=>{
+    const v = chave(g), pct = v/max*100;
+    const pctEsc = (v/totalAll*100).toFixed(1);
+    const podium = i===0?' top1':i===1?' top2':i===2?' top3':'';
+    return `<div class="bar-row${podium}" style="animation-delay:${Math.min(i*35,700)}ms" data-tt="<b>${g.nome}</b><br>${labelMetrica}: ${formatoVal(v)}<br>${pctEsc}% do total do escritório na área">
+      <div class="name" title="${g.nome}"><span class="rk-badge">${i+1}</span>${g.nome.replace(/^Grupo\s+/,'')}</div>
+      <div class="bar-track"><div class="bar-fill ${gold?'gold':''}" style="width:0" data-w="${pct}" data-v="${v}"></div></div>
+      <div class="val"><span class="v-num" data-final="${v}">0</span><small>${subFn(g)}</small></div>
+    </div>`;
+  }).join('') : `<div style="padding:24px;text-align:center;color:var(--muted);font-size:12px">Nenhum grupo encontrado${q?' com esse filtro':''}.</div>`;
+
+  // anima
+  setTimeout(()=>{
+    container.querySelectorAll('.bar-row').forEach((row,i)=>{
+      const fill = row.querySelector('.bar-fill');
+      const vNum = row.querySelector('.v-num');
+      if(!fill||!vNum) return;
+      const alvo = +fill.dataset.v;
+      setTimeout(()=>{
+        fill.style.width = fill.dataset.w + '%';
+        fill.classList.add('go');
+        const dur=900, passos=30; let k=0;
+        const iv = setInterval(()=>{
+          k++;
+          const p = k/passos, e = 1-Math.pow(1-p,5);
+          if(k<passos){ vNum.textContent = NUM(Math.round(alvo*e)); }
+          else { vNum.textContent = NUM(alvo); clearInterval(iv); }
+        }, dur/passos);
+      }, Math.min(i*35,700)+50);
+    });
+  }, 30);
+
+  // botão expand
+  const footer = container.parentElement.querySelector('.rank-footer');
+  const btn = document.getElementById('area-expand');
+  if(!q && ordenados.length > AREA_TOP){
+    footer.style.display='flex';
+    btn.textContent = areaExpandido ? `Recolher (voltar ao top ${AREA_TOP})` : `Ver todos os ${ordenados.length} grupos`;
+    btn.onclick = ()=>{ areaExpandido = !areaExpandido; _renderAreaRanking(areasOrd); };
+  } else {
+    footer.style.display='none';
+  }
+  attachTT();
+}
+
+// filtro do bloco Áreas
+function ativarFiltroArea(){
+  const inp = document.getElementById('area-filtro');
+  const clr = document.getElementById('area-filtro-clear');
+  if(!inp) return;
+  const wrap = inp.parentElement;
+  const atualizarWrap = ()=>wrap.classList.toggle('has', !!inp.value);
+  inp.addEventListener('input', ()=>{
+    areaFiltro = inp.value;
+    atualizarWrap();
+    // recalcula com areasOrd atual do escritório
+    const agg = {};
+    GRUPOS.forEach(g=>Object.entries(g.area).forEach(([a,q])=>{agg[a]=(agg[a]||0)+q;}));
+    const areasOrd = Object.entries(agg).sort((a,b)=>b[1]-a[1]);
+    _renderAreaRanking(areasOrd);
+  });
+  clr.addEventListener('click', ()=>{
+    inp.value=''; areaFiltro=''; atualizarWrap();
+    const agg = {};
+    GRUPOS.forEach(g=>Object.entries(g.area).forEach(([a,q])=>{agg[a]=(agg[a]||0)+q;}));
+    const areasOrd = Object.entries(agg).sort((a,b)=>b[1]-a[1]);
+    _renderAreaRanking(areasOrd);
+    inp.focus();
+  });
 }
 
 /* --- Scatter esforço x carteira --- */
