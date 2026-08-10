@@ -132,26 +132,24 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
 .topnav .tn-link:hover{color:var(--gold);background:var(--paper2)}
 .topnav .tn-link.on{background:var(--navy);color:#fff}
 
-/* ============ Rankings executivos (grid solto, cards flutuantes) ============ */
-.exec-grid{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:auto;gap:26px}
-.exec-card{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:4px;padding:26px 26px 22px;box-shadow:0 1px 0 rgba(0,0,0,.02),0 12px 34px -20px rgba(30,34,63,.28);transition:transform .38s cubic-bezier(.22,1,.36,1),box-shadow .38s cubic-bezier(.22,1,.36,1),border-color .3s;position:relative;overflow:hidden}
-.exec-card::after{content:"";position:absolute;top:-40%;right:-30%;width:60%;height:80%;background:radial-gradient(circle,rgba(181,134,66,.06),transparent 60%);pointer-events:none;transition:opacity .4s;opacity:.6}
-.exec-card:hover{transform:translateY(-8px);box-shadow:0 6px 16px -4px rgba(181,134,66,.18),0 28px 56px -22px rgba(30,34,63,.38);border-top-color:var(--gold-soft)}
-.exec-card:hover::after{opacity:1}
-/* card destaque (movimentação) ocupa 3 colunas × 2 linhas — fica maior */
-.exec-card.hero{grid-column:span 3;grid-row:span 2;background:linear-gradient(160deg,#fff 0%,#fbf7ef 100%);border-top-width:4px}
-.exec-card.hero .ec-title{font-size:20px}
-.exec-card.hero .ec-eyebrow{font-size:11px}
-.exec-card.hero .exec-row{padding:9px 0}
-.exec-card.hero .exec-row .nm{font-size:13.5px}
-.exec-card.hero .exec-row .vl{font-size:14.5px}
-.exec-card.hero .exec-row.top1 .nm{font-size:14.5px}
-/* cards normais ocupam 3 colunas → 2 por linha ao lado do hero */
-.exec-card:not(.hero){grid-column:span 3}
-.exec-card .ec-eyebrow{font-size:10px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
-.exec-card .ec-title{font-size:16px;font-weight:800;color:var(--navy);letter-spacing:-.3px;line-height:1.2;margin-bottom:18px}
-.exec-card .ec-list{display:flex;flex-direction:column;gap:2px}
-.exec-row{display:grid;grid-template-columns:26px 1fr auto;align-items:center;gap:12px;padding:7px 0;border-bottom:1px dashed var(--paper2);transition:background .18s,padding .18s,border-color .18s;border-radius:2px}
+/* ============ Rankings executivos (carrossel 3 cards, meio em destaque) ============ */
+/* palco: viewport que corta o overflow — o track anda dentro */
+.exec-stage{position:relative;padding:20px 60px;overflow:hidden}
+.exec-track{display:flex;gap:24px;align-items:center;transition:transform .55s cubic-bezier(.22,1,.36,1);will-change:transform}
+.exec-card{flex:0 0 calc((100% - 48px)/3);background:var(--card);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:6px;padding:22px 22px 20px;box-shadow:0 1px 0 rgba(0,0,0,.02),0 10px 28px -18px rgba(30,34,63,.22);position:relative;overflow:hidden;
+  /* estado default: card lateral (menor, fade) */
+  transform:scale(.86);opacity:.42;filter:blur(.3px);
+  transition:transform .55s cubic-bezier(.22,1,.36,1),opacity .55s cubic-bezier(.22,1,.36,1),box-shadow .55s cubic-bezier(.22,1,.36,1),border-color .3s,filter .55s}
+.exec-card::after{content:"";position:absolute;top:-40%;right:-30%;width:60%;height:80%;background:radial-gradient(circle,rgba(181,134,66,.06),transparent 60%);pointer-events:none;opacity:0;transition:opacity .5s}
+/* card central: destaque */
+.exec-card.on{transform:scale(1);opacity:1;filter:none;background:linear-gradient(160deg,#fff 0%,#fbf7ef 100%);border-top-width:4px;box-shadow:0 6px 16px -4px rgba(181,134,66,.15),0 22px 48px -20px rgba(30,34,63,.35)}
+.exec-card.on::after{opacity:1}
+.exec-card.on .ec-title{font-size:19px}
+.exec-card.on .ec-eyebrow{font-size:11px}
+.exec-card .ec-eyebrow{font-size:10px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;transition:font-size .4s}
+.exec-card .ec-title{font-size:15.5px;font-weight:800;color:var(--navy);letter-spacing:-.3px;line-height:1.2;margin-bottom:16px;transition:font-size .4s}
+.exec-card .ec-list{display:flex;flex-direction:column;gap:1px}
+.exec-row{display:grid;grid-template-columns:26px 1fr auto;align-items:center;gap:12px;padding:7px 0;border-bottom:1px dashed var(--paper2);transition:background .18s,padding .18s;border-radius:2px}
 .exec-row:last-child{border-bottom:0}
 .exec-row:hover{background:linear-gradient(90deg,rgba(181,134,66,.07),transparent);padding-left:8px}
 .exec-row .rk{font-size:11px;font-weight:800;color:var(--muted2);font-variant-numeric:tabular-nums;text-align:right}
@@ -161,9 +159,21 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
 .exec-row .nm{font-size:12.5px;font-weight:600;color:var(--navy2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .exec-row .vl{font-size:13px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;letter-spacing:-.2px;text-align:right}
 .exec-row .vl small{font-size:9.5px;color:var(--muted);font-weight:500;display:block;margin-top:1px}
+/* setas grandes nas laterais */
+.exec-arrow{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;background:var(--navy);color:#fff;border:0;box-shadow:0 8px 22px -6px rgba(30,34,63,.5);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.24s cubic-bezier(.22,1,.36,1);z-index:10;font-size:22px;font-weight:800;line-height:1}
+.exec-arrow:hover{background:var(--gold);transform:translateY(-50%) scale(1.12);box-shadow:0 12px 30px -6px rgba(181,134,66,.55)}
+.exec-arrow:disabled{opacity:.25;cursor:not-allowed;background:var(--muted2);box-shadow:none}
+.exec-arrow:disabled:hover{transform:translateY(-50%) scale(1)}
+.exec-arrow.left{left:0}
+.exec-arrow.right{right:0}
+/* fade nas bordas para dar profundidade */
+.exec-stage::before,.exec-stage::after{content:"";position:absolute;top:0;bottom:0;width:80px;pointer-events:none;z-index:3}
+.exec-stage::before{left:60px;background:linear-gradient(90deg,var(--paper),transparent)}
+.exec-stage::after{right:60px;background:linear-gradient(-90deg,var(--paper),transparent)}
 @media(max-width:980px){
-  .exec-grid{grid-template-columns:1fr}
-  .exec-card.hero,.exec-card:not(.hero){grid-column:span 1;grid-row:auto}
+  .exec-stage{padding:20px 46px}
+  .exec-card{flex:0 0 100%;transform:scale(.9);opacity:.5}
+  .exec-arrow{width:42px;height:42px;font-size:18px}
 }
 
 /* Reveal on scroll: aplicado a seções e cards ao entrarem no viewport */
@@ -240,7 +250,11 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
         <h2>Rankings executivos</h2>
       </div>
     </div>
-    <div class="exec-grid" id="exec-grid"></div>
+    <div class="exec-stage">
+      <button class="exec-arrow left" id="exec-prev" aria-label="Anterior">‹</button>
+      <div class="exec-track" id="exec-track"></div>
+      <button class="exec-arrow right" id="exec-next" aria-label="Próximo">›</button>
+    </div>
   </section>
 
   <!-- I. Ranking -->
@@ -596,14 +610,13 @@ function render(){
   ativarNav();
 }
 
-/* --- Bloco H: Rankings executivos (grid solto, cards flutuantes) --- */
-// Movimentação é o card destaque (hero: 3 cols × 2 rows, top 15).
-// Os outros 4 vão em cards normais 3×1 (2 por linha ao lado do hero + 2 abaixo).
+/* --- Bloco H: Rankings executivos (carrossel 3 cards, meio em destaque) --- */
+// Movimentação é a primeira métrica (começa no centro).
 const RANKINGS_EXEC = [
   { eyebrow:'Movimentação', title:'Maior movimentação processual',
-    key:'mov', hero:true,
+    key:'mov',
     fmt:g=>NUM(g.mov),
-    sub:g=>`${NUM(g.prazos)} prazos · ${NUM(g.aud)} audiências · ${NUM(g.reun)} diligências`,
+    sub:g=>`${NUM(g.prazos)} prazos · ${NUM(g.aud)} audiências`,
     dir:-1 },
   { eyebrow:'Volume', title:'Maior carteira ativa',
     key:'ativos',
@@ -627,24 +640,57 @@ const RANKINGS_EXEC = [
     dir:-1, filtro:g=>g.entRef>0||g.encRef>0 }
 ];
 
+let execIdx = 0;
+
 function renderRankingsExec(){
-  const grid = document.getElementById('exec-grid');
-  grid.innerHTML = RANKINGS_EXEC.map(r=>{
+  const track = document.getElementById('exec-track');
+  track.innerHTML = RANKINGS_EXEC.map(r=>{
     const base = r.filtro ? GRUPOS.filter(r.filtro) : GRUPOS;
-    const n = r.hero ? 15 : 10;
-    const rows = [...base].sort((a,b)=>r.dir*((a[r.key]||0)-(b[r.key]||0))).slice(0,n);
+    const rows = [...base].sort((a,b)=>r.dir*((a[r.key]||0)-(b[r.key]||0))).slice(0,10);
     const lis = rows.map((g,i)=>`
       <div class="exec-row${i===0?' top1':''}" data-tt="<b>${g.nome}</b><br>${r.eyebrow}: ${r.fmt(g)}">
         <div class="rk">${i+1}</div>
         <div class="nm" title="${g.nome}">${g.nome.replace(/^Grupo\s+/,'')}</div>
         <div class="vl">${r.fmt(g)}${r.sub(g)?`<small>${r.sub(g)}</small>`:''}</div>
       </div>`).join('');
-    return `<div class="exec-card${r.hero?' hero':''}">
+    return `<div class="exec-card">
       <div class="ec-eyebrow">${r.eyebrow}</div>
       <div class="ec-title">${r.title}</div>
       <div class="ec-list">${lis}</div>
     </div>`;
   }).join('');
+
+  const prev = document.getElementById('exec-prev');
+  const next = document.getElementById('exec-next');
+  const posicionar = ()=>{
+    const cards = track.querySelectorAll('.exec-card');
+    if(!cards.length) return;
+    // Translação: o card ativo (execIdx) fica no centro do palco.
+    // Cada passo = largura do card + gap (24). O centro corresponde ao slot do meio (índice 1 em 3 visíveis).
+    const cardW = cards[0].getBoundingClientRect().width;
+    const gap = 24;
+    const step = cardW + gap;
+    // Deslocamento para colocar o card ativo no slot central:
+    // slot central = 1 (0-based), então translada -(idx-1)*step
+    const off = -(execIdx-1)*step;
+    track.style.transform = `translateX(${off}px)`;
+    cards.forEach((c,i)=>c.classList.toggle('on', i===execIdx));
+    prev.disabled = execIdx <= 0;
+    next.disabled = execIdx >= RANKINGS_EXEC.length-1;
+  };
+  prev.onclick = ()=>{ if(execIdx>0){ execIdx--; posicionar(); } };
+  next.onclick = ()=>{ if(execIdx<RANKINGS_EXEC.length-1){ execIdx++; posicionar(); } };
+  // teclado quando a seção está no viewport
+  document.addEventListener('keydown', e=>{
+    const sec = document.getElementById('sec-exec');
+    if(!sec) return;
+    const r = sec.getBoundingClientRect();
+    if(r.top > innerHeight || r.bottom < 0) return;
+    if(e.key==='ArrowRight'){ next.click(); }
+    else if(e.key==='ArrowLeft'){ prev.click(); }
+  });
+  window.addEventListener('resize', posicionar);
+  requestAnimationFrame(posicionar);
   attachTT();
 }
 
