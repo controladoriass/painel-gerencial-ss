@@ -1142,9 +1142,19 @@ function _renderInsight(areasOrd, totalAg){
      <span class="ai-area">${nomeArea}</span>`;
   document.getElementById('area-insight-sub').innerHTML =
     `<b style="color:#fff">${NUM(qtdArea)}</b> de ${NUM(totalAg)} processos ativos concentram-se na área dominante do escritório.`;
-  const proximas = areasOrd.slice(1,5).map(([a,q])=>`
+  // top 4 áreas seguintes + linha final agregando o resto (para fechar 100%)
+  const proximas = areasOrd.slice(1,5);
+  const restantes = areasOrd.slice(5);
+  const qtdRest = restantes.reduce((s,[,q])=>s+q, 0);
+  const nRest = restantes.length;
+  const proximasHTML = proximas.map(([a,q])=>`
     <div class="ai-item"><span class="lbl">${a}</span><span class="val">${NUM(q)} · ${(q/totalAg*100).toFixed(1)}%</span></div>`).join('');
-  document.getElementById('area-insight-list').innerHTML = proximas;
+  const restanteHTML = nRest > 0 ? `
+    <div class="ai-item" style="border-top:1px dashed rgba(255,255,255,.15);padding-top:8px;margin-top:2px">
+      <span class="lbl" style="font-style:italic">+ ${nRest} outras áreas</span>
+      <span class="val">${NUM(qtdRest)} · ${(qtdRest/totalAg*100).toFixed(1)}%</span>
+    </div>` : '';
+  document.getElementById('area-insight-list').innerHTML = proximasHTML + restanteHTML;
 }
 
 // C) Ranking por área — tabs (áreas), filtro, top-3, count-up, ver todos
