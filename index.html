@@ -690,6 +690,12 @@ body.has-sidenav{padding-left:var(--sn-w)}
 .sn-foot{position:relative;z-index:2;padding:22px 26px 24px;display:flex;align-items:center;justify-content:center;border-top:1px solid rgba(255,255,255,.05)}
 .sn-foot-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold);animation:pulseDot 2.2s cubic-bezier(.4,0,.6,1) infinite}
 
+/* ============ Rankings executivos: header destacado ============ */
+.exec-head{margin-bottom:14px;text-align:center}
+.exec-head-kicker{font-family:'Montserrat',sans-serif;font-size:10.5px;font-weight:800;letter-spacing:4.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.exec-head-title{font-family:'Montserrat',sans-serif;font-size:34px;font-weight:800;letter-spacing:-.8px;color:var(--navy);line-height:1.05;margin-bottom:16px}
+.exec-head-rule{height:1.5px;background:linear-gradient(90deg,transparent 0%,rgba(181,134,66,.35) 15%,var(--gold) 50%,rgba(181,134,66,.35) 85%,transparent 100%);margin:0 auto;max-width:640px;box-shadow:0 0 12px rgba(181,134,66,.35)}
+
 /* ============ Rankings executivos (carrossel 3 cards, meio em destaque) ============ */
 /* palco: dá respiro para as sombras (overflow visible dentro de um wrapper que só corta horizontalmente) */
 .exec-stage{position:relative;padding:44px 60px 60px;overflow:hidden}
@@ -871,11 +877,10 @@ body.has-sidenav{padding-left:var(--sn-w)}
 
   <!-- 0. Rankings Executivos (grid solto) -->
   <section id="sec-exec" class="reveal">
-    <div class="sec-head">
-      <div class="roman">★</div>
-      <div class="sec-titles">
-        <h2>Rankings executivos</h2>
-      </div>
+    <div class="exec-head">
+      <div class="exec-head-kicker">Destaque · Diretoria</div>
+      <h2 class="exec-head-title">Rankings executivos</h2>
+      <div class="exec-head-rule"></div>
     </div>
     <div class="exec-stage">
       <button class="exec-arrow left" id="exec-prev" aria-label="Anterior">‹</button>
@@ -887,7 +892,7 @@ body.has-sidenav{padding-left:var(--sn-w)}
   <!-- I. Ranking -->
   <section id="sec-ranking" class="reveal">
     <div class="sec-head">
-      <div class="roman">I</div>
+      <div class="roman">1</div>
       <div class="sec-titles">
         <h2>Distribuição da carga</h2>
         <div class="sec-desc">Ranking dos grupos econômicos por diferentes medidas de carga. Alterne a métrica para ver como o peso relativo muda entre volume de processos, movimentação processual (prazos, audiências e diligências) e horas apontadas no timesheet.</div>
@@ -911,7 +916,7 @@ body.has-sidenav{padding-left:var(--sn-w)}
   <!-- II. Áreas -->
   <section id="sec-area" class="reveal">
     <div class="sec-head">
-      <div class="roman">II</div>
+      <div class="roman">2</div>
       <div class="sec-titles">
         <h2>Cobertura por área do direito</h2>
         <div class="sec-desc">Distribuição da carteira ativa por área do direito. Mostra onde o escritório se concentra e o perfil jurídico de cada cliente.</div>
@@ -948,7 +953,7 @@ body.has-sidenav{padding-left:var(--sn-w)}
   <!-- III. Esforço x carteira -->
   <section id="sec-scatter" class="reveal">
     <div class="sec-head">
-      <div class="roman">III</div>
+      <div class="roman">3</div>
       <div class="sec-titles">
         <h2>Quanto esforço cada grupo consome</h2>
       </div>
@@ -974,7 +979,7 @@ body.has-sidenav{padding-left:var(--sn-w)}
   <!-- IX. Cobertura geográfica e por foro -->
   <section id="sec-foro" class="reveal">
     <div class="sec-head">
-      <div class="roman">IX</div>
+      <div class="roman">4</div>
       <div class="sec-titles">
         <h2>Presença por tribunal, estado e instância</h2>
       </div>
@@ -1014,7 +1019,7 @@ body.has-sidenav{padding-left:var(--sn-w)}
   <!-- V. Tempo de tramitação -->
   <section id="sec-tempo" class="reveal">
     <div class="sec-head">
-      <div class="roman">V</div>
+      <div class="roman">5</div>
       <div class="sec-titles">
         <h2>Quanto tempo a carteira está em curso</h2>
       </div>
@@ -1069,7 +1074,7 @@ body.has-sidenav{padding-left:var(--sn-w)}
   <!-- VI. Polo processual -->
   <section id="sec-polo" class="reveal">
     <div class="sec-head">
-      <div class="roman">VI</div>
+      <div class="roman">6</div>
       <div class="sec-titles">
         <h2>Quem está atacando e quem está se defendendo</h2>
       </div>
@@ -1151,7 +1156,7 @@ body.has-sidenav{padding-left:var(--sn-w)}
   <!-- VII. Partes contrárias -->
   <section id="sec-partes" class="reveal">
     <div class="sec-head">
-      <div class="roman">VII</div>
+      <div class="roman">7</div>
       <div class="sec-titles">
         <h2>Partes contrárias recorrentes</h2>
         <div class="sec-desc" id="partes-desc"></div>
@@ -1192,7 +1197,7 @@ body.has-sidenav{padding-left:var(--sn-w)}
   <!-- VIII. Séries anuais -->
   <section id="sec-series" class="reveal">
     <div class="sec-head">
-      <div class="roman">VIII</div>
+      <div class="roman">8</div>
       <div class="sec-titles">
         <h2>A carteira está crescendo ou encolhendo?</h2>
       </div>
@@ -1250,7 +1255,7 @@ body.has-sidenav{padding-left:var(--sn-w)}
   <!-- IV. Panorama -->
   <section id="sec-pano" class="reveal">
     <div class="sec-head">
-      <div class="roman">IV</div>
+      <div class="roman">9</div>
       <div class="sec-titles">
         <h2>Panorama consolidado</h2>
         <div class="sec-desc">A foto completa do escritório, grupo a grupo. Clique nos cabeçalhos para reordenar por qualquer coluna.</div>
