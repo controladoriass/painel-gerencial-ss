@@ -144,7 +144,69 @@ section{margin-bottom:66px;scroll-margin-top:20px}
 .stack-bar span{height:100%;transition:width .9s cubic-bezier(.22,1,.36,1)}
 .stack-row .tot{font-size:12px;font-weight:700;color:var(--navy);text-align:right;font-family:'Montserrat',sans-serif;font-variant-numeric:tabular-nums}
 
-/* ============ Scatter ============ */
+/* ============ Matriz 2×2 (Eficiência) ============ */
+.eff-panel{position:relative;overflow:hidden}
+.eff-toolbar{display:flex;gap:14px;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap}
+.eff-legend{display:flex;flex-wrap:wrap;gap:8px 14px}
+.eff-leg{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--navy);letter-spacing:.2px}
+.eff-leg small{font-weight:500;font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0;margin-left:2px}
+.eff-dot{width:11px;height:11px;border-radius:50%;flex:0 0 auto;box-shadow:0 2px 6px -2px rgba(0,0,0,.2)}
+.eff-dot.dq1{background:linear-gradient(135deg,#f7d478,#B58642)}
+.eff-dot.dq2{background:linear-gradient(135deg,#68b678,#2f7a44)}
+.eff-dot.dq3{background:linear-gradient(135deg,#dfae7c,#8a6534)}
+.eff-dot.dq4{background:linear-gradient(135deg,#c4c9d8,#7a7f96)}
+/* palco da matriz */
+.eff-stage{position:relative;background:linear-gradient(180deg,#fbfaf6 0%,#f5f2e9 100%);border:1px solid var(--line);border-radius:6px;padding:22px 30px 46px;aspect-ratio:2/1;min-height:440px;overflow:hidden}
+.eff-quad-labels{position:absolute;inset:0;pointer-events:none;z-index:1}
+.eff-ql{position:absolute;font-size:10px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--muted2);opacity:.85;line-height:1.4}
+.eff-ql b{display:block;color:var(--navy);font-size:13px;letter-spacing:.4px;text-transform:none;font-weight:800;margin-top:3px}
+.eff-ql.q1{top:24px;left:24px;color:var(--gold)}
+.eff-ql.q1 b{color:var(--gold)}
+.eff-ql.q2{top:24px;right:24px;text-align:right;color:#2f7a44}
+.eff-ql.q2 b{color:#2f7a44}
+.eff-ql.q3{bottom:60px;left:24px;color:var(--gold-soft)}
+.eff-ql.q3 b{color:#8a6534}
+.eff-ql.q4{bottom:60px;right:24px;text-align:right;color:var(--muted)}
+.eff-ql.q4 b{color:var(--muted)}
+/* linhas divisoras (cruz no meio) */
+.eff-cross{position:absolute;inset:0;pointer-events:none;z-index:2}
+.eff-cross::before,.eff-cross::after{content:"";position:absolute;background:linear-gradient(90deg,transparent,rgba(30,34,63,.35),transparent);opacity:.6}
+.eff-cross::before{left:0;right:0;top:50%;height:1px}
+.eff-cross::after{top:0;bottom:0;left:50%;width:1px;background:linear-gradient(180deg,transparent,rgba(30,34,63,.35),transparent)}
+/* pontos (grupos) */
+.eff-svg{position:absolute;inset:0;width:100%;height:100%;z-index:3}
+.eff-node{cursor:pointer;transition:transform .28s cubic-bezier(.22,1,.36,1),filter .22s}
+.eff-node circle{transition:r .35s cubic-bezier(.22,1,.36,1),stroke-width .22s,filter .22s}
+.eff-node:hover{filter:brightness(1.1)}
+.eff-node:hover circle{stroke-width:3.5;filter:drop-shadow(0 6px 14px rgba(30,34,63,.35))}
+.eff-node text{font-family:'Montserrat',sans-serif;font-weight:700;font-size:10.5px;fill:var(--navy);pointer-events:none}
+.eff-node.hi text{font-size:12px;fill:#fff}
+.eff-node.hi rect{fill:var(--navy);opacity:.94}
+/* eixos rotulados */
+.eff-axis{position:absolute;font-size:10.5px;font-weight:700;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;pointer-events:none;z-index:4}
+.eff-axis.x{bottom:16px;left:0;right:0;text-align:center}
+.eff-axis.y{top:0;bottom:0;left:6px;display:flex;align-items:center;transform:rotate(-90deg);transform-origin:8px center;width:auto}
+/* setinhas dos eixos */
+.eff-axis .arr{color:var(--gold);font-weight:900;margin:0 4px}
+/* resumo por quadrante */
+.eff-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+.eff-sum-card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:5px;padding:14px 16px;transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s}
+.eff-sum-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px -18px rgba(30,34,63,.35)}
+.eff-sum-card .esc-eyebrow{font-size:9.5px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.eff-sum-card .esc-title{font-size:12.5px;font-weight:800;color:var(--navy);line-height:1.25;margin-bottom:10px}
+.eff-sum-card .esc-num{font-size:24px;font-weight:800;color:var(--navy);letter-spacing:-.8px;font-variant-numeric:tabular-nums;line-height:1}
+.eff-sum-card .esc-num small{font-size:11px;color:var(--muted);font-weight:500;letter-spacing:0}
+.eff-sum-card .esc-list{margin-top:8px;font-size:11px;color:var(--muted2);line-height:1.5}
+.eff-sum-card .esc-list b{color:var(--navy)}
+.eff-sum-card.q1{border-top-color:#B58642}
+.eff-sum-card.q2{border-top-color:#2f7a44}
+.eff-sum-card.q2 .esc-eyebrow{color:#2f7a44}
+.eff-sum-card.q3{border-top-color:#8a6534}
+.eff-sum-card.q3 .esc-eyebrow{color:#8a6534}
+.eff-sum-card.q4{border-top-color:var(--muted2)}
+.eff-sum-card.q4 .esc-eyebrow{color:var(--muted)}
+@media(max-width:980px){.eff-summary{grid-template-columns:1fr 1fr}.eff-stage{padding:18px 18px 42px;min-height:380px}}
+/* ============ Scatter (legado, mantido caso outra secao use) ============ */
 .scatter-note{font-size:11px;color:var(--muted);margin-top:14px;font-weight:400;line-height:1.6;padding-top:12px;border-top:1px solid var(--line)}
 .dot{cursor:pointer;transition:.2s}
 .dot:hover{filter:brightness(1.08)}
@@ -279,7 +341,7 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
       <a class="tn-link on" data-target="sec-exec">★ Rankings</a>
       <a class="tn-link" data-target="sec-ranking">Carga por grupo</a>
       <a class="tn-link" data-target="sec-area">Áreas</a>
-      <a class="tn-link" data-target="sec-scatter">Esforço × carteira</a>
+      <a class="tn-link" data-target="sec-scatter">Eficiência</a>
       <a class="tn-link" data-target="sec-foro">Tribunais e UF</a>
       <a class="tn-link" data-target="sec-tempo">Tempo</a>
       <a class="tn-link" data-target="sec-polo">Polo</a>
@@ -374,26 +436,24 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
     <div class="sec-head">
       <div class="roman">III</div>
       <div class="sec-titles">
-        <h2>Esforço &times; tamanho da carteira</h2>
-        <div class="sec-desc">Cada bolha é um grupo. No eixo horizontal, os processos ativos; no vertical, as horas apontadas; o tamanho reflete a movimentação processual total. Bolhas acima da diagonal exigem mais esforço por processo que a média do escritório; abaixo, menos.</div>
+        <h2>Quanto esforço cada grupo consome</h2>
       </div>
     </div>
-    <div class="panel">
-      <div id="scatter"></div>
-      <div class="scatter-note">
-        Bolhas marcadas com <span class="est-mark">^</span> têm o total de horas por estimativa. A diagonal tracejada é a média de horas por processo ativo do escritório — referência visual, não meta.
-        A <b>cor</b> da bolha reflete o tempo médio de tramitação (mais escura = processos mais antigos).
+    <div class="panel eff-panel">
+      <div class="eff-toolbar">
+        <div class="eff-legend">
+          <span class="eff-leg"><span class="eff-dot dq1"></span> Vítimas do sucesso <small>alta carteira · alto esforço</small></span>
+          <span class="eff-leg"><span class="eff-dot dq2"></span> Eficientes <small>alta carteira · baixo esforço</small></span>
+          <span class="eff-leg"><span class="eff-dot dq3"></span> Peso desproporcional <small>baixa carteira · alto esforço</small></span>
+          <span class="eff-leg"><span class="eff-dot dq4"></span> Dormência <small>baixa carteira · baixo esforço</small></span>
+        </div>
+        <div class="rank-search">
+          <input type="text" id="eff-filtro" placeholder="Filtrar grupo…" autocomplete="off">
+          <span class="rs-clear" id="eff-filtro-clear" title="Limpar">×</span>
+        </div>
       </div>
-      <div style="display:flex;gap:8px;align-items:center;margin-top:12px;font-size:10.5px;color:var(--muted);font-weight:600">
-        Tempo médio:
-        <div style="flex:0 0 180px;height:10px;border-radius:5px;background:linear-gradient(90deg,#CFA36E,#B58642,#8a6534,#3F5276,#1E223F)"></div>
-        <span style="color:var(--muted2)">↓ novo</span><span style="flex:1"></span><span style="color:var(--muted2);text-align:right">antigo ↑</span>
-      </div>
-    </div>
-    <div class="panel" style="margin-top:22px">
-      <div class="panel-label">Eficiência — horas por processo ativo</div>
-      <div id="ranking-eficiencia"></div>
-      <div class="scatter-note">Média de horas por processo ativo. Grupos com muitas horas por processo tendem a ter causas complexas ou de alto valor; grupos com poucas horas indicam carteira de volume/repetição.</div>
+      <div id="eff-matriz"></div>
+      <div class="eff-summary" id="eff-summary"></div>
     </div>
   </section>
 
@@ -672,8 +732,7 @@ function render(){
   renderRankingsExec();
   renderRanking();
   renderArea();
-  renderScatter();
-  renderEficiencia();
+  renderEficienciaMatriz();
   renderForo();
   renderTempo();
   renderPolo();
@@ -685,6 +744,7 @@ function render(){
   ativarNav();
   ativarFiltroRank();
   ativarFiltroArea();
+  ativarFiltroEff();
 }
 
 /* --- Bloco H: Rankings executivos (carrossel 3 cards, meio em destaque) --- */
@@ -1262,81 +1322,213 @@ function ativarFiltroArea(){
   });
 }
 
-/* --- Scatter esforço x carteira --- */
-function renderScatter(){
-  const W=1000, H=440, P={l:64,r:40,t:24,b:52};
-  const gs = GRUPOS.filter(g=>g.ativos>0);
-  const maxX = Math.max(...gs.map(g=>g.ativos))*1.08;
-  const maxY = Math.max(...gs.map(g=>g.horas))*1.08;
-  const maxMov = Math.max(...gs.map(g=>g.mov),1);
-  const x = v => P.l + v/maxX*(W-P.l-P.r);
-  const y = v => H-P.b - v/maxY*(H-P.t-P.b);
-  const rad = v => 9 + Math.sqrt(v/maxMov)*30;
+/* --- Eficiência: Matriz 2×2 (quadrantes) --- */
+let effFiltro = '';
 
-  // média horas/ativo (linha diagonal referência)
-  const totH=gs.reduce((s,g)=>s+g.horas,0), totA=gs.reduce((s,g)=>s+g.ativos,0);
-  const avg = totH/totA;
+// classifica um grupo em Q1/Q2/Q3/Q4 usando as médias medX/medY como divisores.
+// X = processos ativos, Y = horas apontadas.
+//   Q1 (topo-esq): baixa carteira + alto esforço → "Peso desproporcional"  (dq3)
+//   Q2 (topo-dir): alta carteira + alto esforço → "Vítimas do sucesso"    (dq1)
+//   Q3 (base-esq): baixa carteira + baixo esforço → "Dormência"           (dq4)
+//   Q4 (base-dir): alta carteira + baixo esforço → "Eficientes"           (dq2)
+function _quadrante(g, medX, medY){
+  const hi_x = g.ativos >= medX;
+  const hi_y = g.horas  >= medY;
+  if(hi_x && hi_y) return {k:'q1', cls:'dq1', cor:'#B58642', nome:'Vítimas do sucesso'};
+  if(hi_x && !hi_y) return {k:'q2', cls:'dq2', cor:'#2f7a44', nome:'Eficientes'};
+  if(!hi_x && hi_y) return {k:'q3', cls:'dq3', cor:'#8a6534', nome:'Peso desproporcional'};
+  return {k:'q4', cls:'dq4', cor:'#7a7f96', nome:'Dormência'};
+}
 
-  const ticksX=4, ticksY=4;
-  let gx=''; for(let i=0;i<=ticksX;i++){const v=maxX*i/ticksX; gx+=`<line class="axis-line" x1="${x(v)}" y1="${P.t}" x2="${x(v)}" y2="${H-P.b}" opacity=".5"/><text class="axis-tick" x="${x(v)}" y="${H-P.b+16}" text-anchor="middle">${NUM(Math.round(v))}</text>`;}
-  let gy=''; for(let i=0;i<=ticksY;i++){const v=maxY*i/ticksY; gy+=`<line class="axis-line" x1="${P.l}" y1="${y(v)}" x2="${W-P.r}" y2="${y(v)}" opacity=".5"/><text class="axis-tick" x="${P.l-8}" y="${y(v)+3}" text-anchor="end">${NUM(Math.round(v))}</text>`;}
+function renderEficienciaMatriz(){
+  const container = document.getElementById('eff-matriz');
+  const q = effFiltro.trim().toLowerCase();
 
-  // diagonal média: y = avg * x
-  const xEndData = Math.min(maxX, maxY/avg);
-  const diag = `<line x1="${x(0)}" y1="${y(0)}" x2="${x(xEndData)}" y2="${y(avg*xEndData)}" stroke="var(--gold)" stroke-width="1.5" stroke-dasharray="6 5" opacity=".7"/>`;
+  // universo: grupos com ativos > 0 e horas > 0 (para caber na matriz)
+  const universo = GRUPOS.filter(g=>g.ativos>0 && g.horas>0);
+  if(!universo.length){ container.innerHTML = '<div style="padding:24px;color:var(--muted)">Sem dados.</div>'; return; }
 
-  // posiciona rótulos com anti-colisão simples: parte acima da bolha e,
-  // se colidir com um já colocado, empurra para cima em passos até liberar.
-  const placed=[];
-  const nodes = gs.map(g=>({g, cx:x(g.ativos), cy:y(g.horas), r:rad(g.mov)}))
-                  .sort((a,b)=>a.cy-b.cy); // de cima para baixo
-  // escala de cor pelo tempo médio de tramitação (mais escuro = mais lento)
-  const tempos = gs.map(g=>g.tramitDias).filter(v=>v>0);
-  const tMin = tempos.length ? Math.min(...tempos) : 0;
-  const tMax = tempos.length ? Math.max(...tempos) : 1;
-  const corTempo = t => {
-    if(!t) return 'var(--muted2)';
-    const p = (t-tMin)/(tMax-tMin||1);
-    // interpola 5 stops do gradiente dourado-navy
-    const stops = [[207,163,110],[181,134,66],[138,101,52],[63,82,118],[30,34,63]];
-    const idx = Math.min(Math.floor(p*4), 3);
-    const local = p*4 - idx;
-    const a = stops[idx], b = stops[idx+1];
-    const rgb = a.map((v,i)=>Math.round(v + (b[i]-v)*local));
-    return `rgb(${rgb.join(',')})`;
+  // divisores: mediana dos ativos e mediana das horas (mais robusto que média com outliers)
+  const sortedX = [...universo.map(g=>g.ativos)].sort((a,b)=>a-b);
+  const sortedY = [...universo.map(g=>g.horas)].sort((a,b)=>a-b);
+  const medX = sortedX[Math.floor(sortedX.length/2)];
+  const medY = sortedY[Math.floor(sortedY.length/2)];
+
+  // ranking por "peso combinado" (ativos + horas normalizados) para escolher os visíveis
+  const maxA = Math.max(...universo.map(g=>g.ativos));
+  const maxH = Math.max(...universo.map(g=>g.horas));
+  const peso = g => (g.ativos/maxA)+(g.horas/maxH);
+  const universoOrdenado = [...universo].sort((a,b)=>peso(b)-peso(a));
+  // sempre mantemos os 24 mais pesados; se filtro, exibimos os do filtro
+  const alvo = q ? universo.filter(g=>g.nome.toLowerCase().includes(q)) : universoOrdenado.slice(0, 24);
+
+  // escala log para os eixos (X e Y têm grande variância)
+  const logX = v => Math.log10(Math.max(v,1));
+  const logY = v => Math.log10(Math.max(v,1));
+  const xMin = Math.min(...universo.map(g=>logX(g.ativos))), xMax = Math.max(...universo.map(g=>logX(g.ativos)));
+  const yMin = Math.min(...universo.map(g=>logY(g.horas))),  yMax = Math.max(...universo.map(g=>logY(g.horas)));
+
+  // dimensões SVG (relativo ao viewBox)
+  const W=1000, H=440, P={l:52,r:36,t:34,b:56};
+  const xPos = v => P.l + (logX(v)-xMin)/(xMax-xMin) * (W-P.l-P.r);
+  const yPos = v => H-P.b - (logY(v)-yMin)/(yMax-yMin) * (H-P.t-P.b);
+  const rad = g => {
+    // raio pelo mov (esforço bruto), com piso e teto
+    const maxMov = Math.max(...universo.map(g=>g.mov),1);
+    return 10 + Math.sqrt(g.mov/maxMov)*22;
   };
+  const xMed = xPos(medX), yMed = yPos(medY);
 
-  const dots = nodes.map(n=>{
-    const {g,cx,cy,r}=n; const est=g.horasEst?'^':'';
-    const fill = corTempo(g.tramitDias);
-    let ly=cy-r-6, lx=cx; // posição inicial do rótulo
-    // afasta de rótulos já posicionados (colisão em caixa ~48x14)
+  // Nós posicionados
+  const posics = alvo.map(g=>({g, cx:xPos(g.ativos), cy:yPos(g.horas), r:rad(g), quad:_quadrante(g, medX, medY)}));
+
+  // labels anticolisão simples
+  const placed = [];
+  posics.sort((a,b)=>a.cy-b.cy).forEach(n=>{
+    let ly = n.cy - n.r - 8, lx = n.cx;
     let guard=0;
-    while(guard++<40 && placed.some(p=>Math.abs(p.lx-lx)<46 && Math.abs(p.ly-ly)<15)){
-      ly -= 15;
-      if(ly < 14){ ly = cy+r+14; lx = cx + (guard%2?26:-26); } // se estourar topo, joga p/ baixo/lado
+    while(guard++<25 && placed.some(p=>Math.abs(p.lx-lx)<58 && Math.abs(p.ly-ly)<16)){
+      ly -= 14;
+      if(ly < 20){ ly = n.cy + n.r + 16; lx = n.cx + (guard%2?24:-24); }
     }
-    // conector fino quando o rótulo se afastou bastante da bolha
-    const far = Math.hypot(lx-cx, ly-cy) > r+18;
-    const link = far ? `<line x1="${cx}" y1="${cy}" x2="${lx}" y2="${ly+3}" stroke="var(--muted2)" stroke-width=".8" opacity=".5"/>` : '';
-    placed.push({lx,ly});
-    return `<g>
-      ${link}
-      <circle class="dot" cx="${cx}" cy="${cy}" r="${r}" fill="${fill}" fill-opacity=".88" stroke="#fff" stroke-width="2"
-        data-tt="<b>${g.nome}</b><br>${NUM(g.ativos)} ativos · ${est}${NUM(g.horas)}h<br>${NUM(g.mov)} movimentações${g.tramitDias?`<br>tramitação média ${NUM(Math.round(g.tramitDias))} dias`:''}"></circle>
-      <text class="dot-lbl" x="${lx}" y="${ly}" text-anchor="middle">${g.cod.toUpperCase()}${est}</text>
+    n.lx = lx; n.ly = ly;
+    placed.push({lx, ly});
+  });
+
+  // linhas divisoras da mediana (cruz principal)
+  const cross = `
+    <line x1="${xMed}" y1="${P.t}" x2="${xMed}" y2="${H-P.b}" stroke="var(--navy)" stroke-width="1.2" stroke-dasharray="4 4" opacity=".38"/>
+    <line x1="${P.l}" y1="${yMed}" x2="${W-P.r}" y2="${yMed}" stroke="var(--navy)" stroke-width="1.2" stroke-dasharray="4 4" opacity=".38"/>
+    <text x="${xMed+6}" y="${P.t+12}" style="font-size:9px;fill:var(--muted);font-weight:700;letter-spacing:.6px">MEDIANA ${NUM(medX)} ativos</text>
+    <text x="${W-P.r-4}" y="${yMed-4}" text-anchor="end" style="font-size:9px;fill:var(--muted);font-weight:700;letter-spacing:.6px">MEDIANA ${NUM(Math.round(medY))} h</text>
+  `;
+
+  // ticks nas escalas (log). Escolhemos alguns pontos representativos.
+  const xTicks = [10,50,100,300,700].filter(v=>v>=Math.pow(10,xMin)*0.5 && v<=Math.pow(10,xMax)*1.5);
+  const yTicks = [100,500,2000,8000,25000].filter(v=>v>=Math.pow(10,yMin)*0.5 && v<=Math.pow(10,yMax)*1.5);
+  let ticks = '';
+  xTicks.forEach(v=>{
+    ticks += `<text x="${xPos(v)}" y="${H-P.b+14}" text-anchor="middle" style="font-size:9.5px;fill:var(--muted2);font-weight:600">${NUM(v)}</text>`;
+  });
+  yTicks.forEach(v=>{
+    ticks += `<text x="${P.l-8}" y="${yPos(v)+3}" text-anchor="end" style="font-size:9.5px;fill:var(--muted2);font-weight:600">${NUM(v)}</text>`;
+  });
+
+  // rótulos dos eixos
+  const eixos = `
+    <text x="${(W+P.l-P.r)/2}" y="${H-6}" text-anchor="middle" style="font-size:11px;fill:var(--navy);font-weight:800;letter-spacing:1.4px">CARTEIRA (processos ativos) →</text>
+    <text transform="rotate(-90 20 ${(H-P.b+P.t)/2})" x="20" y="${(H-P.b+P.t)/2}" text-anchor="middle" style="font-size:11px;fill:var(--navy);font-weight:800;letter-spacing:1.4px">ESFORÇO (horas apontadas) →</text>
+  `;
+
+  // Nós SVG (com r=0 pra animar)
+  const nodes = posics.map((n,i)=>{
+    const est = n.g.horasEst ? '^' : '';
+    return `<g class="eff-node" data-i="${i}" data-cod="${n.g.cod}">
+      <circle cx="${n.cx}" cy="${n.cy}" r="0" data-final-r="${n.r}"
+        fill="${n.quad.cor}" fill-opacity=".82" stroke="#fff" stroke-width="2"
+        data-tt="<b>${n.g.nome}</b><br>${NUM(n.g.ativos)} ativos · ${est}${NUM(n.g.horas)}h<br>${(n.g.horas/n.g.ativos).toFixed(1)} h/ativo<br><i>${n.quad.nome}</i>"></circle>
+      <line x1="${n.cx}" y1="${n.cy}" x2="${n.lx}" y2="${n.ly+3}" stroke="var(--muted2)" stroke-width=".7" opacity=".35"/>
+      <text x="${n.lx}" y="${n.ly}" text-anchor="middle">${n.g.cod.toUpperCase()}${est}</text>
     </g>`;
   }).join('');
 
-  document.getElementById('scatter').innerHTML = `
-    <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">
-      ${gx}${gy}${diag}
-      <text class="axis-lbl" x="${(W-P.r+P.l)/2}" y="${H-8}" text-anchor="middle">Processos ativos →</text>
-      <text class="axis-lbl" transform="rotate(-90)" x="${-(H-P.b+P.t)/2}" y="16" text-anchor="middle">Horas apontadas →</text>
-      ${dots}
-    </svg>`;
+  container.innerHTML = `
+    <div class="eff-stage">
+      <div class="eff-quad-labels">
+        <div class="eff-ql q1">Baixa carteira · alto esforço<b>Peso desproporcional</b></div>
+        <div class="eff-ql q2">Alta carteira · alto esforço<b>Vítimas do sucesso</b></div>
+        <div class="eff-ql q3">Baixa carteira · baixo esforço<b>Dormência</b></div>
+        <div class="eff-ql q4">Alta carteira · baixo esforço<b>Eficientes</b></div>
+      </div>
+      <svg class="eff-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+        ${cross}
+        ${ticks}
+        ${eixos}
+        ${nodes}
+      </svg>
+    </div>`;
+
+  // anima os raios de 0 até o final
+  setTimeout(()=>{
+    container.querySelectorAll('.eff-node circle').forEach((c,i)=>{
+      const r = c.dataset.finalR;
+      setTimeout(()=>{
+        c.style.transition = 'r .55s cubic-bezier(.22,1,.36,1)';
+        c.setAttribute('r', r);
+      }, i*22);
+    });
+  }, 40);
+
+  // hover destaca
+  container.querySelectorAll('.eff-node').forEach(n=>{
+    n.addEventListener('mouseenter', ()=>{
+      container.querySelectorAll('.eff-node').forEach(x=>x.classList.toggle('hi', x===n));
+    });
+    n.addEventListener('mouseleave', ()=>{
+      container.querySelectorAll('.eff-node').forEach(x=>x.classList.remove('hi'));
+    });
+  });
+
+  // Resumo: contagem por quadrante e nomes destacados
+  _renderEffSummary(universo, medX, medY);
+
   attachTT();
 }
+
+function _renderEffSummary(universo, medX, medY){
+  const grupos = {q1:[], q2:[], q3:[], q4:[]};
+  universo.forEach(g=>grupos[_quadrante(g,medX,medY).k].push(g));
+  const defs = [
+    {k:'q1', title:'Vítimas do sucesso', desc:'alta carteira · alto esforço', hint:'atenção operacional',  cor:'#B58642'},
+    {k:'q2', title:'Eficientes',        desc:'alta carteira · baixo esforço', hint:'carteira de volume',    cor:'#2f7a44'},
+    {k:'q3', title:'Peso desproporcional',desc:'baixa carteira · alto esforço', hint:'possível concentração',cor:'#8a6534'},
+    {k:'q4', title:'Dormência',         desc:'baixa carteira · baixo esforço', hint:'monitorar retomada',    cor:'#7a7f96'}
+  ];
+  const html = defs.map(d=>{
+    const gs = [...grupos[d.k]].sort((a,b)=>(b.ativos+b.horas/1000)-(a.ativos+a.horas/1000)).slice(0,3);
+    const lista = gs.map(g=>`<b>${g.nome.replace(/^Grupo\s+/,'')}</b>`).join(' · ') || '<i>—</i>';
+    return `<div class="eff-sum-card ${d.k}">
+      <div class="esc-eyebrow">${d.title}</div>
+      <div class="esc-title">${d.desc}</div>
+      <div class="esc-num" data-target="${grupos[d.k].length}">0<small> grupos</small></div>
+      <div class="esc-list">${lista}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('eff-summary').innerHTML = html;
+  // count-up dos números
+  document.querySelectorAll('#eff-summary .esc-num').forEach((el,i)=>{
+    const alvo = +el.dataset.target;
+    setTimeout(()=>{
+      const dur=900, passos=30; let k=0;
+      const iv = setInterval(()=>{
+        k++;
+        const p = k/passos, e = 1-Math.pow(1-p,5);
+        if(k<passos) el.firstChild.textContent = Math.round(alvo*e);
+        else { el.firstChild.textContent = alvo; clearInterval(iv); }
+      }, dur/passos);
+    }, i*80 + 200);
+  });
+}
+
+// filtro Eficiência
+function ativarFiltroEff(){
+  const inp = document.getElementById('eff-filtro');
+  const clr = document.getElementById('eff-filtro-clear');
+  if(!inp) return;
+  const wrap = inp.parentElement;
+  const atualizarWrap = ()=>wrap.classList.toggle('has', !!inp.value);
+  inp.addEventListener('input', ()=>{
+    effFiltro = inp.value;
+    atualizarWrap();
+    renderEficienciaMatriz();
+  });
+  clr.addEventListener('click', ()=>{
+    inp.value=''; effFiltro=''; atualizarWrap(); renderEficienciaMatriz(); inp.focus();
+  });
+}
+
+/* --- (legado) Eficiência barras — não é mais chamada, mantida caso outra parte referencie --- */
+function renderEficiencia(){ /* deprecated: integrado em renderEficienciaMatriz */ }
 
 /* --- Panorama tabela ordenável --- */
 let sortKey='proc', sortDir=-1;
