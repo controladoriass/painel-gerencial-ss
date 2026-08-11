@@ -144,6 +144,44 @@ section{margin-bottom:66px;scroll-margin-top:20px}
 .stack-bar span{height:100%;transition:width .9s cubic-bezier(.22,1,.36,1)}
 .stack-row .tot{font-size:12px;font-weight:700;color:var(--navy);text-align:right;font-family:'Montserrat',sans-serif;font-variant-numeric:tabular-nums}
 
+/* ============ Panorama consolidado (tabela) ============ */
+.pano-wrap{overflow-x:auto;border-radius:6px;background:linear-gradient(180deg,var(--paper) 0%,#fff 6%);position:relative}
+.pano-wrap::before,.pano-wrap::after{content:"";position:sticky;left:0;top:0;height:100%;width:16px;pointer-events:none;z-index:2}
+table.pano{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;table-layout:auto}
+table.pano th{position:sticky;top:0;z-index:3;text-align:right;font-size:9.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;padding:14px 12px 12px;background:linear-gradient(180deg,#fff,var(--paper));border-bottom:1.5px solid var(--navy2);cursor:pointer;user-select:none;transition:color .18s,background .18s;white-space:nowrap}
+table.pano th:first-child{text-align:left}
+table.pano th:hover{color:var(--gold);background:var(--paper2)}
+table.pano th.on{color:var(--navy);background:var(--paper2)}
+table.pano th.on::after{content:"";display:block;position:absolute;left:6px;right:6px;bottom:-1.5px;height:2px;background:linear-gradient(90deg,var(--gold-soft),var(--gold));border-radius:2px}
+table.pano th{position:sticky;position:-webkit-sticky}
+table.pano td{padding:11px 12px;border-bottom:1px solid var(--paper2);text-align:right;font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums;position:relative;transition:background .18s}
+table.pano td:first-child{text-align:left;font-weight:700;color:var(--navy);white-space:nowrap;max-width:220px;overflow:hidden;text-overflow:ellipsis}
+table.pano tr{opacity:0;transform:translateY(4px);animation:panoRowIn .5s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes panoRowIn{to{opacity:1;transform:none}}
+table.pano tbody tr:hover td{background:linear-gradient(90deg,rgba(181,134,66,.06),transparent 60%)}
+table.pano tbody tr.top1{background:linear-gradient(90deg,#fbf6ea 0%,#fff 55%)}
+table.pano tbody tr.top1 td{background:transparent}
+table.pano tbody tr.top1 td:first-child{position:relative}
+table.pano tbody tr.top1 td:first-child::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:3px;background:linear-gradient(180deg,var(--gold-soft),var(--gold));border-radius:2px}
+table.pano tbody tr.top1 td{font-weight:800;color:var(--navy)}
+table.pano tbody tr.top2,table.pano tbody tr.top3{background:linear-gradient(90deg,#fdf9f0 0%,#fff 55%)}
+table.pano tbody tr.top2 td,table.pano tbody tr.top3 td{background:transparent;font-weight:700;color:var(--navy)}
+table.pano tbody tr.top2 td:first-child::before,table.pano tbody tr.top3 td:first-child::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:2px;background:var(--gold-soft);border-radius:2px}
+/* Sparkbar dentro da célula numérica */
+.pano-cell{display:inline-flex;flex-direction:column;align-items:flex-end;gap:4px;position:relative;min-width:56px}
+.pano-cell .pv-num{font-weight:700;color:var(--navy);font-size:12.5px;line-height:1}
+.pano-cell.pri .pv-num{font-weight:800}
+.pano-cell .pv-bar{height:3px;width:56px;background:var(--paper2);border-radius:2px;overflow:hidden;position:relative}
+.pano-cell .pv-bar-fill{height:100%;background:linear-gradient(90deg,var(--navy3),var(--navy2));border-radius:2px;transition:width .9s cubic-bezier(.22,1,.36,1);width:0}
+.pano-cell.gold .pv-bar-fill{background:linear-gradient(90deg,var(--gold-soft),var(--gold))}
+table.pano tfoot td{border-top:2px solid var(--navy2);border-bottom:none;padding:16px 12px;font-weight:800;color:var(--navy);background:linear-gradient(180deg,var(--paper2),#fff);font-family:'Montserrat',sans-serif;font-size:13px;position:sticky;bottom:0;z-index:2}
+table.pano tfoot td:first-child{font-size:12.5px;text-transform:uppercase;letter-spacing:1px;color:var(--gold)}
+/* Nome do grupo com rank badge */
+table.pano tbody td.grp{padding-left:44px}
+table.pano tbody td.grp .grp-rank{position:absolute;left:8px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:var(--paper2);color:var(--muted2);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
+table.pano tbody tr.top1 td.grp .grp-rank{background:var(--navy);color:#fff;box-shadow:0 3px 8px -2px rgba(30,34,63,.4)}
+table.pano tbody tr.top2 td.grp .grp-rank,table.pano tbody tr.top3 td.grp .grp-rank{background:var(--navy2);color:#fff}
+
 /* ============ Movimento anual (fluxo) ============ */
 .mov-topo{display:grid;grid-template-columns:3fr 2fr;gap:22px;margin-bottom:22px}
 @media(max-width:980px){.mov-topo{grid-template-columns:1fr}}
@@ -1062,8 +1100,24 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
         <div class="sec-desc">A foto completa do escritório, grupo a grupo. Clique nos cabeçalhos para reordenar por qualquer coluna.</div>
       </div>
     </div>
-    <div class="panel" style="overflow-x:auto">
-      <table class="pano" id="pano-table"></table>
+    <div class="panel">
+      <div class="rank-toolbar">
+        <div class="metric-tabs pill" id="pano-view-tabs">
+          <button data-view="top15" class="on">Top 15</button>
+          <button data-view="top30">Top 30</button>
+          <button data-view="all">Todos os 103</button>
+        </div>
+        <div class="rank-search">
+          <input type="text" id="pano-filtro" placeholder="Filtrar por grupo…" autocomplete="off">
+          <span class="rs-clear" id="pano-filtro-clear" title="Limpar">×</span>
+        </div>
+      </div>
+      <div class="pano-wrap">
+        <table class="pano" id="pano-table"></table>
+      </div>
+      <div class="rank-footer">
+        <button class="rank-expand" id="pano-expand"></button>
+      </div>
     </div>
   </section>
 
@@ -1246,6 +1300,7 @@ function render(){
   ativarFiltroTempo();
   ativarFiltroPolo();
   ativarFiltroPartes();
+  ativarPano();
 }
 
 /* --- Bloco H: Rankings executivos (carrossel 3 cards, meio em destaque) --- */
@@ -2339,40 +2394,158 @@ function renderEficiencia(){ /* deprecated: integrado em renderEficienciaMatriz 
 
 /* --- Panorama tabela ordenável --- */
 let sortKey='proc', sortDir=-1;
+let panoView = 'top15'; // top15 | top30 | all
+let panoFiltro = '';
+
 function renderPano(){
   const cols=[
-    {k:'nome',l:'Grupo',n:false},
-    {k:'nEmpresas',l:'Emp.',n:true},
-    {k:'proc',l:'Proc.',n:true},
-    {k:'ativos',l:'Ativos',n:true},
-    {k:'encerrados',l:'Encerr.',n:true},
-    {k:'prazos',l:'Prazos',n:true},
-    {k:'aud',l:'Aud.',n:true},
-    {k:'reun',l:'Diligênc.',n:true},
-    {k:'horas',l:'Horas',n:true},
+    {k:'nome',l:'Grupo',n:false, gold:false, spark:false},
+    {k:'nEmpresas',l:'Emp.',n:true, gold:false, spark:false},
+    {k:'proc',l:'Proc.',n:true, gold:false, spark:true},
+    {k:'ativos',l:'Ativos',n:true, gold:false, spark:true, pri:true},
+    {k:'encerrados',l:'Encerr.',n:true, gold:false, spark:false},
+    {k:'prazos',l:'Prazos',n:true, gold:true, spark:false},
+    {k:'aud',l:'Aud.',n:true, gold:true, spark:false},
+    {k:'reun',l:'Diligênc.',n:true, gold:true, spark:false},
+    {k:'horas',l:'Horas',n:true, gold:true, spark:true, pri:true},
   ];
-  const rows=[...GRUPOS].sort((a,b)=>{
+
+  const q = panoFiltro.trim().toLowerCase();
+  const base = q ? GRUPOS.filter(g=>g.nome.toLowerCase().includes(q)) : [...GRUPOS];
+  const ordenados = base.sort((a,b)=>{
     const va=a[sortKey],vb=b[sortKey];
     if(typeof va==='string') return sortDir*va.localeCompare(vb);
     return sortDir*((va||0)-(vb||0));
   });
-  const tot=GRUPOS.reduce((a,g)=>({nEmpresas:a.nEmpresas+g.nEmpresas,proc:a.proc+g.proc,ativos:a.ativos+g.ativos,encerrados:a.encerrados+g.encerrados,prazos:a.prazos+g.prazos,aud:a.aud+g.aud,reun:a.reun+g.reun,horas:a.horas+g.horas}),{nEmpresas:0,proc:0,ativos:0,encerrados:0,prazos:0,aud:0,reun:0,horas:0});
+
+  // limite conforme view
+  let limite;
+  if(q){ limite = ordenados.length; }
+  else if(panoView === 'top15'){ limite = Math.min(15, ordenados.length); }
+  else if(panoView === 'top30'){ limite = Math.min(30, ordenados.length); }
+  else { limite = ordenados.length; }
+  const rows = ordenados.slice(0, limite);
+
+  // máximos por coluna (do universo TOTAL — não do slice — para sparkbars corretas)
+  const maxCol = {};
+  cols.filter(c=>c.spark).forEach(c=>{ maxCol[c.k] = Math.max(...GRUPOS.map(g=>g[c.k]||0), 1); });
+
+  // totais do escritório (universo total, sempre)
+  const tot = GRUPOS.reduce((a,g)=>({nEmpresas:a.nEmpresas+g.nEmpresas,proc:a.proc+g.proc,ativos:a.ativos+g.ativos,encerrados:a.encerrados+g.encerrados,prazos:a.prazos+g.prazos,aud:a.aud+g.aud,reun:a.reun+g.reun,horas:a.horas+g.horas}),{nEmpresas:0,proc:0,ativos:0,encerrados:0,prazos:0,aud:0,reun:0,horas:0});
+
   const arrow=k=> k===sortKey ? (sortDir<0?' ▾':' ▴') : '';
+
+  // gera célula
+  function cell(g, c){
+    const v = g[c.k];
+    if(c.k === 'nome'){
+      return `<td class="grp"><span class="grp-rank"></span>${g.nome}</td>`;
+    }
+    if(c.spark){
+      const pct = ((v||0)/maxCol[c.k])*100;
+      const est = (c.k==='horas' && g.horasEst) ? '<span class="est-mark" data-tt="estimativa">^</span>' : '';
+      return `<td>
+        <span class="pano-cell ${c.gold?'gold':''}${c.pri?' pri':''}">
+          <span class="pv-num">${est}${NUM(v||0)}</span>
+          <span class="pv-bar"><span class="pv-bar-fill" data-w="${pct}"></span></span>
+        </span>
+      </td>`;
+    }
+    if(c.k==='horas'){
+      const est = g.horasEst ? '<span class="est-mark" data-tt="estimativa">^</span>' : '';
+      return `<td>${est}${NUM(v||0)}</td>`;
+    }
+    return `<td>${typeof v==='number'?NUM(v):v}</td>`;
+  }
+
   document.getElementById('pano-table').innerHTML=`
-    <thead><tr>${cols.map(c=>`<th data-k="${c.k}" style="cursor:pointer">${c.l}${arrow(c.k)}</th>`).join('')}</tr></thead>
-    <tbody>${rows.map(g=>`<tr>
-      <td>${g.nome}</td><td>${g.nEmpresas}</td><td>${NUM(g.proc)}</td>
-      <td>${NUM(g.ativos)}</td><td>${NUM(g.encerrados)}</td>
-      <td>${NUM(g.prazos)}</td><td>${NUM(g.aud)}</td><td>${NUM(g.reun)}</td>
-      <td>${g.horasEst?'<span class="est-mark" data-tt="estimativa">^</span>':''}${NUM(g.horas)}</td>
-    </tr>`).join('')}</tbody>
-    <tfoot><tr><td>Escritório (${GRUPOS.length})</td><td>${tot.nEmpresas}</td><td>${NUM(tot.proc)}</td>
-      <td>${NUM(tot.ativos)}</td><td>${NUM(tot.encerrados)}</td><td>${NUM(tot.prazos)}</td>
-      <td>${NUM(tot.aud)}</td><td>${NUM(tot.reun)}</td><td>${NUM(tot.horas)}</td></tr></tfoot>`;
+    <thead><tr>${cols.map(c=>`<th data-k="${c.k}" class="${c.k===sortKey?'on':''}">${c.l}${arrow(c.k)}</th>`).join('')}</tr></thead>
+    <tbody>${rows.map((g,i)=>{
+      const podium = (!q && (sortKey!=='nome')) ? (i===0?' top1':i===1?' top2':i===2?' top3':'') : '';
+      return `<tr class="${podium.trim()}" style="animation-delay:${Math.min(i*22,500)}ms" data-rank="${i+1}">${cols.map(c=>cell(g,c)).join('')}</tr>`;
+    }).join('')}</tbody>
+    <tfoot><tr>
+      <td>Escritório (${GRUPOS.length} grupos)</td>
+      <td>${NUM(tot.nEmpresas)}</td>
+      <td>${NUM(tot.proc)}</td>
+      <td>${NUM(tot.ativos)}</td>
+      <td>${NUM(tot.encerrados)}</td>
+      <td>${NUM(tot.prazos)}</td>
+      <td>${NUM(tot.aud)}</td>
+      <td>${NUM(tot.reun)}</td>
+      <td>${NUM(tot.horas)}</td>
+    </tr></tfoot>`;
+
+  // preenche o rank number nas células top-3 dinamicamente após render
+  document.querySelectorAll('#pano-table tbody tr').forEach((tr,i)=>{
+    const rk = tr.querySelector('.grp-rank');
+    if(rk) rk.textContent = tr.dataset.rank;
+  });
+
+  // anima sparkbars (após breve delay para o CSS aplicar width:0)
+  setTimeout(()=>{
+    document.querySelectorAll('#pano-table .pv-bar-fill').forEach(f=>{
+      f.style.width = f.dataset.w + '%';
+    });
+  }, 80);
+
+  // sort click
   document.querySelectorAll('#pano-table th').forEach(th=>th.onclick=()=>{
     const k=th.dataset.k; if(k===sortKey) sortDir*=-1; else {sortKey=k;sortDir=(k==='nome'?1:-1);} renderPano();
   });
+
+  // footer expand
+  const footer = document.getElementById('pano-expand').parentElement;
+  const btn = document.getElementById('pano-expand');
+  if(!q && panoView !== 'all' && ordenados.length > limite){
+    footer.style.display='flex';
+    btn.textContent = panoView === 'top15'
+      ? `Ver top 30 grupos`
+      : `Ver todos os ${ordenados.length} grupos`;
+    btn.onclick = ()=>{
+      panoView = panoView === 'top15' ? 'top30' : 'all';
+      document.querySelectorAll('#pano-view-tabs button').forEach(b=>b.classList.toggle('on', b.dataset.view===panoView));
+      renderPano();
+    };
+  } else if(!q && panoView === 'all'){
+    footer.style.display='flex';
+    btn.textContent = 'Recolher para top 15';
+    btn.onclick = ()=>{
+      panoView = 'top15';
+      document.querySelectorAll('#pano-view-tabs button').forEach(b=>b.classList.toggle('on', b.dataset.view==='top15'));
+      renderPano();
+    };
+  } else {
+    footer.style.display='none';
+  }
+
   attachTT();
+}
+
+function ativarPano(){
+  // tabs de view
+  document.querySelectorAll('#pano-view-tabs button').forEach(b=>{
+    b.onclick = ()=>{
+      panoView = b.dataset.view;
+      document.querySelectorAll('#pano-view-tabs button').forEach(x=>x.classList.toggle('on', x===b));
+      renderPano();
+    };
+  });
+  // filtro
+  const inp = document.getElementById('pano-filtro');
+  const clr = document.getElementById('pano-filtro-clear');
+  if(!inp) return;
+  const wrap = inp.parentElement;
+  const atualizarWrap = ()=>wrap.classList.toggle('has', !!inp.value);
+  inp.addEventListener('input', ()=>{
+    panoFiltro = inp.value;
+    atualizarWrap();
+    renderPano();
+  });
+  clr.addEventListener('click', ()=>{
+    inp.value=''; panoFiltro=''; atualizarWrap();
+    renderPano(); inp.focus();
+  });
 }
 
 
