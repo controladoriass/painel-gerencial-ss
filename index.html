@@ -144,6 +144,70 @@ section{margin-bottom:66px;scroll-margin-top:20px}
 .stack-bar span{height:100%;transition:width .9s cubic-bezier(.22,1,.36,1)}
 .stack-row .tot{font-size:12px;font-weight:700;color:var(--navy);text-align:right;font-family:'Montserrat',sans-serif;font-variant-numeric:tabular-nums}
 
+/* ============ Idade da carteira (tempo) ============ */
+.tempo-topo{display:grid;grid-template-columns:2fr 1fr;gap:22px;margin-bottom:6px}
+@media(max-width:980px){.tempo-topo{grid-template-columns:1fr}}
+/* KPIs em 3 cards */
+.tempo-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:820px){.tempo-kpis{grid-template-columns:1fr}}
+.tk-card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:5px;padding:22px 22px 20px;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s;position:relative;overflow:hidden}
+.tk-card::after{content:"";position:absolute;top:-40%;right:-30%;width:70%;height:80%;background:radial-gradient(circle,rgba(181,134,66,.08),transparent 60%);pointer-events:none;opacity:.55;transition:opacity .4s}
+.tk-card:hover{transform:translateY(-5px);box-shadow:0 6px 16px -4px rgba(181,134,66,.15),0 22px 44px -22px rgba(30,34,63,.35)}
+.tk-card:hover::after{opacity:1}
+.tk-card .tk-eyebrow{font-size:10px;font-weight:800;letter-spacing:2.2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;position:relative}
+.tk-card .tk-num{font-size:38px;font-weight:800;color:var(--navy);letter-spacing:-1.4px;line-height:1;font-variant-numeric:tabular-nums;position:relative}
+.tk-card .tk-num small{font-size:14px;color:var(--muted);font-weight:600;letter-spacing:0;margin-left:2px}
+.tk-card .tk-desc{margin-top:12px;font-size:11.5px;color:var(--muted);font-weight:500;line-height:1.5;position:relative}
+.tk-card .tk-desc b{color:var(--navy);font-weight:800}
+
+/* Card 'Envelhecimento crítico' (navy dourado, mesma família do card Especialização) */
+.tempo-crit{background:linear-gradient(160deg,var(--navy-deep) 0%,#191d38 100%);color:#fff;border-top-color:var(--gold);position:relative;overflow:hidden}
+.tempo-crit::before{content:"";position:absolute;top:-30%;right:-25%;width:70%;height:80%;background:radial-gradient(circle,rgba(181,134,66,.18),transparent 60%);pointer-events:none}
+.tempo-crit .tc-eyebrow{font-size:10px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--gold-soft);margin-bottom:10px;position:relative}
+.tempo-crit .tc-headline{font-size:34px;font-weight:800;color:#fff;letter-spacing:-1px;line-height:1;position:relative;font-variant-numeric:tabular-nums}
+.tempo-crit .tc-headline .tc-lbl{display:block;font-size:14px;font-weight:700;color:var(--gold-soft);letter-spacing:.4px;margin-top:8px}
+.tempo-crit .tc-sub{font-size:12px;color:#c2c6d6;margin-top:14px;line-height:1.6;position:relative;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.tempo-crit .tc-list{margin-top:14px;display:flex;flex-direction:column;gap:8px;position:relative}
+.tempo-crit .tc-item{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11.5px}
+.tempo-crit .tc-item .lbl{color:#c2c6d6;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tempo-crit .tc-item .val{color:#fff;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.3px;font-size:12.5px}
+
+/* Faixas etárias — 5 barras horizontais coloridas */
+.tempo-faixas{display:flex;flex-direction:column;gap:2px}
+.tempo-faixa-row{display:grid;grid-template-columns:130px 1fr 110px;align-items:center;gap:14px;padding:8px 6px;border-bottom:1px dashed var(--paper2);transition:background .18s,padding .2s;border-radius:4px}
+.tempo-faixa-row:last-child{border-bottom:0}
+.tempo-faixa-row:hover{background:linear-gradient(90deg,rgba(181,134,66,.06),transparent);padding-left:12px}
+.tempo-faixa-row .fx-name{font-size:12.5px;font-weight:700;color:var(--navy);text-align:right;display:flex;align-items:center;justify-content:flex-end;gap:8px}
+.tempo-faixa-row .fx-dot{width:12px;height:12px;border-radius:50%;box-shadow:0 2px 6px -2px rgba(0,0,0,.25);flex:0 0 auto}
+.tempo-faixa-row .fx-track{height:16px;background:var(--paper2);border-radius:8px;overflow:hidden;position:relative}
+.tempo-faixa-row .fx-fill{height:100%;border-radius:8px;transition:width 1s cubic-bezier(.22,1,.36,1);position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.15)}
+.tempo-faixa-row .fx-fill::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.5) 45%,rgba(255,255,255,.65) 50%,rgba(255,255,255,.5) 55%,transparent 100%);transform:translateX(-100%);animation:shimmer 1.6s cubic-bezier(.22,1,.36,1) .35s 1 forwards;opacity:.55}
+.tempo-faixa-row .fx-val{font-size:13px;font-weight:800;color:var(--navy);text-align:right;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+.tempo-faixa-row .fx-val small{font-size:10px;color:var(--muted);font-weight:500;display:block;margin-top:1px}
+/* cores por faixa */
+.fx-c-verde{background:linear-gradient(180deg,#78c290,#3a8c56)}
+.fx-c-amarelo{background:linear-gradient(180deg,#efd076,#c9a54a)}
+.fx-c-laranja{background:linear-gradient(180deg,#e5a06b,#b76a2e)}
+.fx-c-vermelho{background:linear-gradient(180deg,#d67f7a,#a63d38)}
+.fx-c-critico{background:linear-gradient(180deg,#7a1c1c,#3d0d0d)}
+.fx-fill.fx-c-verde{background:linear-gradient(90deg,#78c290,#3a8c56)}
+.fx-fill.fx-c-amarelo{background:linear-gradient(90deg,#efd076,#c9a54a)}
+.fx-fill.fx-c-laranja{background:linear-gradient(90deg,#e5a06b,#b76a2e)}
+.fx-fill.fx-c-vermelho{background:linear-gradient(90deg,#d67f7a,#a63d38)}
+.fx-fill.fx-c-critico{background:linear-gradient(90deg,#7a1c1c,#3d0d0d)}
+
+/* Ranking Tempo — mesmo padrão bar-row mas com cor semafórica */
+#tempo-bars .bar-fill.sem-verde{background:linear-gradient(90deg,#78c290,#3a8c56)}
+#tempo-bars .bar-fill.sem-amarelo{background:linear-gradient(90deg,#efd076,#c9a54a)}
+#tempo-bars .bar-fill.sem-laranja{background:linear-gradient(90deg,#e5a06b,#b76a2e)}
+#tempo-bars .bar-fill.sem-vermelho{background:linear-gradient(90deg,#d67f7a,#a63d38)}
+#tempo-bars .bar-fill.sem-critico{background:linear-gradient(90deg,#7a1c1c,#3d0d0d)}
+
+/* Histograma jurídico — legenda ao lado */
+.tempo-hist-legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:14px;font-size:11px;font-weight:600;color:var(--ink2)}
+.tempo-hist-legend .thl-item{display:flex;align-items:center;gap:6px}
+.tempo-hist-legend .thl-dot{width:11px;height:11px;border-radius:3px;flex:0 0 auto}
+
 /* ============ Presença jurídica (foro) ============ */
 .foro-topo{display:grid;grid-template-columns:minmax(280px,320px) 1fr;gap:22px;margin-bottom:22px}
 .foro-meio{display:grid;grid-template-columns:2fr 1fr;gap:22px}
@@ -401,7 +465,7 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
       <a class="tn-link" data-target="sec-area">Áreas</a>
       <a class="tn-link" data-target="sec-scatter">Eficiência</a>
       <a class="tn-link" data-target="sec-foro">Presença jurídica</a>
-      <a class="tn-link" data-target="sec-tempo">Tempo</a>
+      <a class="tn-link" data-target="sec-tempo">Idade da carteira</a>
       <a class="tn-link" data-target="sec-polo">Polo</a>
       <a class="tn-link" data-target="sec-partes">Partes contrárias</a>
       <a class="tn-link" data-target="sec-series">Fluxo anual</a>
@@ -560,22 +624,52 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
     <div class="sec-head">
       <div class="roman">V</div>
       <div class="sec-titles">
-        <h2>Tempo de tramitação</h2>
-        <div class="sec-desc">Média de dias em que cada processo ativo está tramitando. Revela quem carrega a carteira mais antiga e onde o tempo se acumula por área e tribunal.</div>
+        <h2>Quanto tempo a carteira está em curso</h2>
       </div>
     </div>
-    <div class="grid2">
+
+    <!-- Topo: 3 KPIs + card 'Envelhecimento crítico' -->
+    <div class="tempo-topo">
+      <div class="tempo-kpis">
+        <div class="tk-card"><div class="tk-eyebrow">Mediana</div><div class="tk-num" id="tk-mediana">0</div><div class="tk-desc">dias por processo ativo · <b id="tk-mediana-anos">0</b> anos</div></div>
+        <div class="tk-card"><div class="tk-eyebrow">Média</div><div class="tk-num" id="tk-media">0</div><div class="tk-desc">dias em tramitação · <b id="tk-media-anos">0</b> anos</div></div>
+        <div class="tk-card"><div class="tk-eyebrow">Grupo mais lento</div><div class="tk-num" id="tk-lento">0</div><div class="tk-desc"><span id="tk-lento-nome">—</span></div></div>
+      </div>
+      <div class="panel tempo-crit">
+        <div class="tc-eyebrow">Envelhecimento crítico</div>
+        <div class="tc-headline" id="tc-head"></div>
+        <div class="tc-sub" id="tc-sub"></div>
+        <div class="tc-list" id="tc-list"></div>
+      </div>
+    </div>
+
+    <!-- Faixas etárias -->
+    <div class="panel" style="margin-top:22px">
+      <div class="panel-label">Distribuição por faixa etária processual</div>
+      <div id="tempo-faixas"></div>
+    </div>
+
+    <!-- Ranking + histograma -->
+    <div class="grid2" style="margin-top:22px">
       <div class="panel">
-        <div class="panel-label">Ranking por tempo médio</div>
+        <div class="panel-label">
+          Grupos com a carteira mais antiga
+        </div>
+        <div class="rank-toolbar">
+          <div class="rank-search">
+            <input type="text" id="tempo-filtro" placeholder="Filtrar por grupo…" autocomplete="off">
+            <span class="rs-clear" id="tempo-filtro-clear" title="Limpar">×</span>
+          </div>
+        </div>
         <div class="bars" id="tempo-bars"></div>
+        <div class="rank-footer">
+          <button class="rank-expand" id="tempo-expand"></button>
+        </div>
       </div>
       <div class="panel">
-        <div class="panel-label">Distribuição do escritório</div>
+        <div class="panel-label">Distribuição do escritório (histograma jurídico)</div>
         <div id="tempo-hist"></div>
-        <div class="area-legend" style="margin-top:14px">
-          <span class="li"><span class="sw" style="background:var(--navy2)"></span>Grupos</span>
-          <span class="li"><span class="sw" style="background:var(--gold)"></span>Mediana do escritório</span>
-        </div>
+        <div class="tempo-hist-legend" id="tempo-hist-legend"></div>
       </div>
     </div>
   </section>
@@ -818,6 +912,7 @@ function render(){
   ativarFiltroRank();
   ativarFiltroArea();
   ativarFiltroEff();
+  ativarFiltroTempo();
 }
 
 /* --- Bloco H: Rankings executivos (carrossel 3 cards, meio em destaque) --- */
@@ -1949,56 +2044,252 @@ function renderPano(){
 
 
 /* --- Bloco B: Tempo médio de tramitação --- */
+// Faixas etárias jurídicas: <1a, 1-3a, 3-5a, 5-10a, +10a
+const TEMPO_FAIXAS = [
+  {k:'verde',    label:'Até 1 ano',   min:0,      max:365,   cor:'linear-gradient(135deg,#78c290,#3a8c56)', hex:'#3a8c56'},
+  {k:'amarelo',  label:'1 a 3 anos',  min:365,    max:1095,  cor:'linear-gradient(135deg,#efd076,#c9a54a)', hex:'#c9a54a'},
+  {k:'laranja',  label:'3 a 5 anos',  min:1095,   max:1825,  cor:'linear-gradient(135deg,#e5a06b,#b76a2e)', hex:'#b76a2e'},
+  {k:'vermelho', label:'5 a 10 anos', min:1825,   max:3650,  cor:'linear-gradient(135deg,#d67f7a,#a63d38)', hex:'#a63d38'},
+  {k:'critico',  label:'Mais de 10 anos', min:3650, max:Infinity, cor:'linear-gradient(135deg,#7a1c1c,#3d0d0d)', hex:'#7a1c1c'}
+];
+function _faixaDe(dias){
+  return TEMPO_FAIXAS.find(f => dias >= f.min && dias < f.max) || TEMPO_FAIXAS[TEMPO_FAIXAS.length-1];
+}
+
+let tempoExpandido = false;
+let tempoFiltro = '';
+const TEMPO_TOP = 15;
+
 function renderTempo(){
   const gs = GRUPOS.filter(g=>g.tramitDias>0);
-  const rows = [...gs].sort((a,b)=>b.tramitDias-a.tramitDias).slice(0,20);
-  const max = Math.max(...rows.map(r=>r.tramitDias),1);
-  document.getElementById('tempo-bars').innerHTML = rows.map(g=>{
-    const pct = g.tramitDias/max*100;
-    return `<div class="bar-row" data-tt="<b>${g.nome}</b><br>${NUM(Math.round(g.tramitDias))} dias · ${(g.tramitDias/365).toFixed(1)} anos">
-      <div class="name" title="${g.nome}">${g.nome.replace(/^Grupo\s+/,'')}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:0;background:linear-gradient(90deg,var(--navy2),var(--navy))" data-w="${pct}"></div></div>
-      <div class="val">${NUM(Math.round(g.tramitDias))}<br><small>${(g.tramitDias/365).toFixed(1)} anos</small></div>
-    </div>`;
-  }).join('');
-  requestAnimationFrame(()=>document.querySelectorAll('#tempo-bars .bar-fill').forEach(f=>f.style.width=f.dataset.w+'%'));
+  if(!gs.length){ return; }
 
-  // Histograma da distribuição do escritório (bins de 500 dias)
+  // Estatísticas do escritório
   const dias = gs.map(g=>g.tramitDias).sort((a,b)=>a-b);
   const mediana = dias[Math.floor(dias.length/2)] || 0;
-  const maxD = Math.max(...dias);
-  const binSize = 500;
-  const nBins = Math.ceil(maxD/binSize);
-  const bins = Array.from({length:nBins},()=>[]);
-  gs.forEach(g=>{ const i = Math.min(Math.floor(g.tramitDias/binSize), nBins-1); bins[i].push(g); });
-  const maxBin = Math.max(...bins.map(b=>b.length),1);
-  const W=460, H=200, P={l:34,r:14,t:10,b:38};
-  const bw = (W-P.l-P.r)/nBins;
-  const y = v => H-P.b - v/maxBin*(H-P.t-P.b);
-  const x = i => P.l + i*bw;
-  let bars='';
-  for(let i=0;i<nBins;i++){
-    const n = bins[i].length;
-    if(!n) continue;
-    const nomes = bins[i].map(g=>g.nome.replace(/^Grupo\s+/,'')).slice(0,8).join('<br>');
-    const mais = bins[i].length>8 ? `<br><i>+${bins[i].length-8} outros</i>` : '';
-    bars += `<rect x="${x(i)+2}" y="${y(n)}" width="${bw-4}" height="${H-P.b-y(n)}" fill="var(--navy2)" opacity=".85" rx="1"
-      data-tt="<b>${i*binSize}–${(i+1)*binSize} dias</b><br>${n} grupos<br><br>${nomes}${mais}"></rect>`;
-    bars += `<text x="${x(i)+bw/2}" y="${y(n)-4}" text-anchor="middle" style="font-size:10px;font-weight:700;fill:var(--navy)">${n}</text>`;
-  }
-  // linha da mediana
-  const xM = P.l + mediana/maxD * (W-P.l-P.r);
-  bars += `<line x1="${xM}" y1="${P.t}" x2="${xM}" y2="${H-P.b}" stroke="var(--gold)" stroke-width="2" stroke-dasharray="4 4"/>`;
-  bars += `<text x="${xM}" y="${P.t+11}" text-anchor="middle" style="font-size:10px;font-weight:700;fill:var(--gold)">mediana ${NUM(Math.round(mediana))}d</text>`;
-  // eixo X (rótulos por bin)
-  let axisX = '';
-  for(let i=0;i<=nBins;i+=2){
-    axisX += `<text x="${x(i)}" y="${H-P.b+14}" text-anchor="middle" style="font-size:9px;fill:var(--muted2)">${i*binSize}</text>`;
-  }
-  axisX += `<text x="${(W-P.r+P.l)/2}" y="${H-6}" text-anchor="middle" style="font-size:10px;fill:var(--muted)">Dias em tramitação →</text>`;
-  document.getElementById('tempo-hist').innerHTML =
-    `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">${bars}${axisX}</svg>`;
+  const media = dias.reduce((s,v)=>s+v,0)/dias.length;
+  const lento = [...gs].sort((a,b)=>b.tramitDias-a.tramitDias)[0];
+
+  // KPIs no topo
+  _tempoAnimarKpi('tk-mediana', mediana, v => NUM(Math.round(v)));
+  document.getElementById('tk-mediana-anos').textContent = (mediana/365).toFixed(1);
+  _tempoAnimarKpi('tk-media', media, v => NUM(Math.round(v)));
+  document.getElementById('tk-media-anos').textContent = (media/365).toFixed(1);
+  _tempoAnimarKpi('tk-lento', lento.tramitDias, v => NUM(Math.round(v)));
+  document.getElementById('tk-lento-nome').innerHTML = `<b style="color:var(--navy)">${lento.nome}</b> · ${(lento.tramitDias/365).toFixed(1)} anos`;
+
+  // Faixas etárias
+  _renderTempoFaixas(gs);
+
+  // Card 'Envelhecimento crítico'
+  _renderTempoCritico(gs);
+
+  // Ranking com semaforização
+  _renderTempoRanking(gs);
+
+  // Histograma jurídico
+  _renderTempoHist(gs, mediana);
+
   attachTT();
+}
+
+function _tempoAnimarKpi(elId, alvo, fmt){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  const dur=900, passos=32; let k=0;
+  const iv = setInterval(()=>{
+    k++;
+    const p = k/passos, e = 1-Math.pow(1-p,5);
+    el.textContent = fmt(alvo*e);
+    if(k>=passos){ el.textContent = fmt(alvo); clearInterval(iv); }
+  }, dur/passos);
+}
+
+// A) Faixas etárias (barras horizontais coloridas)
+function _renderTempoFaixas(gs){
+  // conta grupos por faixa
+  const bins = TEMPO_FAIXAS.map(f => ({...f, grupos: [], qtdProc: 0}));
+  gs.forEach(g=>{
+    const f = _faixaDe(g.tramitDias);
+    const idx = TEMPO_FAIXAS.findIndex(x=>x.k===f.k);
+    bins[idx].grupos.push(g);
+    bins[idx].qtdProc += g.ativos;
+  });
+  const totalGs = gs.length;
+  const maxN = Math.max(...bins.map(b=>b.grupos.length),1);
+  const container = document.getElementById('tempo-faixas');
+  container.innerHTML = bins.map((b,i)=>{
+    const n = b.grupos.length;
+    const pct = n/maxN*100;
+    const pctTot = totalGs ? (n/totalGs*100).toFixed(0) : '0';
+    const topNomes = [...b.grupos].sort((a,b)=>b.tramitDias-a.tramitDias).slice(0,5).map(g=>g.nome.replace(/^Grupo\s+/,'')).join(' · ') || '<i>nenhum</i>';
+    return `<div class="tempo-faixa-row" data-tt="<b>${b.label}</b><br>${n} grupos (${pctTot}%) · ${NUM(b.qtdProc)} processos ativos<br><br>${topNomes}">
+      <div class="fx-name"><span class="fx-dot fx-c-${b.k}"></span>${b.label}</div>
+      <div class="fx-track"><div class="fx-fill fx-c-${b.k}" style="width:0" data-w="${pct}"></div></div>
+      <div class="fx-val">${n} <small>grupos · ${pctTot}%</small></div>
+    </div>`;
+  }).join('');
+  // anima
+  setTimeout(()=>{
+    container.querySelectorAll('.fx-fill').forEach((f,i)=>{
+      setTimeout(()=>f.style.width = f.dataset.w+'%', i*90+50);
+    });
+  }, 30);
+}
+
+// B) Card 'Envelhecimento crítico'
+function _renderTempoCritico(gs){
+  // considerado crítico = tramitDias > 1825 (5 anos)
+  const criticos = gs.filter(g=>g.tramitDias > 1825);
+  const totalCrit = criticos.reduce((s,g)=>s+g.ativos,0);
+  const totalProcs = gs.reduce((s,g)=>s+g.ativos,0)||1;
+  const pctCrit = totalCrit/totalProcs*100;
+  document.getElementById('tc-head').innerHTML =
+    `${criticos.length}<span class="tc-lbl">grupos com carteira &gt; 5 anos</span>`;
+  document.getElementById('tc-sub').innerHTML =
+    `<b style="color:#fff">${NUM(totalCrit)}</b> processos ativos (${pctCrit.toFixed(1)}% da carteira) podem estar próximos ao risco de prescrição ou paralisia processual.`;
+  const top = [...criticos].sort((a,b)=>b.tramitDias-a.tramitDias).slice(0,5);
+  document.getElementById('tc-list').innerHTML = top.map(g=>`
+    <div class="tc-item"><span class="lbl">${g.nome.replace(/^Grupo\s+/,'')}</span>
+      <span class="val">${(g.tramitDias/365).toFixed(1)} anos</span></div>`).join('')
+    || '<div class="tc-item"><span class="lbl">Nenhum grupo crítico.</span></div>';
+}
+
+// C) Ranking semaforizado (por idade) + filtro + ver todos
+function _renderTempoRanking(gs){
+  const q = tempoFiltro.trim().toLowerCase();
+  const filtrados = q ? gs.filter(g=>g.nome.toLowerCase().includes(q)) : gs;
+  const ordenados = [...filtrados].sort((a,b)=>b.tramitDias-a.tramitDias);
+  const limite = (tempoExpandido || q) ? ordenados.length : Math.min(TEMPO_TOP, ordenados.length);
+  const rows = ordenados.slice(0, limite);
+  const max = Math.max(...ordenados.map(r=>r.tramitDias),1);
+
+  const container = document.getElementById('tempo-bars');
+  container.innerHTML = rows.length ? rows.map((g,i)=>{
+    const pct = g.tramitDias/max*100;
+    const f = _faixaDe(g.tramitDias);
+    const podium = i===0?' top1':i===1?' top2':i===2?' top3':'';
+    return `<div class="bar-row${podium}" style="animation-delay:${Math.min(i*35,600)}ms" data-tt="<b>${g.nome}</b><br>${NUM(Math.round(g.tramitDias))} dias · ${(g.tramitDias/365).toFixed(1)} anos<br>${f.label}">
+      <div class="name" title="${g.nome}"><span class="rk-badge">${i+1}</span>${g.nome.replace(/^Grupo\s+/,'')}</div>
+      <div class="bar-track"><div class="bar-fill sem-${f.k}" style="width:0" data-w="${pct}" data-v="${g.tramitDias}"></div></div>
+      <div class="val"><span class="v-num" data-final="${Math.round(g.tramitDias)}">0</span><small>${(g.tramitDias/365).toFixed(1)} anos</small></div>
+    </div>`;
+  }).join('') : `<div style="padding:24px;text-align:center;color:var(--muted);font-size:12px">Nenhum grupo encontrado${q?' com esse filtro':''}.</div>`;
+
+  // anima
+  setTimeout(()=>{
+    container.querySelectorAll('.bar-row').forEach((row,i)=>{
+      const fill = row.querySelector('.bar-fill'), vNum = row.querySelector('.v-num');
+      if(!fill||!vNum) return;
+      const alvo = +fill.dataset.v;
+      setTimeout(()=>{
+        fill.style.width = fill.dataset.w+'%';
+        fill.classList.add('go');
+        const dur=850, passos=28; let k=0;
+        const iv = setInterval(()=>{
+          k++;
+          const p=k/passos, e=1-Math.pow(1-p,5);
+          if(k<passos) vNum.textContent = NUM(Math.round(alvo*e));
+          else { vNum.textContent = NUM(Math.round(alvo)); clearInterval(iv); }
+        }, dur/passos);
+      }, Math.min(i*35,600)+40);
+    });
+  }, 30);
+
+  // expand
+  const footer = container.parentElement.querySelector('.rank-footer');
+  const btn = document.getElementById('tempo-expand');
+  if(!q && ordenados.length > TEMPO_TOP){
+    footer.style.display='flex';
+    btn.textContent = tempoExpandido ? `Recolher (voltar ao top ${TEMPO_TOP})` : `Ver todos os ${ordenados.length} grupos`;
+    btn.onclick = ()=>{ tempoExpandido = !tempoExpandido; _renderTempoRanking(gs); };
+  } else {
+    footer.style.display='none';
+  }
+}
+
+// D) Histograma jurídico (bins = faixas etárias, cores)
+function _renderTempoHist(gs, mediana){
+  const bins = TEMPO_FAIXAS.map(f => ({...f, grupos: []}));
+  gs.forEach(g=>{
+    const f = _faixaDe(g.tramitDias);
+    const idx = TEMPO_FAIXAS.findIndex(x=>x.k===f.k);
+    bins[idx].grupos.push(g);
+  });
+  const maxBin = Math.max(...bins.map(b=>b.grupos.length),1);
+  const W=520, H=240, P={l:36,r:20,t:22,b:48};
+  const bw = (W-P.l-P.r)/bins.length;
+  const y = v => H-P.b - v/maxBin*(H-P.t-P.b);
+
+  let rects='';
+  bins.forEach((b,i)=>{
+    const n = b.grupos.length;
+    const xC = P.l + i*bw + bw/2;
+    const rectW = bw*0.72;
+    const rectX = xC - rectW/2;
+    const rectY = y(n);
+    const rectH = H-P.b - rectY;
+    const nomes = [...b.grupos].sort((a,b)=>b.tramitDias-a.tramitDias).slice(0,6).map(g=>g.nome.replace(/^Grupo\s+/,'')).join('<br>');
+    const mais = b.grupos.length>6 ? `<br><i>+${b.grupos.length-6} outros</i>` : '';
+    rects += `<rect x="${rectX}" y="${H-P.b}" width="${rectW}" height="0"
+      fill="${b.hex}" rx="4"
+      data-anim-y="${rectY}" data-anim-h="${rectH}"
+      data-tt="<b>${b.label}</b><br>${n} grupos<br><br>${nomes}${mais}"/>`;
+    // numero em cima
+    rects += `<text x="${xC}" y="${rectY-8}" text-anchor="middle" style="font-size:14px;font-weight:800;fill:var(--navy)">${n}</text>`;
+    // label embaixo
+    rects += `<text x="${xC}" y="${H-P.b+18}" text-anchor="middle" style="font-size:9.5px;font-weight:700;fill:var(--navy)">${b.label}</text>`;
+  });
+
+  // Linha da mediana como marcador
+  const mFaixa = _faixaDe(mediana);
+  const mIdx = TEMPO_FAIXAS.findIndex(x=>x.k===mFaixa.k);
+  const mX = P.l + (mIdx+0.5)*bw;
+
+  document.getElementById('tempo-hist').innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">
+      <line x1="${P.l}" y1="${H-P.b}" x2="${W-P.r}" y2="${H-P.b}" stroke="var(--line)" stroke-width="1"/>
+      ${rects}
+      <line x1="${mX}" y1="${P.t}" x2="${mX}" y2="${H-P.b}" stroke="var(--gold)" stroke-width="1.8" stroke-dasharray="5 4" opacity=".85"/>
+      <text x="${mX}" y="${P.t+11}" text-anchor="middle" style="font-size:10px;font-weight:800;fill:var(--gold)">MEDIANA ${(mediana/365).toFixed(1)}a</text>
+      <text x="${(W+P.l-P.r)/2}" y="${H-6}" text-anchor="middle" style="font-size:10px;fill:var(--muted);font-weight:700;letter-spacing:1px">FAIXA ETÁRIA →</text>
+    </svg>`;
+
+  // anima as barras crescendo
+  setTimeout(()=>{
+    const rects_el = document.querySelectorAll('#tempo-hist rect');
+    rects_el.forEach((r,i)=>{
+      setTimeout(()=>{
+        r.style.transition = 'y .7s cubic-bezier(.22,1,.36,1), height .7s cubic-bezier(.22,1,.36,1)';
+        r.setAttribute('y', r.dataset.animY);
+        r.setAttribute('height', r.dataset.animH);
+      }, i*90+40);
+    });
+  }, 60);
+
+  // Legenda embaixo (compacta)
+  document.getElementById('tempo-hist-legend').innerHTML =
+    TEMPO_FAIXAS.map(f=>`<span class="thl-item"><span class="thl-dot" style="background:${f.hex}"></span>${f.label}</span>`).join('') +
+    `<span class="thl-item"><span class="thl-dot" style="background:transparent;border-top:2px dashed var(--gold);border-radius:0"></span>Mediana do escritório</span>`;
+}
+
+// Filtro Tempo
+function ativarFiltroTempo(){
+  const inp = document.getElementById('tempo-filtro');
+  const clr = document.getElementById('tempo-filtro-clear');
+  if(!inp) return;
+  const wrap = inp.parentElement;
+  const atualizarWrap = ()=>wrap.classList.toggle('has', !!inp.value);
+  const gs = ()=>GRUPOS.filter(g=>g.tramitDias>0);
+  inp.addEventListener('input', ()=>{
+    tempoFiltro = inp.value;
+    atualizarWrap();
+    _renderTempoRanking(gs());
+  });
+  clr.addEventListener('click', ()=>{
+    inp.value=''; tempoFiltro=''; atualizarWrap();
+    _renderTempoRanking(gs()); inp.focus();
+  });
 }
 
 /* --- Bloco C: Polo processual --- */
