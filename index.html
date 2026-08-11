@@ -173,7 +173,7 @@ section{margin-bottom:66px;scroll-margin-top:20px}
 /* Gráfico principal */
 .mov-panel #mov-chart{margin-top:6px}
 .mov-panel svg{width:100%;height:auto;display:block}
-.mov-badge-live{margin-left:10px;font-size:9.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;background:linear-gradient(90deg,var(--gold-soft),var(--gold));color:#fff;padding:3px 10px;border-radius:99px;box-shadow:0 3px 8px -3px rgba(181,134,66,.55);vertical-align:middle}
+.mov-badge-live{margin-left:10px;font-size:9.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;background:linear-gradient(90deg,#8a92ab,var(--navy2));color:#fff;padding:3px 10px;border-radius:99px;box-shadow:0 3px 8px -3px rgba(30,34,63,.4);vertical-align:middle;text-transform:none}
 /* Legenda */
 .mov-legend{display:flex;flex-wrap:wrap;gap:16px 26px;margin-top:16px;padding:14px 16px;background:var(--paper);border:1px solid var(--line);border-radius:6px;font-size:11.5px;font-weight:600}
 .mov-legend .ml-item{display:flex;align-items:center;gap:10px;color:var(--navy2);line-height:1.35}
@@ -182,6 +182,10 @@ section{margin-bottom:66px;scroll-margin-top:20px}
 .mov-legend .ml-swatch.encerr{background:linear-gradient(135deg,var(--navy2),var(--navy))}
 .mov-legend .ml-swatch.estoque{background:linear-gradient(180deg,rgba(181,134,66,.75),rgba(181,134,66,.08));border-top:2px solid var(--gold)}
 .mov-legend .ml-swatch.proj{background:repeating-linear-gradient(90deg,transparent 0 4px,var(--muted2) 4px 7px);border:0}
+.mov-legend .ml-swatch.parcial{background:linear-gradient(135deg,rgba(207,163,110,.68),rgba(63,82,118,.68));border:1px dashed var(--muted2)}
+.mov-legend .ml-item-note{width:100%;padding-top:10px;margin-top:6px;border-top:1px dashed var(--line)}
+.mov-legend .ml-item-note .ml-lbl{color:var(--navy);font-weight:700}
+.mov-legend .ml-item-note .ml-lbl small{color:var(--muted);font-style:italic}
 .mov-legend .ml-lbl{color:var(--navy);font-weight:700;display:flex;flex-direction:column;gap:1px}
 .mov-legend .ml-lbl small{font-size:9.5px;font-weight:500;color:var(--muted);letter-spacing:.3px}
 
@@ -2979,12 +2983,9 @@ function renderSeries(){
   const ANO_REF = 2025;
   const anoCorrenteIdx = anos.indexOf(String(ANO_CORRENTE));
 
-  // Projeção 2026 (baseada no ritmo dos meses passados até a data-corte 24/07/2026 = 7 meses).
-  // Multiplica o parcial por 12/7 ~= 1.71 para estimar o total.
-  const MESES_TRANSCORRIDOS = 7; // até 24/07
-  const ratioProj = 12/MESES_TRANSCORRIDOS;
-  const entProj = (ent[String(ANO_CORRENTE)]||0) * ratioProj;
-  const encProj = (enc[String(ANO_CORRENTE)]||0) * ratioProj;
+  // Ano corrente é PARCIAL — os dados vão até a data-corte 24/07/2026 (~6,8 meses).
+  // Não fazemos projeção linear — é mais honesto mostrar como parcial explicitamente.
+  const DATA_CORTE_TXT = 'até 24/07';
 
   // === KPIs ===
   const entRef = ent[String(ANO_REF)]||0;
@@ -3037,16 +3038,16 @@ function renderSeries(){
   let head, sub;
   if(somaSaldo3 > 50 || cresceu3 >= 2){
     head = `<span class="md-num">+${NUM(somaSaldo3)}</span>Carteira em expansão`;
-    sub = `Nos últimos 3 anos, a carteira ganhou <b>${NUM(somaSaldo3)} processos</b> líquidos.` +
-          (growthEntPct >= 5 ? ` Entradas aceleraram <b>${growthEntPct.toFixed(1)}%</b> vs. ${ANO_REF-1}, indicando maior contencioso a absorver.` :
+    sub = `Nos últimos 3 anos cheios (${ANO_REF-2}–${ANO_REF}), a carteira ganhou <b>${NUM(somaSaldo3)} processos</b> líquidos.` +
+          (growthEntPct >= 5 ? ` Entradas aceleraram <b>${growthEntPct.toFixed(1)}%</b> de ${ANO_REF-1} para ${ANO_REF}, indicando maior contencioso a absorver.` :
            ` A capacidade de encerramento (${taxaEnc.toFixed(1)}%) ainda não acompanha o volume de novos casos.`);
   } else if(somaSaldo3 < -50 || cresceu3 <= 1){
     head = `<span class="md-num">${somaSaldo3>=0?'+':''}${NUM(somaSaldo3)}</span>Carteira em contração`;
-    sub = `Nos últimos 3 anos, a carteira encolheu em <b>${NUM(Math.abs(somaSaldo3))} processos</b> líquidos.` +
+    sub = `Nos últimos 3 anos cheios (${ANO_REF-2}–${ANO_REF}), a carteira encolheu em <b>${NUM(Math.abs(somaSaldo3))} processos</b> líquidos.` +
           ` Taxa de encerramento de <b>${taxaEnc.toFixed(1)}%</b> superior ao ritmo de entradas — desmobilização em curso.`;
   } else {
     head = `<span class="md-num">${somaSaldo3>=0?'+':''}${NUM(somaSaldo3)}</span>Carteira estável`;
-    sub = `Nos últimos 3 anos, entradas e encerramentos rodam próximos do equilíbrio (saldo líquido de <b>${NUM(somaSaldo3)}</b> processos). Estoque em regime de manutenção.`;
+    sub = `Nos últimos 3 anos cheios (${ANO_REF-2}–${ANO_REF}), entradas e encerramentos rodam próximos do equilíbrio (saldo líquido de <b>${NUM(somaSaldo3)}</b> processos). Estoque em regime de manutenção.`;
   }
   document.getElementById('mov-diag-head').innerHTML = head;
   document.getElementById('mov-diag-sub').innerHTML = sub;
@@ -3065,7 +3066,6 @@ function renderSeries(){
 
   const maxY = Math.max(
     ...anos.map(a=>Math.max(ent[a]||0, enc[a]||0)),
-    entProj, encProj,
     1
   );
   // estoque pode ficar negativo em algum ano; ajustamos a escala secundária
@@ -3150,35 +3150,25 @@ function renderSeries(){
   anos.forEach((a,i)=>{
     const cx = x(i);
     const e = ent[a]||0, f = enc[a]||0;
-    const isProj = +a === ANO_CORRENTE;
-    const projE = isProj ? entProj : 0;
-    const projF = isProj ? encProj : 0;
+    const isParcial = +a === ANO_CORRENTE;
+    const suf = isParcial ? ` <i>(parcial · ${DATA_CORTE_TXT})</i>` : '';
+    // opacidade suave nas barras do ano parcial para diferenciar visualmente
+    const opacBar = isParcial ? '.68' : '1';
     // barra real de entrada
     const yE = y(e); const hE = H-P.b - yE;
-    bars += `<rect class="mov-bar mov-bar-ent" x="${cx-barW-3}" y="${H-P.b}" width="${barW}" height="0"
+    bars += `<rect class="mov-bar mov-bar-ent${isParcial?' mov-parcial':''}" x="${cx-barW-3}" y="${H-P.b}" width="${barW}" height="0"
       data-anim-y="${yE}" data-anim-h="${hE}"
-      fill="url(#grad-bar-ent)" rx="3" data-tt="<b>${a} — Entradas</b><br>${NUM(e)} processos${isProj?' <i>(parcial · até 24/07)</i>':''}"/>`;
+      fill="url(#grad-bar-ent)" fill-opacity="${opacBar}" rx="3" data-tt="<b>${a} — Entradas</b><br>${NUM(e)} processos${suf}"/>`;
     // barra real de encerramento
     const yF = y(f); const hF = H-P.b - yF;
-    bars += `<rect class="mov-bar mov-bar-enc" x="${cx+3}" y="${H-P.b}" width="${barW}" height="0"
+    bars += `<rect class="mov-bar mov-bar-enc${isParcial?' mov-parcial':''}" x="${cx+3}" y="${H-P.b}" width="${barW}" height="0"
       data-anim-y="${yF}" data-anim-h="${hF}"
-      fill="url(#grad-bar-enc)" rx="3" data-tt="<b>${a} — Encerramentos</b><br>${NUM(f)} processos${isProj?' <i>(parcial · até 24/07)</i>':''}"/>`;
-    // barras de projeção (fantasma) sobrepostas se for ano corrente
-    if(isProj){
-      const yPE = y(projE); const hPE = H-P.b - yPE;
-      const yPF = y(projF); const hPF = H-P.b - yPF;
-      bars += `<rect class="mov-bar mov-bar-proj" x="${cx-barW-3}" y="${yPE}" width="${barW}" height="${hPE}"
-        fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-dasharray="4 3" rx="3" opacity="0"
-        data-tt="<b>${a} — Projeção Entradas</b><br>${NUM(Math.round(projE))} (parcial ${NUM(e)} × ${ratioProj.toFixed(2)})"/>`;
-      bars += `<rect class="mov-bar mov-bar-proj" x="${cx+3}" y="${yPF}" width="${barW}" height="${hPF}"
-        fill="none" stroke="var(--navy2)" stroke-width="1.5" stroke-dasharray="4 3" rx="3" opacity="0"
-        data-tt="<b>${a} — Projeção Encerramentos</b><br>${NUM(Math.round(projF))} (parcial ${NUM(f)} × ${ratioProj.toFixed(2)})"/>`;
-    }
+      fill="url(#grad-bar-enc)" fill-opacity="${opacBar}" rx="3" data-tt="<b>${a} — Encerramentos</b><br>${NUM(f)} processos${suf}"/>`;
     // rótulos números em cima
     bars += `<text x="${cx-barW/2-3}" y="${yE-6}" text-anchor="middle" style="font-size:10px;fill:var(--gold-line);font-weight:800;font-variant-numeric:tabular-nums">${NUM(e)}</text>`;
     bars += `<text x="${cx+barW/2+3}" y="${yF-6}" text-anchor="middle" style="font-size:10px;fill:var(--navy);font-weight:800;font-variant-numeric:tabular-nums">${NUM(f)}</text>`;
-    // rótulo do ano embaixo + delta
-    bars += `<text x="${cx}" y="${H-P.b+18}" text-anchor="middle" style="font-size:12px;fill:var(--navy);font-weight:800;letter-spacing:.4px">${a}${isProj?' *':''}</text>`;
+    // rótulo do ano embaixo — marca o ano parcial
+    bars += `<text x="${cx}" y="${H-P.b+18}" text-anchor="middle" style="font-size:12px;fill:${isParcial?'var(--muted)':'var(--navy)'};font-weight:800;letter-spacing:.4px">${a}${isParcial?' (parcial)':''}</text>`;
     // pastilha de delta (usa foreignObject para ficar centralizada)
     const delta = e-f;
     const dSinal = delta>0?'+':delta<0?'−':'';
@@ -3206,14 +3196,17 @@ function renderSeries(){
       ${sweep}
     </svg>`;
 
-  // Legenda + badge live
+  // Legenda + badge do ano parcial
   const badge = document.getElementById('mov-badge-live');
-  badge.textContent = anoCorrenteIdx>=0 ? `${ANO_CORRENTE} projetado *` : '';
+  badge.textContent = anoCorrenteIdx>=0 ? `${ANO_CORRENTE} parcial · ${DATA_CORTE_TXT}` : '';
   document.getElementById('mov-legend').innerHTML = `
     <div class="ml-item"><span class="ml-swatch entradas"></span><span class="ml-lbl">Entradas</span></div>
     <div class="ml-item"><span class="ml-swatch encerr"></span><span class="ml-lbl">Encerramentos</span></div>
     <div class="ml-item"><span class="ml-swatch estoque"></span><span class="ml-lbl">Variação acumulada <small>desde ${anos[0]}</small></span></div>
-    <div class="ml-item"><span class="ml-swatch proj"></span><span class="ml-lbl">Projeção ${ANO_CORRENTE} <small>estimado × 12/${MESES_TRANSCORRIDOS}</small></span></div>`;
+    <div class="ml-item ml-item-note">
+      <span class="ml-swatch parcial"></span>
+      <span class="ml-lbl">${ANO_CORRENTE} parcial <small>dados ${DATA_CORTE_TXT} · não é consolidação anual</small></span>
+    </div>`;
 
   // Anima barras + área + dots
   setTimeout(()=>{
@@ -3226,13 +3219,6 @@ function renderSeries(){
         r.setAttribute('height', r.dataset.animH);
       }, i*50);
     });
-    // projeção aparece com fade depois
-    setTimeout(()=>{
-      document.querySelectorAll('#mov-chart .mov-bar-proj').forEach(p=>{
-        p.style.transition = 'opacity .6s ease-out';
-        p.style.opacity = '.85';
-      });
-    }, rects.length*50 + 300);
     // área e linha entram por opacidade
     const area = document.querySelector('#mov-chart .mov-area');
     const line = document.querySelector('#mov-chart .mov-line');
