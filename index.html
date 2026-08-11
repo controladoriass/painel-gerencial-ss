@@ -758,7 +758,7 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
       <div class="roman">II</div>
       <div class="sec-titles">
         <h2>Cobertura por área do direito</h2>
-        <div class="sec-desc">Como a carteira de processos ativos se distribui entre as áreas — a visão do escritório inteiro e a composição de cada grupo. Revela onde a demanda se concentra e o perfil jurídico de cada cliente.</div>
+        <div class="sec-desc">Distribuição da carteira ativa por área do direito. Mostra onde o escritório se concentra e o perfil jurídico de cada cliente.</div>
       </div>
     </div>
     <div class="area-topo">
@@ -867,9 +867,9 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
     <!-- Topo: 3 KPIs + card 'Envelhecimento crítico' -->
     <div class="tempo-topo">
       <div class="tempo-kpis">
-        <div class="tk-card"><div class="tk-eyebrow">Mediana</div><div class="tk-num" id="tk-mediana">0</div><div class="tk-desc">dias por processo ativo · <b id="tk-mediana-anos">0</b> anos</div></div>
-        <div class="tk-card"><div class="tk-eyebrow">Média</div><div class="tk-num" id="tk-media">0</div><div class="tk-desc">dias em tramitação · <b id="tk-media-anos">0</b> anos</div></div>
-        <div class="tk-card"><div class="tk-eyebrow">Grupo mais lento</div><div class="tk-num" id="tk-lento">0</div><div class="tk-desc"><span id="tk-lento-nome">—</span></div></div>
+        <div class="tk-card"><div class="tk-eyebrow">Mediana</div><div class="tk-num" id="tk-mediana">0</div><div class="tk-desc">dias por processo ativo, <b id="tk-mediana-anos">0</b> anos em média</div></div>
+        <div class="tk-card"><div class="tk-eyebrow">Média</div><div class="tk-num" id="tk-media">0</div><div class="tk-desc">dias em tramitação, <b id="tk-media-anos">0</b> anos em média</div></div>
+        <div class="tk-card"><div class="tk-eyebrow">Grupo mais lento</div><div class="tk-num" id="tk-lento">0</div><div class="tk-desc"><span id="tk-lento-nome">sem registro</span></div></div>
       </div>
       <div class="panel tempo-crit">
         <div class="tc-eyebrow">Envelhecimento crítico</div>
@@ -944,7 +944,7 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
           </div>
           <div class="pc-num" id="pilha-combativo-num">0</div>
         </div>
-        <div class="pc-desc">O cliente lidera as ações — recuperação, exigência, execução ativa.</div>
+        <div class="pc-desc">O cliente lidera as ações: recuperação, exigência, execução ativa.</div>
         <div class="pc-list" id="pilha-combativo-list"></div>
         <button class="pc-toggle" id="pilha-combativo-toggle"></button>
       </div>
@@ -952,12 +952,12 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
         <div class="pc-head">
           <div class="pc-dot"></div>
           <div class="pc-title">
-            <div class="pc-eyebrow">30–70% autor</div>
+            <div class="pc-eyebrow">30 a 70% autor</div>
             <div class="pc-name">Equilibrados</div>
           </div>
           <div class="pc-num" id="pilha-equilibrado-num">0</div>
         </div>
-        <div class="pc-desc">A carteira mistura ações ofensivas e defensivas de forma equilibrada.</div>
+        <div class="pc-desc">Ações ofensivas e defensivas divididas de forma equilibrada.</div>
         <div class="pc-list" id="pilha-equilibrado-list"></div>
         <button class="pc-toggle" id="pilha-equilibrado-toggle"></button>
       </div>
@@ -970,7 +970,7 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
           </div>
           <div class="pc-num" id="pilha-defensivo-num">0</div>
         </div>
-        <div class="pc-desc">O cliente está majoritariamente sofrendo ações — é réu na maior parte dos processos.</div>
+        <div class="pc-desc">O cliente é réu na maior parte dos processos, sofrendo ações movidas por terceiros.</div>
         <div class="pc-list" id="pilha-defensivo-list"></div>
         <button class="pc-toggle" id="pilha-defensivo-toggle"></button>
       </div>
@@ -1007,7 +1007,7 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
       <div class="partes-kpis">
         <div class="tk-card"><div class="tk-eyebrow">Adversários únicos</div><div class="tk-num" id="pt-unicos">0</div><div class="tk-desc">nomes distintos <span id="pt-unicos-sub"></span></div></div>
         <div class="tk-card"><div class="tk-eyebrow">Concentração no topo</div><div class="tk-num" id="pt-conc">0<small>%</small></div><div class="tk-desc">da carteira litigada contra o top 10</div></div>
-        <div class="tk-card"><div class="tk-eyebrow">Perfil dominante</div><div class="tk-num" id="pt-perfil-num" style="font-size:28px">—</div><div class="tk-desc" id="pt-perfil-desc">tipo de adversário mais frequente</div></div>
+        <div class="tk-card"><div class="tk-eyebrow">Perfil dominante</div><div class="tk-num" id="pt-perfil-num" style="font-size:28px">sem registro</div><div class="tk-desc" id="pt-perfil-desc">tipo de adversário mais frequente</div></div>
       </div>
       <div class="panel partes-lider">
         <div class="pl-eyebrow">Adversário nº 1</div>
@@ -1053,12 +1053,12 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
         <div class="tk-card mov-kpi" id="mov-kpi-enc">
           <div class="tk-eyebrow">Encerramentos 2025</div>
           <div class="tk-num" id="mov-num-enc">0</div>
-          <div class="tk-desc">baixados no mesmo período</div>
+          <div class="tk-desc">encerrados no mesmo ano</div>
         </div>
         <div class="tk-card mov-kpi mov-kpi-saldo" id="mov-kpi-saldo">
           <div class="tk-eyebrow" id="mov-lbl-saldo">Saldo 2025</div>
           <div class="tk-num" id="mov-num-saldo">0</div>
-          <div class="tk-desc" id="mov-desc-saldo">carteira cresceu / estabilizou / encolheu</div>
+          <div class="tk-desc" id="mov-desc-saldo">cresceu, estabilizou ou encolheu</div>
         </div>
         <div class="tk-card mov-kpi" id="mov-kpi-tx">
           <div class="tk-eyebrow">Taxa de encerramento</div>
@@ -1540,13 +1540,13 @@ function _renderConcentracao(trib, uf, inst){
   const ufOrd = Object.entries(uf).sort((a,b)=>b[1]-a[1]);
   const totUf = ufOrd.reduce((s,[,v])=>s+v,0)||1;
   const tribOrd = Object.entries(trib).sort((a,b)=>b[1]-a[1]);
-  const [tribTop, qtdTop] = tribOrd[0] || ['—', 0];
+  const [tribTop, qtdTop] = tribOrd[0] || ['sem registro', 0];
   const pctTop = qtdTop/totTrib*100;
   document.getElementById('foro-conc-head').innerHTML =
     `${pctTop.toFixed(1)}<span style="font-size:22px;font-weight:700;color:var(--gold-soft);margin-left:2px">%</span>
      <span class="fc-lbl">${tribTop}</span>`;
   const nUf = ufOrd.length;
-  const [ufTop, ufQtd] = ufOrd[0] || ['—', 0];
+  const [ufTop, ufQtd] = ufOrd[0] || ['sem registro', 0];
   document.getElementById('foro-conc-sub').innerHTML =
     `<b style="color:#fff">${NUM(qtdTop)}</b> processos no tribunal dominante · atuamos em <b style="color:#fff">${nUf} UFs</b>, com <b style="color:#fff">${ufTop}</b> concentrando ${(ufQtd/totUf*100).toFixed(1)}%.`;
   // top 4 UFs seguintes + agregado
@@ -1576,7 +1576,7 @@ function _renderTribBars(trib){
     const gs = [...GRUPOS].filter(g=>g.tribunais[t]).sort((a,b)=>b.tribunais[t]-a.tribunais[t]).slice(0,3).map(g=>g.nome.replace(/^Grupo\s+/,'')).join(', ');
     const isFiltro = t===foroTribFiltro;
     const nomeCompleto = _nomeTrib(t);
-    return `<div class="bar-row${podium}${isFiltro?' top1':''}" style="animation-delay:${Math.min(i*35,600)}ms;cursor:pointer" data-trib="${t}" data-tt="<b>${t}</b> — ${nomeCompleto}<br>${NUM(q)} processos · ${pctTot}% do total<br>Top grupos: ${gs}">
+    return `<div class="bar-row${podium}${isFiltro?' top1':''}" style="animation-delay:${Math.min(i*35,600)}ms;cursor:pointer" data-trib="${t}" data-tt="<b>${t}</b> · ${nomeCompleto}<br>${NUM(q)} processos · ${pctTot}% do total<br>Top grupos: ${gs}">
       <div class="name" title="${nomeCompleto}"><span class="rk-badge">${i+1}</span>${t}</div>
       <div class="bar-track"><div class="bar-fill gold" style="width:0" data-w="${pct}" data-v="${q}"></div></div>
       <div class="val"><span class="v-num" data-final="${q}">0</span><small>${pctTot}%</small></div>
@@ -1632,7 +1632,7 @@ function _renderMapa(uf){
     const v = uf[sigla]||0;
     const nomeUF = BR_MAPA.nomes[sigla] || sigla;
     const topG = v ? _topGruposUf(sigla) : '';
-    return `<path data-uf="${sigla}" data-v="${v}" d="${d}" data-tt="<b>${sigla} — ${nomeUF}</b><br>${NUM(v)} processos · ${(v/total*100).toFixed(1)}%${topG?`<br>${topG}`:''}"></path>
+    return `<path data-uf="${sigla}" data-v="${v}" d="${d}" data-tt="<b>${sigla} · ${nomeUF}</b><br>${NUM(v)} processos · ${(v/total*100).toFixed(1)}%${topG?`<br>${topG}`:''}"></path>
       ${v>0 ? `<text class="uf-lbl" x="${cx}" y="${cy}" text-anchor="middle" dy="3">${sigla}</text>` : ''}`;
   }).join('');
 
@@ -1718,9 +1718,9 @@ function _renderInstancia(inst){
 
   // Descrição de cada nível
   const desc = {
-    '1º Grau':'Onde a maior parte das disputas está ativa',
-    '2º Grau':'Reforma / apelação em curso',
-    'Superiores':'STF · STJ · TST — jurisprudência estratégica'
+    '1º Grau':'Onde a maior parte das disputas está ativa.',
+    '2º Grau':'Casos em fase de reforma ou apelação.',
+    'Superiores':'STF, STJ e TST. Casos de repercussão jurisprudencial.'
   };
   const cores = {
     '1º Grau':'linear-gradient(180deg,var(--gold-soft),var(--gold))',
@@ -1756,7 +1756,7 @@ function _renderInstancia(inst){
   // Nota: destaca a camada dominante + trata "não informado" se existir
   const dominante = [...rowsAll].sort((a,b)=>b[1]-a[1])[0];
   const pctDom = (dominante[1]/totalConhecido*100).toFixed(1);
-  let nota = `<b>${pctDom}%</b> da carteira está em <b>${dominante[0]}</b> — recorte natural das disputas ativas do escritório.`;
+  let nota = `<b>${pctDom}%</b> da carteira está em <b>${dominante[0]}</b>, recorte esperado das disputas ativas do escritório.`;
   if(naoInf > 0){
     const pctNi = (naoInf/total*100).toFixed(1);
     nota += ` <span style="color:var(--muted2)">· ${NUM(naoInf)} processos (${pctNi}%) sem instância cadastrada.</span>`;
@@ -2057,7 +2057,7 @@ function _topGruposArea(area){
 
 // B) Card Especialização (top áreas do escritório)
 function _renderInsight(areasOrd, totalAg){
-  const [nomeArea, qtdArea] = areasOrd[0] || ['—',0];
+  const [nomeArea, qtdArea] = areasOrd[0] || ['sem registro',0];
   const pct = (qtdArea/totalAg*100);
   document.getElementById('area-insight-headline').innerHTML =
     `${pct.toFixed(1)}<span style="font-size:22px;font-weight:700;color:var(--gold-soft);margin-left:2px">%</span>
@@ -2348,7 +2348,7 @@ function _renderEffSummary(universo, medX, medY){
   ];
   const html = defs.map(d=>{
     const gs = [...grupos[d.k]].sort((a,b)=>(b.ativos+b.horas/1000)-(a.ativos+a.horas/1000)).slice(0,3);
-    const lista = gs.map(g=>`<b>${g.nome.replace(/^Grupo\s+/,'')}</b>`).join(' · ') || '<i>—</i>';
+    const lista = gs.map(g=>`<b>${g.nome.replace(/^Grupo\s+/,'')}</b>`).join(' · ') || '<i>sem grupos neste perfil</i>';
     return `<div class="eff-sum-card ${d.k}">
       <div class="esc-eyebrow">${d.title}</div>
       <div class="esc-title">${d.desc}</div>
@@ -2653,7 +2653,7 @@ function _renderTempoCritico(gs){
   document.getElementById('tc-head').innerHTML =
     `${criticos.length}<span class="tc-lbl">grupos com carteira &gt; 5 anos</span>`;
   document.getElementById('tc-sub').innerHTML =
-    `<b style="color:#fff">${NUM(totalCrit)}</b> processos ativos (${pctCrit.toFixed(1)}% da carteira) podem estar próximos ao risco de prescrição ou paralisia processual.`;
+    `<b style="color:#fff">${NUM(totalCrit)}</b> processos ativos, ${pctCrit.toFixed(1)}% da carteira. Casos suscetíveis a risco de prescrição ou paralisia processual.`;
   const top = [...criticos].sort((a,b)=>b.tramitDias-a.tramitDias).slice(0,5);
   document.getElementById('tc-list').innerHTML = top.map(g=>`
     <div class="tc-item"><span class="lbl">${g.nome.replace(/^Grupo\s+/,'')}</span>
@@ -2860,13 +2860,13 @@ function _renderPoloDominante(gs, a, r, t, tot){
   let head, lbl, sub;
   if(pR >= 55){
     head = pR.toFixed(1); lbl = 'Predominantemente defensivo';
-    sub = `A carteira é majoritariamente <b>reativa</b>: em ${pR.toFixed(1)}% dos processos o cliente é <b>réu</b>. A gestão do escritório se concentra em contenção de risco e defesa técnica.`;
+    sub = `A carteira é majoritariamente reativa. Em ${pR.toFixed(1)}% dos processos o cliente figura como réu. A atuação se concentra em contenção de risco e defesa técnica.`;
   } else if(pA >= 55){
     head = pA.toFixed(1); lbl = 'Predominantemente ofensivo';
-    sub = `A carteira é majoritariamente <b>ativa</b>: em ${pA.toFixed(1)}% dos processos o cliente é <b>autor</b>. O escritório atua principalmente na recuperação e cobrança.`;
+    sub = `A carteira é majoritariamente ativa. Em ${pA.toFixed(1)}% dos processos o cliente figura como autor. A atuação se concentra em recuperação e cobrança.`;
   } else {
     head = Math.max(pA,pR).toFixed(1); lbl = 'Perfil equilibrado';
-    sub = `A carteira mistura ações ofensivas e defensivas de forma equilibrada — ${pA.toFixed(0)}% como autor, ${pR.toFixed(0)}% como réu.`;
+    sub = `A carteira combina ações ofensivas e defensivas de forma equilibrada: ${pA.toFixed(0)}% como autor e ${pR.toFixed(0)}% como réu.`;
   }
   document.getElementById('polo-dom-head').innerHTML = `${head}<span style="font-size:22px;font-weight:700;color:var(--gold-soft);margin-left:2px">%</span><span class="pd-lbl">${lbl}</span>`;
   document.getElementById('polo-dom-sub').innerHTML = sub;
@@ -3015,11 +3015,11 @@ function renderPartes(){
   todos.forEach(r=>{ perQtd[r.tipo.label] = (perQtd[r.tipo.label]||0)+r.qtd; });
   const perOrd = Object.entries(perQtd).sort((a,b)=>b[1]-a[1]);
   const perOrdCat = perOrd.filter(([k])=>k!=='Outros');
-  const perTop = perOrdCat[0] || perOrd[0] || ['—',0];
+  const perTop = perOrdCat[0] || perOrd[0] || ['sem registro',0];
 
   // Descrição executiva
   document.getElementById('partes-desc').innerHTML =
-    `<b>${NUM(todos.length)}</b> nomes distintos ocupam o outro lado dos processos do escritório. Concentração no topo indica <b>litígio de massa</b> ou <b>disputa recorrente</b>; a categoria do adversário revela o tipo de contencioso preponderante.`;
+    `<b>${NUM(todos.length)}</b> partes distintas figuram como adversárias do escritório. A concentração no topo indica litígio de massa ou disputa recorrente. A categoria do adversário mostra o tipo de contencioso mais frequente.`;
 
   // KPIs
   _tempoAnimarKpi('pt-unicos', todos.length, v=>NUM(Math.round(v)));
@@ -3031,7 +3031,7 @@ function renderPartes(){
   const pctPerfil = (perTop[1]/totalProcs*100);
   const perfilEl = document.getElementById('pt-perfil-num');
   perfilEl.textContent = perTop[0];
-  document.getElementById('pt-perfil-desc').innerHTML = `<b>${pctPerfil.toFixed(1)}%</b> dos processos no top são contra <b>${perTop[0].toLowerCase()}</b>`;
+  document.getElementById('pt-perfil-desc').innerHTML = `<b>${pctPerfil.toFixed(1)}%</b> dos processos do top 10 são contra <b>${perTop[0].toLowerCase()}</b>`;
 
   // Card líder
   const lider = todos[0];
@@ -3040,11 +3040,11 @@ function renderPartes(){
       `<span class="pl-num">${NUM(lider.qtd)}</span><span>processos contra<br><b style="color:#fff">${lider.nome}</b></span>`;
     const pctLider = (lider.qtd/totalProcs*100).toFixed(1);
     document.getElementById('pt-lider-sub').innerHTML =
-      `Representa <b>${pctLider}%</b> de todos os processos com adversário identificado. Enfrenta o escritório em <b>${lider.grupos.size} grupo${lider.grupos.size>1?'s':''}</b>.`;
+      `Concentra <b>${pctLider}%</b> dos processos com adversário identificado. Aparece em <b>${lider.grupos.size} grupo${lider.grupos.size>1?'s':''}</b> do escritório.`;
     const gruposTop = [...lider.grupos].slice(0,4);
     document.getElementById('pt-lider-list').innerHTML = gruposTop.map(gn=>`
-      <div class="pl-item"><span class="lbl">${gn.replace(/^Grupo\s+/,'')}</span><span class="val">—</span></div>`).join('') +
-      (lider.grupos.size>4 ? `<div class="pl-item"><span class="lbl" style="font-style:italic">+ ${lider.grupos.size-4} outros grupos</span><span class="val">—</span></div>`:'');
+      <div class="pl-item"><span class="lbl">${gn.replace(/^Grupo\s+/,'')}</span></div>`).join('') +
+      (lider.grupos.size>4 ? `<div class="pl-item"><span class="lbl" style="font-style:italic">+ ${lider.grupos.size-4} outros grupos</span></div>`:'');
   }
 
   _renderPartesRanking(todos, totalProcs);
@@ -3195,7 +3195,7 @@ function renderSeries(){
   const totEnc5 = janela.reduce((s,a)=>s+(enc[a]||0),0);
   const taxaEnc = totEnt5 ? (totEnc5/totEnt5*100) : 0;
   _tempoAnimarKpi('mov-num-tx', taxaEnc, v=>v.toFixed(1));
-  document.getElementById('mov-tx-anos').textContent = `${janela[0]}–${janela[janela.length-1]}`;
+  document.getElementById('mov-tx-anos').textContent = `${janela[0]} a ${janela[janela.length-1]}`;
 
   // === Diagnóstico ===
   // Analisa os últimos 3 anos cheios para tendência
@@ -3211,13 +3211,13 @@ function renderSeries(){
   let head, sub;
   if(somaSaldo3 > 50 || cresceu3 >= 2){
     head = `<span class="md-num">+${NUM(somaSaldo3)}</span>Carteira em expansão`;
-    sub = `Nos últimos 3 anos cheios (${ANO_REF-2}–${ANO_REF}), a carteira ganhou <b>${NUM(somaSaldo3)} processos</b> líquidos.` +
+    sub = `Nos últimos 3 anos cheios (${ANO_REF-2} a ${ANO_REF}), a carteira ganhou <b>${NUM(somaSaldo3)} processos</b> líquidos.` +
           (growthEntPct >= 5 ? ` Entradas aceleraram <b>${growthEntPct.toFixed(1)}%</b> de ${ANO_REF-1} para ${ANO_REF}, indicando maior contencioso a absorver.` :
-           ` A capacidade de encerramento (${taxaEnc.toFixed(1)}%) ainda não acompanha o volume de novos casos.`);
+           ` A capacidade de encerramento de ${taxaEnc.toFixed(1)}% ainda não acompanha o volume de novos casos.`);
   } else if(somaSaldo3 < -50 || cresceu3 <= 1){
     head = `<span class="md-num">${somaSaldo3>=0?'+':''}${NUM(somaSaldo3)}</span>Carteira em contração`;
     sub = `Nos últimos 3 anos cheios (${ANO_REF-2}–${ANO_REF}), a carteira encolheu em <b>${NUM(Math.abs(somaSaldo3))} processos</b> líquidos.` +
-          ` Taxa de encerramento de <b>${taxaEnc.toFixed(1)}%</b> superior ao ritmo de entradas — desmobilização em curso.`;
+          ` Taxa de encerramento de <b>${taxaEnc.toFixed(1)}%</b> superior ao ritmo de entradas. Desmobilização em curso.`;
   } else {
     head = `<span class="md-num">${somaSaldo3>=0?'+':''}${NUM(somaSaldo3)}</span>Carteira estável`;
     sub = `Nos últimos 3 anos cheios (${ANO_REF-2}–${ANO_REF}), entradas e encerramentos rodam próximos do equilíbrio (saldo líquido de <b>${NUM(somaSaldo3)}</b> processos). Estoque em regime de manutenção.`;
@@ -3324,19 +3324,19 @@ function renderSeries(){
     const cx = x(i);
     const e = ent[a]||0, f = enc[a]||0;
     const isParcial = +a === ANO_CORRENTE;
-    const suf = isParcial ? ` <i>(parcial · ${DATA_CORTE_TXT})</i>` : '';
+    const suf = isParcial ? ` <i>(parcial)</i>` : '';
     // opacidade suave nas barras do ano parcial para diferenciar visualmente
     const opacBar = isParcial ? '.68' : '1';
     // barra real de entrada
     const yE = y(e); const hE = H-P.b - yE;
     bars += `<rect class="mov-bar mov-bar-ent${isParcial?' mov-parcial':''}" x="${cx-barW-3}" y="${H-P.b}" width="${barW}" height="0"
       data-anim-y="${yE}" data-anim-h="${hE}"
-      fill="url(#grad-bar-ent)" fill-opacity="${opacBar}" rx="3" data-tt="<b>${a} — Entradas</b><br>${NUM(e)} processos${suf}"/>`;
+      fill="url(#grad-bar-ent)" fill-opacity="${opacBar}" rx="3" data-tt="<b>${a} · Entradas</b><br>${NUM(e)} processos${suf}"/>`;
     // barra real de encerramento
     const yF = y(f); const hF = H-P.b - yF;
     bars += `<rect class="mov-bar mov-bar-enc${isParcial?' mov-parcial':''}" x="${cx+3}" y="${H-P.b}" width="${barW}" height="0"
       data-anim-y="${yF}" data-anim-h="${hF}"
-      fill="url(#grad-bar-enc)" fill-opacity="${opacBar}" rx="3" data-tt="<b>${a} — Encerramentos</b><br>${NUM(f)} processos${suf}"/>`;
+      fill="url(#grad-bar-enc)" fill-opacity="${opacBar}" rx="3" data-tt="<b>${a} · Encerramentos</b><br>${NUM(f)} processos${suf}"/>`;
     // rótulos números em cima
     bars += `<text x="${cx-barW/2-3}" y="${yE-6}" text-anchor="middle" style="font-size:10px;fill:var(--gold-line);font-weight:800;font-variant-numeric:tabular-nums">${NUM(e)}</text>`;
     bars += `<text x="${cx+barW/2+3}" y="${yF-6}" text-anchor="middle" style="font-size:10px;fill:var(--navy);font-weight:800;font-variant-numeric:tabular-nums">${NUM(f)}</text>`;
@@ -3357,7 +3357,7 @@ function renderSeries(){
   // Marcadores das linhas do estoque (dots dourados)
   const estDots = anos.map((a,i)=>`
     <circle class="mov-est-dot" cx="${x(i)}" cy="${yEst(estoque[a])}" r="0" fill="#B58642" stroke="#fff" stroke-width="2"
-      data-final-r="4.5" data-tt="<b>${a} — Estoque acumulado</b><br>${estoque[a]>=0?'+':''}${NUM(estoque[a])} processos"/>`).join('');
+      data-final-r="4.5" data-tt="<b>${a} · Variação acumulada</b><br>${estoque[a]>=0?'+':''}${NUM(estoque[a])} processos"/>`).join('');
 
   document.getElementById('mov-chart').innerHTML = `
     <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
@@ -3371,14 +3371,14 @@ function renderSeries(){
 
   // Legenda + badge do ano parcial
   const badge = document.getElementById('mov-badge-live');
-  badge.textContent = anoCorrenteIdx>=0 ? `${ANO_CORRENTE} parcial · ${DATA_CORTE_TXT}` : '';
+  badge.textContent = anoCorrenteIdx>=0 ? `${ANO_CORRENTE} parcial` : '';
   document.getElementById('mov-legend').innerHTML = `
     <div class="ml-item"><span class="ml-swatch entradas"></span><span class="ml-lbl">Entradas</span></div>
     <div class="ml-item"><span class="ml-swatch encerr"></span><span class="ml-lbl">Encerramentos</span></div>
     <div class="ml-item"><span class="ml-swatch estoque"></span><span class="ml-lbl">Variação acumulada <small>desde ${anos[0]}</small></span></div>
     <div class="ml-item ml-item-note">
       <span class="ml-swatch parcial"></span>
-      <span class="ml-lbl">${ANO_CORRENTE} parcial <small>dados ${DATA_CORTE_TXT} · não é consolidação anual</small></span>
+      <span class="ml-lbl">${ANO_CORRENTE} parcial <small>ano em curso. Não representa o ano fechado.</small></span>
     </div>`;
 
   // Anima barras + área + dots
@@ -3442,7 +3442,7 @@ function renderSeries(){
       });
     }, 60);
     const totExtra = anosExtra.reduce((s,a)=>s+extra[a],0);
-    document.getElementById('mov-extra-note').innerHTML = `<b>${NUM(totExtra)}</b> atuações extrajudiciais acumuladas na série. Complementa o contencioso judicial com negociações, notificações e composições.`;
+    document.getElementById('mov-extra-note').innerHTML = `<b>${NUM(totExtra)}</b> atuações extrajudiciais acumuladas no período. Contempla negociações, notificações e composições, complementando o contencioso judicial.`;
   } else {
     document.getElementById('mov-extra-panel').style.display='none';
   }
