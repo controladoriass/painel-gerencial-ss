@@ -144,6 +144,62 @@ section{margin-bottom:66px;scroll-margin-top:20px}
 .stack-bar span{height:100%;transition:width .9s cubic-bezier(.22,1,.36,1)}
 .stack-row .tot{font-size:12px;font-weight:700;color:var(--navy);text-align:right;font-family:'Montserrat',sans-serif;font-variant-numeric:tabular-nums}
 
+/* ============ Presença jurídica (foro) ============ */
+.foro-topo{display:grid;grid-template-columns:1fr 2fr;gap:22px;margin-bottom:22px}
+.foro-meio{display:grid;grid-template-columns:2fr 1fr;gap:22px}
+@media(max-width:980px){.foro-topo,.foro-meio{grid-template-columns:1fr}}
+
+/* Card Concentração regional (mesma família visual do card Especialização) */
+.foro-conc{background:linear-gradient(160deg,var(--navy-deep) 0%,#191d38 100%);color:#fff;border-top-color:var(--gold);position:relative;overflow:hidden}
+.foro-conc::before{content:"";position:absolute;top:-30%;right:-25%;width:70%;height:80%;background:radial-gradient(circle,rgba(181,134,66,.18),transparent 60%);pointer-events:none}
+.foro-conc .fc-eyebrow{font-size:10px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--gold-soft);margin-bottom:10px;position:relative}
+.foro-conc .fc-headline{font-size:38px;font-weight:800;color:#fff;letter-spacing:-1.2px;line-height:1;position:relative;font-variant-numeric:tabular-nums}
+.foro-conc .fc-headline .fc-lbl{display:block;font-size:16px;font-weight:700;color:var(--gold-soft);letter-spacing:.4px;margin-top:8px}
+.foro-conc .fc-sub{font-size:12px;color:#c2c6d6;margin-top:14px;line-height:1.6;position:relative;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.foro-conc .fc-list{margin-top:14px;display:flex;flex-direction:column;gap:8px;position:relative}
+.foro-conc .fc-item{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11.5px}
+.foro-conc .fc-item .lbl{color:#c2c6d6;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.foro-conc .fc-item .val{color:#fff;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.3px;font-size:12.5px}
+
+/* tag do filtro no cabecalho do painel */
+.foro-tag{margin-left:8px;font-size:9.5px;font-weight:800;color:#fff;background:var(--navy);border-radius:99px;padding:3px 10px;letter-spacing:.6px;text-transform:none;display:none;cursor:pointer;transition:background .2s}
+.foro-tag.on{display:inline-flex;align-items:center;gap:5px}
+.foro-tag:hover{background:var(--gold)}
+.foro-tag::after{content:"×";font-size:12px;opacity:.85}
+
+/* Mapa do Brasil */
+.foro-map-panel{overflow:hidden}
+.foro-map-wrap{display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center;flex-wrap:wrap}
+@media(max-width:820px){.foro-map-wrap{grid-template-columns:1fr}}
+.foro-map-svg{width:100%;height:auto;max-height:420px;display:block}
+.foro-map-svg path{fill:var(--paper2);stroke:#fff;stroke-width:.8;transition:fill .35s cubic-bezier(.22,1,.36,1),transform .22s,filter .22s;cursor:pointer;transform-origin:center;transform-box:fill-box}
+.foro-map-svg path:hover{filter:brightness(1.12) drop-shadow(0 6px 14px rgba(30,34,63,.35))}
+.foro-map-svg .uf-lbl{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:800;fill:#fff;pointer-events:none;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.foro-map-side{display:flex;flex-direction:column;gap:14px;min-width:180px}
+.foro-map-scale{background:var(--paper2);border-radius:5px;padding:12px 14px}
+.foro-map-scale-title{font-size:9.5px;font-weight:800;letter-spacing:1.4px;color:var(--navy);text-transform:uppercase;margin-bottom:8px}
+.foro-map-scale-bar{height:12px;border-radius:6px;background:linear-gradient(90deg,#e7e2d6 0%,#CFA36E 45%,#B58642 80%,#8a6534 100%);position:relative}
+.foro-map-scale-ends{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);font-weight:600;margin-top:6px}
+.foro-map-top{background:#fff;border:1px solid var(--line);border-radius:5px;padding:12px 14px}
+.foro-map-top-title{font-size:9.5px;font-weight:800;letter-spacing:1.4px;color:var(--navy);text-transform:uppercase;margin-bottom:10px}
+.foro-map-top-row{display:grid;grid-template-columns:26px 1fr auto;align-items:center;gap:10px;padding:5px 0;border-bottom:1px dashed var(--paper2);font-size:11.5px}
+.foro-map-top-row:last-child{border-bottom:0}
+.foro-map-top-row .uf{font-weight:800;color:#fff;background:var(--navy);border-radius:4px;text-align:center;font-size:10px;padding:3px 0;letter-spacing:.4px}
+.foro-map-top-row .nm{color:var(--navy2);font-weight:600}
+.foro-map-top-row .qt{font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;text-align:right}
+
+/* Barras da instância (padrão bar-row) — usa .foro-inst-bars com estilo próprio */
+#foro-inst-bars{display:flex;flex-direction:column;gap:8px}
+.foro-inst-row{display:grid;grid-template-columns:110px 1fr auto;align-items:center;gap:12px;padding:6px 0}
+.foro-inst-row .name{font-size:12px;font-weight:700;color:var(--navy);text-align:right}
+.foro-inst-row .bar-track{height:14px;background:var(--paper2);border-radius:7px;overflow:hidden}
+.foro-inst-row .bar-fill{height:100%;background:linear-gradient(90deg,var(--navy3),var(--navy2));border-radius:7px;transition:width 1s cubic-bezier(.22,1,.36,1);position:relative}
+.foro-inst-row.pri .bar-fill{background:linear-gradient(90deg,var(--gold-soft),var(--gold))}
+.foro-inst-row .val{font-size:12.5px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;letter-spacing:-.2px}
+.foro-inst-row .val small{font-size:10px;color:var(--muted);font-weight:500;display:block}
+.foro-inst-note{margin-top:14px;font-size:11px;color:var(--muted);line-height:1.6;padding-top:12px;border-top:1px solid var(--paper2)}
+.foro-inst-note b{color:var(--navy)}
+
 /* ============ Matriz 2×2 (Eficiência) ============ */
 .eff-panel{position:relative;overflow:hidden}
 .eff-toolbar{display:flex;gap:14px;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap}
@@ -342,7 +398,7 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
       <a class="tn-link" data-target="sec-ranking">Carga por grupo</a>
       <a class="tn-link" data-target="sec-area">Áreas</a>
       <a class="tn-link" data-target="sec-scatter">Eficiência</a>
-      <a class="tn-link" data-target="sec-foro">Tribunais e UF</a>
+      <a class="tn-link" data-target="sec-foro">Presença jurídica</a>
       <a class="tn-link" data-target="sec-tempo">Tempo</a>
       <a class="tn-link" data-target="sec-polo">Polo</a>
       <a class="tn-link" data-target="sec-partes">Partes contrárias</a>
@@ -462,23 +518,38 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
     <div class="sec-head">
       <div class="roman">IX</div>
       <div class="sec-titles">
-        <h2>Cobertura por tribunal, UF e instância</h2>
-        <div class="sec-desc">Onde o escritório litiga. Três recortes complementares — os tribunais mais frequentes, a distribuição geográfica dos processos e em qual instância eles estão hoje.</div>
+        <h2>Presença por tribunal, estado e instância</h2>
       </div>
     </div>
-    <div class="grid2">
-      <div class="panel">
-        <div class="panel-label">Tribunais</div>
-        <div id="foro-trib"></div>
+
+    <!-- Linha 1: Concentração (card destaque) + Tribunais (ranking) -->
+    <div class="foro-topo">
+      <div class="panel foro-conc">
+        <div class="fc-eyebrow">Concentração regional</div>
+        <div class="fc-headline" id="foro-conc-head"></div>
+        <div class="fc-sub" id="foro-conc-sub"></div>
+        <div class="fc-list" id="foro-conc-list"></div>
       </div>
       <div class="panel">
-        <div class="panel-label">UF</div>
-        <div id="foro-uf"></div>
+        <div class="panel-label">
+          Ranking de tribunais
+          <span id="foro-trib-filtro-label" class="foro-tag"></span>
+        </div>
+        <div class="bars" id="foro-trib-bars"></div>
       </div>
     </div>
-    <div class="panel" style="margin-top:22px">
-      <div class="panel-label">Instância</div>
-      <div id="foro-inst"></div>
+
+    <!-- Linha 2: Mapa do Brasil + Instância -->
+    <div class="foro-meio">
+      <div class="panel foro-map-panel">
+        <div class="panel-label">Distribuição geográfica</div>
+        <div id="foro-map"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-label">Instância processual</div>
+        <div id="foro-inst-bars"></div>
+        <div class="foro-inst-note" id="foro-inst-note"></div>
+      </div>
     </div>
   </section>
 
@@ -851,55 +922,271 @@ function renderEficiencia(){
   attachTT();
 }
 
-/* --- Bloco E: Cobertura por tribunal / UF / instância --- */
-function _miniDonut(agg, titulo){
-  const ord = Object.entries(agg).filter(([k,v])=>v>0).sort((a,b)=>b[1]-a[1]);
-  const total = ord.reduce((s,[,v])=>s+v,0)||1;
-  const R=62, CX=80, CY=80, C=2*Math.PI*R;
-  let off=0;
-  const segs = ord.map(([a,q],i)=>{
-    const frac=q/total, len=frac*C;
-    const s=`<circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="${colorFor(a,i)}" stroke-width="22"
-      stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}" transform="rotate(-90 ${CX} ${CY})"
-      data-tt="<b>${a}</b><br>${NUM(q)} · ${(frac*100).toFixed(1)}%"></circle>`;
-    off+=len; return s;
-  }).join('');
-  const top = ord.slice(0,8);
-  const outros = total - top.reduce((s,[,q])=>s+q,0);
-  const legenda = top.map(([a,q],i)=>`
-    <div style="display:flex;align-items:center;gap:8px;font-size:11.5px;padding:3px 0">
-      <span style="width:11px;height:11px;border-radius:2px;background:${colorFor(a,i)};flex:0 0 auto"></span>
-      <span style="font-weight:600;color:var(--navy);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${a}">${a}</span>
-      <span style="font-weight:700;color:var(--navy2);font-variant-numeric:tabular-nums">${NUM(q)}</span>
-      <span style="color:var(--muted);font-weight:600;width:36px;text-align:right">${(q/total*100).toFixed(0)}%</span>
-    </div>`).join('') + (outros>0 ? `
-    <div style="display:flex;align-items:center;gap:8px;font-size:11.5px;padding:3px 0">
-      <span style="width:11px;height:11px;border-radius:2px;background:var(--muted2);flex:0 0 auto"></span>
-      <span style="font-weight:500;color:var(--muted);flex:1">Outros (${ord.length-top.length})</span>
-      <span style="font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums">${NUM(outros)}</span>
-      <span style="color:var(--muted);font-weight:600;width:36px;text-align:right">${(outros/total*100).toFixed(0)}%</span>
-    </div>` : '');
-  return `<div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
-    <svg width="160" height="160" viewBox="0 0 160 160" style="flex:0 0 auto">
-      ${segs}
-      <text x="${CX}" y="${CY-4}" text-anchor="middle" style="font-size:22px;font-weight:800;fill:var(--navy)">${NUM(total)}</text>
-      <text x="${CX}" y="${CY+13}" text-anchor="middle" style="font-size:9.5px;font-weight:600;fill:var(--muted);letter-spacing:.4px">processos</text>
-    </svg>
-    <div style="flex:1;min-width:180px">${legenda}</div>
-  </div>`;
-}
+/* --- Bloco E: Presença jurídica (tribunais, mapa UF, instância) --- */
+// Mapeamento tribunal → UF principal (para conseguir filtrar por tribunal e recalcular UF/instância).
+// Como nossos JSONs só dão totais por dimensão, aproximamos: um filtro por tribunal reduz o universo aos
+// GRUPOS que TÊM esse tribunal, e escala o restante proporcionalmente ao peso do tribunal na sua carteira.
+let foroTribFiltro = null; // sigla do tribunal selecionado ou null
 
 function renderForo(){
   const trib={}, uf={}, inst={};
+
+  // agrega considerando o filtro
   GRUPOS.forEach(g=>{
-    Object.entries(g.tribunais).forEach(([k,v])=>trib[k]=(trib[k]||0)+v);
-    Object.entries(g.uf).forEach(([k,v])=>{ if(k && k!=='N/I') uf[k]=(uf[k]||0)+v; });
-    Object.entries(g.instancia).forEach(([k,v])=>inst[k]=(inst[k]||0)+v);
+    if(foroTribFiltro){
+      const qt = g.tribunais[foroTribFiltro]||0;
+      if(!qt) return;
+      // grupo participa; escala UF/instância pela fração do tribunal na carteira
+      const totalG = Object.values(g.tribunais).reduce((s,v)=>s+v,0)||1;
+      const escala = qt/totalG;
+      trib[foroTribFiltro] = (trib[foroTribFiltro]||0) + qt;
+      Object.entries(g.uf).forEach(([k,v])=>{ if(k && k!=='N/I') uf[k]=(uf[k]||0)+Math.round(v*escala); });
+      Object.entries(g.instancia).forEach(([k,v])=>inst[k]=(inst[k]||0)+Math.round(v*escala));
+    } else {
+      Object.entries(g.tribunais).forEach(([k,v])=>trib[k]=(trib[k]||0)+v);
+      Object.entries(g.uf).forEach(([k,v])=>{ if(k && k!=='N/I') uf[k]=(uf[k]||0)+v; });
+      Object.entries(g.instancia).forEach(([k,v])=>inst[k]=(inst[k]||0)+v);
+    }
   });
-  document.getElementById('foro-trib').innerHTML = _miniDonut(trib,'Tribunais');
-  document.getElementById('foro-uf').innerHTML = _miniDonut(uf,'UF');
-  document.getElementById('foro-inst').innerHTML = _miniDonut(inst,'Instância');
+
+  _renderConcentracao(trib, uf, inst);
+  _renderTribBars(trib);
+  _renderMapa(uf);
+  _renderInstancia(inst);
+  _atualizarFiltroTag();
   attachTT();
+}
+
+function _atualizarFiltroTag(){
+  const tag = document.getElementById('foro-trib-filtro-label');
+  if(foroTribFiltro){
+    tag.classList.add('on');
+    tag.textContent = `filtro: ${foroTribFiltro} `;
+    tag.onclick = ()=>{ foroTribFiltro = null; renderForo(); };
+  } else {
+    tag.classList.remove('on');
+    tag.textContent = '';
+    tag.onclick = null;
+  }
+}
+
+// A) Card Concentração regional
+function _renderConcentracao(trib, uf, inst){
+  const totTrib = Object.values(trib).reduce((s,v)=>s+v,0)||1;
+  const ufOrd = Object.entries(uf).sort((a,b)=>b[1]-a[1]);
+  const totUf = ufOrd.reduce((s,[,v])=>s+v,0)||1;
+  const tribOrd = Object.entries(trib).sort((a,b)=>b[1]-a[1]);
+  const [tribTop, qtdTop] = tribOrd[0] || ['—', 0];
+  const pctTop = qtdTop/totTrib*100;
+  document.getElementById('foro-conc-head').innerHTML =
+    `${pctTop.toFixed(1)}<span style="font-size:22px;font-weight:700;color:var(--gold-soft);margin-left:2px">%</span>
+     <span class="fc-lbl">${tribTop}</span>`;
+  const nUf = ufOrd.length;
+  const [ufTop, ufQtd] = ufOrd[0] || ['—', 0];
+  document.getElementById('foro-conc-sub').innerHTML =
+    `<b style="color:#fff">${NUM(qtdTop)}</b> processos no tribunal dominante · atuamos em <b style="color:#fff">${nUf} UFs</b>, com <b style="color:#fff">${ufTop}</b> concentrando ${(ufQtd/totUf*100).toFixed(1)}%.`;
+  // top 4 UFs seguintes + agregado
+  const proximas = ufOrd.slice(0,4);
+  const outras = ufOrd.slice(4);
+  const qtdOutras = outras.reduce((s,[,q])=>s+q,0);
+  const proximasHTML = proximas.map(([u,q])=>`
+    <div class="fc-item"><span class="lbl">${u}</span><span class="val">${NUM(q)} · ${(q/totUf*100).toFixed(1)}%</span></div>`).join('');
+  const outrasHTML = outras.length>0 ? `
+    <div class="fc-item" style="border-top:1px dashed rgba(255,255,255,.15);padding-top:8px;margin-top:2px">
+      <span class="lbl" style="font-style:italic">+ ${outras.length} outras UFs</span>
+      <span class="val">${NUM(qtdOutras)} · ${(qtdOutras/totUf*100).toFixed(1)}%</span>
+    </div>` : '';
+  document.getElementById('foro-conc-list').innerHTML = proximasHTML + outrasHTML;
+}
+
+// B) Ranking de tribunais (barras animadas + count-up + top 3 destaque)
+function _renderTribBars(trib){
+  const ord = Object.entries(trib).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  const total = Object.values(trib).reduce((s,v)=>s+v,0)||1;
+  const max = ord[0] ? ord[0][1] : 1;
+  const container = document.getElementById('foro-trib-bars');
+  container.innerHTML = ord.map(([t,q],i)=>{
+    const pct = q/max*100;
+    const pctTot = (q/total*100).toFixed(1);
+    const podium = i===0?' top1':i===1?' top2':i===2?' top3':'';
+    const gs = [...GRUPOS].filter(g=>g.tribunais[t]).sort((a,b)=>b.tribunais[t]-a.tribunais[t]).slice(0,3).map(g=>g.nome.replace(/^Grupo\s+/,'')).join(', ');
+    const isFiltro = t===foroTribFiltro;
+    return `<div class="bar-row${podium}${isFiltro?' top1':''}" style="animation-delay:${Math.min(i*35,600)}ms;cursor:pointer" data-trib="${t}" data-tt="<b>${t}</b><br>${NUM(q)} processos · ${pctTot}% do total<br>Top grupos: ${gs}">
+      <div class="name" title="${t}"><span class="rk-badge">${i+1}</span>${t}</div>
+      <div class="bar-track"><div class="bar-fill gold" style="width:0" data-w="${pct}" data-v="${q}"></div></div>
+      <div class="val"><span class="v-num" data-final="${q}">0</span><small>${pctTot}%</small></div>
+    </div>`;
+  }).join('');
+  // anima + count-up
+  setTimeout(()=>{
+    container.querySelectorAll('.bar-row').forEach((row,i)=>{
+      const fill = row.querySelector('.bar-fill'), vNum = row.querySelector('.v-num');
+      if(!fill||!vNum) return;
+      const alvo = +fill.dataset.v;
+      setTimeout(()=>{
+        fill.style.width = fill.dataset.w+'%';
+        fill.classList.add('go');
+        const dur=850, passos=28; let k=0;
+        const iv = setInterval(()=>{
+          k++;
+          const p=k/passos, e=1-Math.pow(1-p,5);
+          if(k<passos) vNum.textContent = NUM(Math.round(alvo*e));
+          else { vNum.textContent = NUM(alvo); clearInterval(iv); }
+        }, dur/passos);
+      }, Math.min(i*35,600)+40);
+    });
+    // clique alterna filtro
+    container.querySelectorAll('.bar-row').forEach(row=>{
+      row.onclick = ()=>{
+        const t = row.dataset.trib;
+        foroTribFiltro = (foroTribFiltro===t) ? null : t;
+        renderForo();
+      };
+    });
+  }, 30);
+}
+
+// C) Mapa do Brasil por UF (heatmap)
+// SVG dos estados (paths simplificados, viewBox 0 0 1000 1000)
+const BR_UFS = {
+  'AC':{path:'M120,405 L220,395 L235,435 L215,470 L155,485 L100,470 L95,435 Z',cx:170,cy:430},
+  'AM':{path:'M160,225 L390,215 L470,335 L440,405 L235,435 L220,395 L120,405 L95,435 L60,340 L110,240 Z',cx:265,cy:325},
+  'RR':{path:'M295,90 L400,80 L440,175 L415,220 L305,210 L275,155 Z',cx:355,cy:155},
+  'AP':{path:'M525,145 L610,155 L620,235 L560,265 L505,240 Z',cx:565,cy:200},
+  'PA':{path:'M400,215 L525,145 L610,155 L640,270 L620,360 L515,395 L470,335 L440,405 L440,270 Z',cx:525,cy:280},
+  'MA':{path:'M640,270 L735,265 L750,395 L680,420 L620,360 Z',cx:690,cy:340},
+  'PI':{path:'M735,265 L800,285 L810,420 L750,455 L680,420 L750,395 Z',cx:760,cy:355},
+  'CE':{path:'M810,240 L890,255 L895,320 L855,355 L800,285 Z',cx:850,cy:295},
+  'RN':{path:'M895,320 L945,315 L965,350 L925,380 L855,355 Z',cx:915,cy:340},
+  'PB':{path:'M925,380 L985,375 L985,410 L940,430 L890,415 L855,355 Z',cx:915,cy:395},
+  'PE':{path:'M810,420 L890,415 L940,430 L935,475 L810,470 Z',cx:875,cy:445},
+  'AL':{path:'M885,470 L935,475 L945,505 L905,520 Z',cx:915,cy:495},
+  'SE':{path:'M850,490 L905,520 L895,555 L855,555 Z',cx:875,cy:520},
+  'BA':{path:'M680,420 L810,420 L810,470 L885,470 L850,490 L855,555 L780,610 L695,590 L680,510 Z',cx:760,cy:510},
+  'MT':{path:'M400,435 L515,395 L620,360 L640,505 L560,570 L455,545 L395,505 Z',cx:490,cy:475},
+  'TO':{path:'M620,360 L680,420 L680,510 L640,505 Z',cx:650,cy:450},
+  'RO':{path:'M235,435 L440,405 L400,435 L395,505 L305,530 L250,505 Z',cx:325,cy:470},
+  'DF':{path:'M645,540 L665,540 L665,560 L645,560 Z',cx:655,cy:550},
+  'GO':{path:'M560,505 L640,505 L645,540 L665,560 L640,600 L575,610 L555,570 Z',cx:600,cy:555},
+  'MG':{path:'M640,600 L780,610 L810,690 L755,730 L695,720 L640,700 L600,650 Z',cx:715,cy:670},
+  'ES':{path:'M810,690 L855,690 L855,745 L820,745 Z',cx:830,cy:720},
+  'RJ':{path:'M755,730 L810,745 L810,780 L735,775 Z',cx:775,cy:755},
+  'SP':{path:'M555,690 L695,720 L735,775 L720,810 L600,815 L540,780 Z',cx:625,cy:760},
+  'PR':{path:'M485,780 L600,815 L620,850 L540,880 L470,860 Z',cx:540,cy:830},
+  'SC':{path:'M470,860 L620,850 L620,895 L500,920 Z',cx:545,cy:885},
+  'MS':{path:'M395,505 L560,570 L555,570 L555,690 L540,780 L470,780 L440,700 L410,620 Z',cx:485,cy:640},
+  'RS':{path:'M410,895 L500,920 L620,895 L555,975 L400,970 Z',cx:485,cy:940}
+};
+
+function _renderMapa(uf){
+  const el = document.getElementById('foro-map');
+  const entries = Object.entries(uf).filter(([,v])=>v>0);
+  const total = entries.reduce((s,[,v])=>s+v,0)||1;
+  const maxV = Math.max(...entries.map(([,v])=>v),1);
+
+  const rankUf = [...entries].sort((a,b)=>b[1]-a[1]);
+  const topUfs = rankUf.slice(0,6);
+
+  // gera paths
+  const paths = Object.entries(BR_UFS).map(([sigla,{path,cx,cy}])=>{
+    const v = uf[sigla]||0;
+    const pct = v/maxV;
+    return `<path data-uf="${sigla}" data-v="${v}" d="${path}" data-tt="<b>${sigla}</b><br>${NUM(v)} processos · ${(v/total*100).toFixed(1)}%${v?`<br>${_topGruposUf(sigla)}`:''}"></path>
+      ${v>0 ? `<text class="uf-lbl" x="${cx}" y="${cy}" text-anchor="middle" dy="3">${sigla}</text>` : ''}`;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="foro-map-wrap">
+      <svg class="foro-map-svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">${paths}</svg>
+      <div class="foro-map-side">
+        <div class="foro-map-scale">
+          <div class="foro-map-scale-title">Volume por UF</div>
+          <div class="foro-map-scale-bar"></div>
+          <div class="foro-map-scale-ends"><span>0</span><span>${NUM(maxV)}</span></div>
+        </div>
+        <div class="foro-map-top">
+          <div class="foro-map-top-title">Top 6 estados</div>
+          ${topUfs.map(([u,q])=>`<div class="foro-map-top-row"><div class="uf">${u}</div><div class="nm">${(q/total*100).toFixed(1)}% da carteira</div><div class="qt">${NUM(q)}</div></div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  // aplica cores em cascata
+  const paths_el = el.querySelectorAll('path');
+  paths_el.forEach((p,i)=>{
+    const v = +p.dataset.v;
+    setTimeout(()=>{
+      const pct = v/maxV;
+      const cor = _corHeatmap(pct);
+      p.style.fill = cor;
+    }, i*30);
+  });
+}
+
+// escala de cor: neutro claro → dourado claro → dourado → bronze escuro
+function _corHeatmap(pct){
+  if(pct===0) return 'var(--paper2)';
+  // 4 stops: E7E2D6 (0), CFA36E (0.35), B58642 (0.7), 8a6534 (1)
+  const stops = [[231,226,214],[207,163,110],[181,134,66],[138,101,52]];
+  const idx = Math.min(Math.floor(pct*3), 2);
+  const local = pct*3 - idx;
+  const a = stops[idx], b = stops[idx+1];
+  const rgb = a.map((v,i)=>Math.round(v + (b[i]-v)*local));
+  return `rgb(${rgb.join(',')})`;
+}
+
+function _topGruposUf(sigla){
+  return [...GRUPOS]
+    .map(g=>({n:g.nome.replace(/^Grupo\s+/,''), q:g.uf[sigla]||0}))
+    .filter(x=>x.q>0)
+    .sort((a,b)=>b.q-a.q).slice(0,3)
+    .map(x=>`${x.n}: <b>${NUM(x.q)}</b>`).join('<br>');
+}
+
+// D) Instância como barras horizontais (pirâmide de instâncias)
+function _renderInstancia(inst){
+  // ordena: 1º Grau, 2º Grau, Superiores, Não informado
+  const ordem = ['1º Grau','2º Grau','Superiores','Não informado','N/I'];
+  const rows = ordem.map(k=>[k, inst[k]||0]).filter(([,v])=>v>0);
+  // adiciona qualquer chave não prevista no fim
+  Object.entries(inst).forEach(([k,v])=>{ if(!ordem.includes(k) && v>0) rows.push([k,v]); });
+  const total = rows.reduce((s,[,v])=>s+v,0)||1;
+  const max = Math.max(...rows.map(r=>r[1]),1);
+
+  const container = document.getElementById('foro-inst-bars');
+  container.innerHTML = rows.map((r,i)=>{
+    const [nome, q] = r;
+    const pct = q/max*100;
+    const pctTot = (q/total*100).toFixed(1);
+    const pri = i===0 ? ' pri' : '';
+    return `<div class="foro-inst-row${pri}" data-tt="<b>${nome}</b><br>${NUM(q)} · ${pctTot}%">
+      <div class="name">${nome}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:0" data-w="${pct}" data-v="${q}"></div></div>
+      <div class="val"><span class="v-num" data-final="${q}">0</span><small>${pctTot}%</small></div>
+    </div>`;
+  }).join('');
+  setTimeout(()=>{
+    container.querySelectorAll('.foro-inst-row').forEach((row,i)=>{
+      const fill = row.querySelector('.bar-fill'), vNum = row.querySelector('.v-num');
+      const alvo = +fill.dataset.v;
+      setTimeout(()=>{
+        fill.style.width = fill.dataset.w+'%';
+        const dur=800, passos=25; let k=0;
+        const iv = setInterval(()=>{
+          k++;
+          const p=k/passos, e=1-Math.pow(1-p,5);
+          if(k<passos) vNum.textContent = NUM(Math.round(alvo*e));
+          else { vNum.textContent = NUM(alvo); clearInterval(iv); }
+        }, dur/passos);
+      }, i*80+50);
+    });
+  }, 30);
+
+  // Nota executiva embaixo
+  const pri = rows[0] ? rows[0] : ['—',0];
+  const pctPri = (pri[1]/total*100).toFixed(1);
+  document.getElementById('foro-inst-note').innerHTML =
+    `<b>${pctPri}%</b> da carteira está em <b>${pri[0]}</b> — recorte natural das disputas ativas do escritório.`;
 }
 
 /* --- Nav sticky: shadow ao rolar + scrollspy --- */
