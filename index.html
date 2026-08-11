@@ -13,14 +13,60 @@
   --navy:#1E223F; --navy-deep:#161A31; --navy2:#3F5276; --navy3:#4a5273;
   --gold:#B58642; --gold-soft:#CFA36E; --gold-line:#c9a869;
   --paper:#F5F1E8; --paper2:#EAE4D3; --line:#DDD5C0; --line2:#CFC5AA;
+}
+/* Tema escuro — sobrescreve todas as variáveis relevantes */
+body.theme-dark{
+  --ink:#EDE9DC; --ink2:#c0bfae;
+  --paper:#12162A; --paper2:#1B1F35; --line:#2B2F45; --line2:#353a52;
+  --card:#1B1F35;
+  --muted:#8a92ab; --muted2:#5b607a;
+  --navy:#EDE9DC; --navy2:#c9b98a; --navy3:#a5966a; --navy-deep:#0a0d1e;
   --card:#ffffff; --muted:#7a7f96; --muted2:#9a9fb2;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--paper);color:var(--ink);font-family:'Montserrat',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5}
+body{background:var(--paper);color:var(--ink);font-family:'Montserrat',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5;transition:background-color .5s ease}
+/* transições suaves em elementos que mudam ao alternar tema */
+body,.hero,.panel,.exec-card,.tk-card,.sn-brand-logo,#pano-table,.pilha-card,.eff-sum-card,.foro-conc,.area-insight,.polo-dom,.tempo-crit,.mov-diag,.partes-lider{transition:background-color .5s ease,color .5s ease,border-color .5s ease}
 .serif{font-family:'Montserrat',sans-serif}
 .wrap{max-width:1180px;margin:0 auto;padding:0 32px}
 .gold-rule{height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-soft));border:0}
+
+/* ============ Ajustes específicos do tema escuro ============ */
+body.theme-dark .panel,body.theme-dark .exec-card,body.theme-dark .tk-card,body.theme-dark .pilha-card,body.theme-dark .eff-sum-card{background:#1B1F35;border-color:#2B2F45}
+body.theme-dark .exec-card.on{background:linear-gradient(160deg,#22263e 0%,#2a2033 100%)}
+body.theme-dark .hero{background:linear-gradient(180deg,#161A31 0%,#0d1024 100%)}
+body.theme-dark .hero-title h1{color:#EDE9DC}
+body.theme-dark .hero-title h1 em{color:#e4c78e}
+body.theme-dark .totals{background:#1B1F35;border-color:#2B2F45}
+body.theme-dark table.pano th{background:linear-gradient(180deg,#1B1F35,#12162A);color:#8a92ab}
+body.theme-dark table.pano td{color:#EDE9DC}
+body.theme-dark table.pano tr:hover td{background:linear-gradient(90deg,rgba(181,134,66,.08),transparent)}
+body.theme-dark table.pano tfoot td{background:linear-gradient(180deg,#22263e,#1B1F35)}
+body.theme-dark table.pano tbody tr.top1,body.theme-dark table.pano tbody tr.top2,body.theme-dark table.pano tbody tr.top3{background:linear-gradient(90deg,rgba(181,134,66,.08) 0%,transparent 60%)}
+body.theme-dark .exec-stage::before{background:linear-gradient(90deg,var(--paper) 0%,rgba(18,22,42,.6) 55%,transparent 100%)}
+body.theme-dark .exec-stage::after{background:linear-gradient(-90deg,var(--paper) 0%,rgba(18,22,42,.6) 55%,transparent 100%)}
+body.theme-dark .bar-track,body.theme-dark .fx-track,body.theme-dark .stack-bar,body.theme-dark .pv-bar,body.theme-dark .polo-macro,body.theme-dark .foro-inst-row .bar-track{background:#2B2F45}
+body.theme-dark .rank-search input{background:#12162A;color:#EDE9DC;border-color:#2B2F45}
+body.theme-dark .rank-search input:focus{background:#161A31}
+body.theme-dark .metric-tabs.pill{background:#12162A}
+body.theme-dark .metric-tabs.pill button:not(.on){color:#a9b0c6}
+body.theme-dark .metric-tabs.pill button:not(.on):hover{background:rgba(181,134,66,.08)}
+body.theme-dark .rank-expand{background:#12162A;color:#EDE9DC;border-color:#2B2F45}
+body.theme-dark .rank-expand:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+body.theme-dark .bar-row.top1,body.theme-dark .bar-row.top2,body.theme-dark .bar-row.top3{background:linear-gradient(90deg,rgba(181,134,66,.10) 0%,transparent 60%)}
+body.theme-dark #polo-stack .stack-row.top1,body.theme-dark #polo-stack .stack-row.top2,body.theme-dark #polo-stack .stack-row.top3{background:linear-gradient(90deg,rgba(181,134,66,.10) 0%,transparent 60%)}
+body.theme-dark .exec-card::before{opacity:.6}
+body.theme-dark .foro-map-svg path{stroke:#12162A}
+body.theme-dark .foro-map-scale,body.theme-dark .foro-map-top{background:#12162A}
+body.theme-dark .foro-tag{background:#1B1F35;color:#EDE9DC}
+body.theme-dark .kpi-strip-wrap .totals{background:#1B1F35;border-color:#2B2F45;box-shadow:0 1px 0 rgba(255,255,255,.02),0 24px 48px -24px rgba(0,0,0,.5),0 4px 12px -4px rgba(0,0,0,.4)}
+body.theme-dark .hero::before{background:radial-gradient(90% 60% at 90% -20%, rgba(181,134,66,.14), transparent 60%),linear-gradient(180deg,#1a1e37 0%,#0d1024 100%)}
+body.theme-dark .hero-rule{background:linear-gradient(90deg,var(--gold),rgba(181,134,66,0));opacity:.4}
+body.theme-dark .exec-head-title{color:#EDE9DC}
+body.theme-dark .rank-toolbar,body.theme-dark .panel-label{color:#EDE9DC}
+/* Fundo do body escuro cai bem em tudo */
+body.theme-dark{background:#0a0d1e}
 
 /* ============ Cortina de loading ============ */
 .curtain{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden}
@@ -652,10 +698,17 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
 body.has-sidenav{padding-left:var(--sn-w)}
 @media(max-width:820px){body.has-sidenav{padding-left:0}.sidenav{display:none}}
 
-/* Brand no topo — só a logo */
-.sn-brand{padding:44px 28px 34px;position:relative;z-index:2;display:flex;justify-content:center}
+/* Brand no topo — logo + toggle de tema */
+.sn-brand{padding:44px 28px 34px;position:relative;z-index:2;display:flex;justify-content:center;align-items:center;gap:14px}
 .sn-brand::after{content:"";position:absolute;left:28px;right:28px;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(181,134,66,.55) 30%,rgba(181,134,66,.55) 70%,transparent)}
-.sn-brand-logo{display:block;height:56px;width:auto;max-width:calc(var(--sn-w) - 56px);filter:brightness(0) invert(1);opacity:.98}
+.sn-brand-logo{display:block;height:56px;width:auto;max-width:calc(var(--sn-w) - 90px);filter:brightness(0) invert(1);opacity:.98}
+/* Toggle de tema (sol/lua) */
+.sn-theme{position:absolute;top:20px;right:20px;background:transparent;border:1px solid rgba(255,255,255,.14);border-radius:50%;width:32px;height:32px;color:#a9b0c6;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color .3s,border-color .3s,transform .3s;padding:0}
+.sn-theme:hover{color:var(--gold);border-color:rgba(181,134,66,.5);transform:rotate(20deg)}
+.sn-theme svg{width:15px;height:15px;position:absolute;transition:opacity .3s,transform .4s cubic-bezier(.22,1,.36,1)}
+.sn-theme .sn-theme-moon{opacity:0;transform:rotate(-40deg)}
+body.theme-dark .sn-theme .sn-theme-sun{opacity:0;transform:rotate(40deg)}
+body.theme-dark .sn-theme .sn-theme-moon{opacity:1;transform:rotate(0deg)}
 
 /* Lista de links — mais respiro, tipografia refinada */
 .sn-list{position:relative;flex:1;padding:22px 14px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(181,134,66,.35) transparent;z-index:2}
@@ -740,9 +793,32 @@ body.has-sidenav{padding-left:var(--sn-w)}
   .exec-arrow{width:42px;height:42px;font-size:18px}
 }
 
-/* Reveal on scroll: aplicado a seções e cards ao entrarem no viewport */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+/* Reveal on scroll: fade + slide + zoom sutil */
+.reveal{opacity:0;transform:translateY(28px) scale(.985);transition:opacity .85s cubic-bezier(.22,1,.36,1),transform .85s cubic-bezier(.22,1,.36,1)}
 .reveal.on{opacity:1;transform:none}
+
+/* Halo pulsante dourado nos KPIs principais quando entram na viewport */
+.kpi-glow{position:relative}
+.kpi-glow::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:120%;height:180%;background:radial-gradient(ellipse at center,rgba(181,134,66,.18) 0%,transparent 65%);pointer-events:none;opacity:0;animation:kpiHalo 4s cubic-bezier(.4,0,.6,1) infinite;z-index:-1}
+@keyframes kpiHalo{
+  0%,100%{opacity:0;transform:translate(-50%,-50%) scale(.85)}
+  50%{opacity:.6;transform:translate(-50%,-50%) scale(1.05)}
+}
+
+/* Sweep dourado periódico no card KPI de destaque (Movimentações) */
+.kpi-sweep{position:relative;overflow:hidden}
+.kpi-sweep::before{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(181,134,66,.22) 45%,rgba(181,134,66,.4) 50%,rgba(181,134,66,.22) 55%,transparent 70%);transform:translateX(-120%);pointer-events:none;animation:kpiSweep 12s cubic-bezier(.22,1,.36,1) 4s infinite}
+@keyframes kpiSweep{
+  0%{transform:translateX(-120%)}
+  6%{transform:translateX(120%)}
+  100%{transform:translateX(120%)}
+}
+
+/* Parallax leve nos cards - o JS ajusta --parallax; combinamos com transform já existente */
+.panel,.tk-card,.pilha-card,.eff-sum-card{--parallax:0px;transform:translateY(var(--parallax));will-change:transform;transition:transform .4s cubic-bezier(.22,1,.36,1)}
+/* Panel dentro de .reveal — respeita a animação de entrada; parallax entra depois */
+.reveal .panel{transform:none}
+.reveal.on .panel,.reveal.on .tk-card,.reveal.on .pilha-card,.reveal.on .eff-sum-card{transform:translateY(var(--parallax))}
 
 /* ============ Tooltip ============ */
 .tt{position:fixed;pointer-events:none;background:var(--navy-deep);color:#fff;font-size:11px;font-weight:500;padding:9px 12px;border-radius:3px;box-shadow:0 6px 24px rgba(0,0,0,.3);opacity:0;transition:opacity .15s;z-index:99;line-height:1.55;max-width:230px;border-top:2px solid var(--gold)}
@@ -806,6 +882,10 @@ body.has-sidenav{padding-left:var(--sn-w)}
 <aside class="sidenav" id="sidenav">
   <div class="sn-brand">
     <img class="sn-brand-logo" id="sn-brand-logo" alt="Silva &amp; Silva">
+    <button class="sn-theme" id="theme-toggle" aria-label="Alternar tema">
+      <svg class="sn-theme-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="sn-theme-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
   </div>
   <nav class="sn-list" id="sidenav-list">
     <div class="sn-marker" id="sn-marker"></div>
@@ -1481,6 +1561,9 @@ function render(){
   ativarFiltroPolo();
   ativarFiltroPartes();
   ativarPano();
+  ativarTema();
+  ativarParallax();
+  marcarKpiDestaques();
 }
 
 /* --- Bloco H: Rankings executivos (carrossel 3 cards, meio em destaque) --- */
@@ -2072,6 +2155,55 @@ function ativarReveal(){
     });
   }, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+}
+
+/* Toggle de tema (claro/escuro) com persistência em localStorage */
+function ativarTema(){
+  const btn = document.getElementById('theme-toggle');
+  if(!btn) return;
+  // Aplica tema salvo (ou claro por padrão)
+  const salvo = localStorage.getItem('painel-tema');
+  if(salvo === 'dark') document.body.classList.add('theme-dark');
+  btn.onclick = ()=>{
+    document.body.classList.toggle('theme-dark');
+    const isDark = document.body.classList.contains('theme-dark');
+    localStorage.setItem('painel-tema', isDark ? 'dark' : 'light');
+  };
+}
+
+/* Parallax leve nos cards ao rolar */
+function ativarParallax(){
+  const alvos = document.querySelectorAll('.panel, .tk-card, .exec-card, .pilha-card, .eff-sum-card');
+  let ticking = false;
+  const atualizar = ()=>{
+    const centro = window.innerHeight/2;
+    alvos.forEach(el=>{
+      const rect = el.getBoundingClientRect();
+      if(rect.bottom < -100 || rect.top > innerHeight+100) return;
+      // distância do centro do card ao centro da tela (normalizada)
+      const cardCenter = rect.top + rect.height/2;
+      const dist = (cardCenter - centro) / innerHeight; // -0.5 a 0.5 aprox.
+      // Um leve translateY proporcional (max ~10px), na direção oposta ao scroll para dar profundidade
+      const shift = Math.max(-8, Math.min(8, -dist * 12));
+      el.style.setProperty('--parallax', `${shift}px`);
+    });
+    ticking = false;
+  };
+  const onScroll = ()=>{
+    if(!ticking){ requestAnimationFrame(atualizar); ticking = true; }
+  };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  atualizar();
+}
+
+/* Adiciona classes de glow/sweep nos KPIs principais */
+function marcarKpiDestaques(){
+  // Halo pulsante nos 6 KPIs do hero e nos KPIs .tk-card das seções
+  document.querySelectorAll('#kpirow .kpi .v').forEach(el=>el.classList.add('kpi-glow'));
+  document.querySelectorAll('.tk-card .tk-num').forEach(el=>el.classList.add('kpi-glow'));
+  // Sweep dourado periódico no card KPI de destaque (Movimentações — 5º card no hero)
+  const dest = document.querySelectorAll('#kpirow .kpi');
+  if(dest.length >= 5) dest[4].classList.add('kpi-sweep');
 }
 
 /* --- KPIs topo --- */
