@@ -175,14 +175,15 @@ section{margin-bottom:66px;scroll-margin-top:20px}
 .mov-panel svg{width:100%;height:auto;display:block}
 .mov-badge-live{margin-left:10px;font-size:9.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;background:linear-gradient(90deg,var(--gold-soft),var(--gold));color:#fff;padding:3px 10px;border-radius:99px;box-shadow:0 3px 8px -3px rgba(181,134,66,.55);vertical-align:middle}
 /* Legenda */
-.mov-legend{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:14px;font-size:11.5px;font-weight:600}
-.mov-legend .ml-item{display:flex;align-items:center;gap:8px;color:var(--navy2)}
-.mov-legend .ml-swatch{width:16px;height:12px;border-radius:3px;flex:0 0 auto}
+.mov-legend{display:flex;flex-wrap:wrap;gap:16px 26px;margin-top:16px;padding:14px 16px;background:var(--paper);border:1px solid var(--line);border-radius:6px;font-size:11.5px;font-weight:600}
+.mov-legend .ml-item{display:flex;align-items:center;gap:10px;color:var(--navy2);line-height:1.35}
+.mov-legend .ml-swatch{width:18px;height:14px;border-radius:3px;flex:0 0 auto;box-shadow:0 2px 5px -2px rgba(0,0,0,.2)}
 .mov-legend .ml-swatch.entradas{background:linear-gradient(135deg,var(--gold-soft),var(--gold))}
 .mov-legend .ml-swatch.encerr{background:linear-gradient(135deg,var(--navy2),var(--navy))}
-.mov-legend .ml-swatch.estoque{background:linear-gradient(180deg,rgba(181,134,66,.65),rgba(181,134,66,.08))}
-.mov-legend .ml-swatch.proj{background:transparent;border:1.5px dashed var(--muted2)}
-.mov-legend .ml-lbl{color:var(--navy);font-weight:700}
+.mov-legend .ml-swatch.estoque{background:linear-gradient(180deg,rgba(181,134,66,.75),rgba(181,134,66,.08));border-top:2px solid var(--gold)}
+.mov-legend .ml-swatch.proj{background:repeating-linear-gradient(90deg,transparent 0 4px,var(--muted2) 4px 7px);border:0}
+.mov-legend .ml-lbl{color:var(--navy);font-weight:700;display:flex;flex-direction:column;gap:1px}
+.mov-legend .ml-lbl small{font-size:9.5px;font-weight:500;color:var(--muted);letter-spacing:.3px}
 
 /* Extrajudicial: barras horizontais coloridas */
 #mov-extra{display:flex;flex-direction:column;gap:2px;margin-top:6px}
@@ -196,10 +197,19 @@ section{margin-bottom:66px;scroll-margin-top:20px}
 .mov-extra-row .fx-val{font-size:13px;font-weight:800;color:var(--navy);text-align:right;font-variant-numeric:tabular-nums}
 
 /* Pastilhas de delta (badges +/-) */
-.mov-delta{display:inline-block;padding:3px 8px;border-radius:99px;font-size:9.5px;font-weight:800;letter-spacing:.4px;font-variant-numeric:tabular-nums;box-shadow:0 2px 5px -2px rgba(0,0,0,.25);white-space:nowrap}
+.mov-delta{display:inline-block;padding:4px 10px;border-radius:99px;font-size:10.5px;font-weight:800;letter-spacing:.4px;font-variant-numeric:tabular-nums;box-shadow:0 3px 8px -2px rgba(0,0,0,.28);white-space:nowrap;opacity:0;transform:translateY(4px);animation:deltaIn .5s cubic-bezier(.22,1,.36,1) forwards}
 .mov-delta.pos{background:linear-gradient(135deg,#78c290,#2f7a44);color:#fff}
 .mov-delta.neg{background:linear-gradient(135deg,#d67f7a,#a63d38);color:#fff}
 .mov-delta.neu{background:linear-gradient(135deg,#d4d8e0,#9aa0b8);color:#3a3f5c}
+@keyframes deltaIn{to{opacity:1;transform:none}}
+
+/* Animações extras do gráfico */
+.mov-est-dot{filter:drop-shadow(0 2px 5px rgba(181,134,66,.5));animation:pulseDot 3.2s cubic-bezier(.4,0,.6,1) infinite}
+@keyframes pulseDot{0%,100%{filter:drop-shadow(0 2px 5px rgba(181,134,66,.5))}50%{filter:drop-shadow(0 3px 10px rgba(181,134,66,.9))}}
+.mov-sweep{opacity:0;animation:sweep 2.4s cubic-bezier(.22,1,.36,1) .3s 1 forwards;pointer-events:none}
+@keyframes sweep{0%{opacity:0;transform:translateX(-4px)}20%{opacity:1}80%{opacity:1}100%{opacity:0;transform:translateX(0)}}
+.mov-est-halo{opacity:0;animation:haloIn 1.2s ease-out .8s 1 forwards}
+@keyframes haloIn{to{opacity:.35}}
 
 /* ============ Partes contrárias (adversários) ============ */
 .partes-topo{display:grid;grid-template-columns:2fr 1fr;gap:22px;margin-bottom:6px}
@@ -3063,7 +3073,7 @@ function renderSeries(){
   const estMax = Math.max(0, ...Object.values(estoque));
   const estRange = Math.max(estMax - estMin, 1);
 
-  const W=1000, H=380, P={l:56,r:56,t:36,b:56};
+  const W=1040, H=400, P={l:66,r:80,t:44,b:74};
   const bw = (W-P.l-P.r) / anos.length;
   const y = v => H-P.b - v/maxY*(H-P.t-P.b);
   const yEst = v => H-P.b - (v-estMin)/estRange*(H-P.t-P.b);
@@ -3074,17 +3084,17 @@ function renderSeries(){
   for(let i=0;i<=4;i++){
     const v = Math.round(maxY*i/4);
     grid += `<line x1="${P.l}" y1="${y(v)}" x2="${W-P.r}" y2="${y(v)}" stroke="var(--line)" opacity=".55"/>`;
-    grid += `<text x="${P.l-10}" y="${y(v)+3}" text-anchor="end" style="font-size:10px;fill:var(--muted2);font-weight:700">${NUM(v)}</text>`;
+    grid += `<text x="${P.l-8}" y="${y(v)+3}" text-anchor="end" style="font-size:10.5px;fill:var(--muted2);font-weight:700;font-variant-numeric:tabular-nums">${NUM(v)}</text>`;
   }
   // rótulo eixo Y esquerdo
-  grid += `<text transform="rotate(-90 16 ${(H-P.b+P.t)/2})" x="16" y="${(H-P.b+P.t)/2}" text-anchor="middle" style="font-size:10px;fill:var(--muted);font-weight:800;letter-spacing:1.4px">MOVIMENTO ANUAL</text>`;
-  // eixo Y direito (para estoque) — ticks discretos
+  grid += `<text transform="rotate(-90 22 ${(H-P.b+P.t)/2})" x="22" y="${(H-P.b+P.t)/2}" text-anchor="middle" style="font-size:10px;fill:var(--muted);font-weight:800;letter-spacing:1.6px">MOVIMENTO ANUAL</text>`;
+  // eixo Y direito (variação acumulada) — ticks discretos, DENTRO do viewBox
   const nTicksEst = 4;
   for(let i=0;i<=nTicksEst;i++){
     const v = Math.round(estMin + (estRange*i/nTicksEst));
-    grid += `<text x="${W-P.r+10}" y="${yEst(v)+3}" text-anchor="start" style="font-size:10px;fill:var(--gold);font-weight:700;font-variant-numeric:tabular-nums">${v>=0?'+':''}${NUM(v)}</text>`;
+    grid += `<text x="${W-P.r+8}" y="${yEst(v)+3}" text-anchor="start" style="font-size:10.5px;fill:var(--gold);font-weight:700;font-variant-numeric:tabular-nums">${v>=0?'+':''}${NUM(v)}</text>`;
   }
-  grid += `<text transform="rotate(90 ${W-16} ${(H-P.b+P.t)/2})" x="${W-16}" y="${(H-P.b+P.t)/2}" text-anchor="middle" style="font-size:10px;fill:var(--gold);font-weight:800;letter-spacing:1.4px">ESTOQUE ACUMULADO</text>`;
+  grid += `<text transform="rotate(90 ${W-16} ${(H-P.b+P.t)/2})" x="${W-16}" y="${(H-P.b+P.t)/2}" text-anchor="middle" style="font-size:10px;fill:var(--gold);font-weight:800;letter-spacing:1.6px">VARIAÇÃO ACUMULADA</text>`;
 
   // --- área de estoque acumulado ---
   // pontos: (x_i, yEst(estoque_i)) + baseline em yEst(0)
@@ -3110,11 +3120,24 @@ function renderSeries(){
       <linearGradient id="grad-bar-enc" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stop-color="#5b6a94"/><stop offset="100%" stop-color="#1E223F"/>
       </linearGradient>
+      <linearGradient id="grad-sweep" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="rgba(181,134,66,0)"/>
+        <stop offset="50%" stop-color="rgba(181,134,66,0.65)"/>
+        <stop offset="100%" stop-color="rgba(181,134,66,0)"/>
+      </linearGradient>
       <filter id="glow-est" x="-50%" y="-50%" width="200%" height="200%">
         <feGaussianBlur stdDeviation="3.5" result="b"/>
         <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
       </filter>
     </defs>`;
+
+  // linha de varredura (SVG animateTransform)
+  const sweep = `
+    <g class="mov-sweep">
+      <rect x="${P.l}" y="${P.t}" width="24" height="${H-P.t-P.b}" fill="url(#grad-sweep)">
+        <animate attributeName="x" from="${P.l}" to="${W-P.r-24}" dur="1.6s" begin=".5s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+      </rect>
+    </g>`;
 
   const areaHtml = `
     <path class="mov-area" d="${areaPath}" fill="url(#grad-estoque)" opacity="0"/>
@@ -3161,9 +3184,9 @@ function renderSeries(){
     const dSinal = delta>0?'+':delta<0?'−':'';
     const dCls = delta>20?'pos':delta<-20?'neg':'neu';
     const badgeW = 62, badgeH = 20;
-    bars += `<foreignObject x="${cx-badgeW/2}" y="${H-P.b+24}" width="${badgeW}" height="${badgeH}">
+    bars += `<foreignObject x="${cx-badgeW/2}" y="${H-P.b+28}" width="${badgeW}" height="${badgeH}">
       <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;justify-content:center;pointer-events:none">
-        <span class="mov-delta ${dCls}">${dSinal}${NUM(Math.abs(delta))}</span>
+        <span class="mov-delta ${dCls}" data-final="${Math.abs(delta)}" data-sinal="${dSinal}" style="animation-delay:${900 + i*80}ms">${dSinal}0</span>
       </div>
     </foreignObject>`;
   });
@@ -3180,6 +3203,7 @@ function renderSeries(){
       ${areaHtml}
       ${bars}
       ${estDots}
+      ${sweep}
     </svg>`;
 
   // Legenda + badge live
@@ -3188,8 +3212,8 @@ function renderSeries(){
   document.getElementById('mov-legend').innerHTML = `
     <div class="ml-item"><span class="ml-swatch entradas"></span><span class="ml-lbl">Entradas</span></div>
     <div class="ml-item"><span class="ml-swatch encerr"></span><span class="ml-lbl">Encerramentos</span></div>
-    <div class="ml-item"><span class="ml-swatch estoque"></span><span class="ml-lbl">Estoque acumulado</span></div>
-    <div class="ml-item"><span class="ml-swatch proj"></span><span class="ml-lbl">Projeção ${ANO_CORRENTE} <small style="color:var(--muted);font-weight:500">*com base em 7 meses × 12/7</small></span></div>`;
+    <div class="ml-item"><span class="ml-swatch estoque"></span><span class="ml-lbl">Variação acumulada <small>desde ${anos[0]}</small></span></div>
+    <div class="ml-item"><span class="ml-swatch proj"></span><span class="ml-lbl">Projeção ${ANO_CORRENTE} <small>estimado × 12/${MESES_TRANSCORRIDOS}</small></span></div>`;
 
   // Anima barras + área + dots
   setTimeout(()=>{
@@ -3223,6 +3247,20 @@ function renderSeries(){
         }, i*60);
       });
     }, rects.length*50 + 500);
+    // count-up dos deltas nas pastilhas
+    document.querySelectorAll('#mov-chart .mov-delta').forEach((el,i)=>{
+      const alvo = +el.dataset.final;
+      const sinal = el.dataset.sinal;
+      setTimeout(()=>{
+        const dur=800, passos=26; let k=0;
+        const iv = setInterval(()=>{
+          k++;
+          const p=k/passos, e=1-Math.pow(1-p,5);
+          if(k<passos) el.textContent = sinal + NUM(Math.round(alvo*e));
+          else { el.textContent = sinal + NUM(alvo); clearInterval(iv); }
+        }, dur/passos);
+      }, 950 + i*80);
+    });
   }, 60);
 
   // === Extrajudicial ===
