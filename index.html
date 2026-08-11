@@ -698,17 +698,28 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
 body.has-sidenav{padding-left:var(--sn-w)}
 @media(max-width:820px){body.has-sidenav{padding-left:0}.sidenav{display:none}}
 
-/* Brand no topo — logo + toggle de tema */
-.sn-brand{padding:44px 28px 34px;position:relative;z-index:2;display:flex;justify-content:center;align-items:center;gap:14px}
+/* Brand no topo — só a logo, centralizada */
+.sn-brand{padding:44px 28px 34px;position:relative;z-index:2;display:flex;justify-content:center}
 .sn-brand::after{content:"";position:absolute;left:28px;right:28px;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(181,134,66,.55) 30%,rgba(181,134,66,.55) 70%,transparent)}
-.sn-brand-logo{display:block;height:56px;width:auto;max-width:calc(var(--sn-w) - 90px);filter:brightness(0) invert(1);opacity:.98}
-/* Toggle de tema (sol/lua) */
-.sn-theme{position:absolute;top:20px;right:20px;background:transparent;border:1px solid rgba(255,255,255,.14);border-radius:50%;width:32px;height:32px;color:#a9b0c6;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color .3s,border-color .3s,transform .3s;padding:0}
-.sn-theme:hover{color:var(--gold);border-color:rgba(181,134,66,.5);transform:rotate(20deg)}
-.sn-theme svg{width:15px;height:15px;position:absolute;transition:opacity .3s,transform .4s cubic-bezier(.22,1,.36,1)}
-.sn-theme .sn-theme-moon{opacity:0;transform:rotate(-40deg)}
-body.theme-dark .sn-theme .sn-theme-sun{opacity:0;transform:rotate(40deg)}
-body.theme-dark .sn-theme .sn-theme-moon{opacity:1;transform:rotate(0deg)}
+.sn-brand-logo{display:block;height:56px;width:auto;max-width:calc(var(--sn-w) - 56px);filter:brightness(0) invert(1);opacity:.98}
+
+/* Botão flutuante de tema (canto inferior esquerdo) */
+.theme-fab{position:fixed;left:calc(var(--sn-w) + 26px);bottom:26px;z-index:60;display:flex;align-items:center;gap:8px;background:linear-gradient(160deg,var(--navy-deep) 0%,#191d38 100%);color:#fff;border:1px solid rgba(181,134,66,.35);border-radius:99px;padding:11px 20px 11px 14px;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:10.5px;font-weight:800;letter-spacing:2px;text-transform:uppercase;box-shadow:0 8px 22px -6px rgba(30,34,63,.5),0 3px 8px -2px rgba(0,0,0,.15);transition:box-shadow .3s,background .3s,transform .3s cubic-bezier(.22,1,.36,1)}
+.theme-fab:hover{background:linear-gradient(160deg,var(--gold) 0%,var(--gold-soft) 100%);color:#fff;box-shadow:0 12px 28px -6px rgba(181,134,66,.5),0 4px 10px -2px rgba(0,0,0,.18);transform:translateY(-2px)}
+.theme-fab svg{width:16px;height:16px;color:var(--gold-soft);transition:opacity .3s,transform .4s cubic-bezier(.22,1,.36,1);position:absolute;left:14px}
+.theme-fab:hover svg{color:#fff}
+.theme-fab .tf-moon{opacity:0;transform:rotate(-40deg)}
+body.theme-dark .theme-fab .tf-sun{opacity:0;transform:rotate(40deg)}
+body.theme-dark .theme-fab .tf-moon{opacity:1;transform:rotate(0deg)}
+.theme-fab .tf-label{line-height:1;margin-left:22px}
+body.theme-dark .theme-fab{background:linear-gradient(160deg,#1B1F35 0%,#12162A 100%);border-color:rgba(181,134,66,.4)}
+body.theme-dark .theme-fab:hover{background:linear-gradient(160deg,var(--gold) 0%,var(--gold-soft) 100%);color:#fff}
+@media(max-width:820px){.theme-fab{left:16px}}
+@media(max-width:520px){
+  .theme-fab{left:16px;bottom:16px;padding:12px;border-radius:50%}
+  .theme-fab .tf-label{display:none}
+  .theme-fab svg{position:static;left:auto}
+}
 
 /* Lista de links — mais respiro, tipografia refinada */
 .sn-list{position:relative;flex:1;padding:22px 14px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(181,134,66,.35) transparent;z-index:2}
@@ -898,10 +909,6 @@ body.theme-dark .back-top:hover{background:linear-gradient(160deg,var(--gold) 0%
 <aside class="sidenav" id="sidenav">
   <div class="sn-brand">
     <img class="sn-brand-logo" id="sn-brand-logo" alt="Silva &amp; Silva">
-    <button class="sn-theme" id="theme-toggle" aria-label="Alternar tema">
-      <svg class="sn-theme-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-      <svg class="sn-theme-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-    </button>
   </div>
   <nav class="sn-list" id="sidenav-list">
     <div class="sn-marker" id="sn-marker"></div>
@@ -1384,6 +1391,13 @@ body.theme-dark .back-top:hover{background:linear-gradient(160deg,var(--gold) 0%
 
 
 <div class="tt" id="tt"></div>
+
+<!-- Botão alternar tema (canto inferior esquerdo) -->
+<button class="theme-fab" id="theme-toggle" aria-label="Alternar tema claro/escuro">
+  <svg class="tf-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  <svg class="tf-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <span class="tf-label" id="theme-fab-label">Tema escuro</span>
+</button>
 
 <!-- Botão voltar ao topo -->
 <button class="back-top" id="back-top" aria-label="Voltar ao topo">
@@ -2186,14 +2200,19 @@ function ativarReveal(){
 /* Toggle de tema (claro/escuro) com persistência em localStorage */
 function ativarTema(){
   const btn = document.getElementById('theme-toggle');
+  const lbl = document.getElementById('theme-fab-label');
   if(!btn) return;
-  // Aplica tema salvo (ou claro por padrão)
   const salvo = localStorage.getItem('painel-tema');
   if(salvo === 'dark') document.body.classList.add('theme-dark');
+  const atualizarLabel = ()=>{
+    if(lbl) lbl.textContent = document.body.classList.contains('theme-dark') ? 'Tema claro' : 'Tema escuro';
+  };
+  atualizarLabel();
   btn.onclick = ()=>{
     document.body.classList.toggle('theme-dark');
     const isDark = document.body.classList.contains('theme-dark');
     localStorage.setItem('painel-tema', isDark ? 'dark' : 'light');
+    atualizarLabel();
   };
 }
 
