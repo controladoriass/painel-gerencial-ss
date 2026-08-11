@@ -691,16 +691,16 @@ body.has-sidenav{padding-left:var(--sn-w)}
 .sn-foot-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold);animation:pulseDot 2.2s cubic-bezier(.4,0,.6,1) infinite}
 
 /* ============ Rankings executivos (carrossel 3 cards, meio em destaque) ============ */
-/* palco: viewport que corta o overflow — o track anda dentro */
-.exec-stage{position:relative;padding:20px 60px;overflow:hidden}
-.exec-track{display:flex;gap:24px;align-items:center;transition:transform .55s cubic-bezier(.22,1,.36,1);will-change:transform}
-.exec-card{flex:0 0 calc((100% - 48px)/3);background:var(--card);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:6px;padding:22px 22px 20px;box-shadow:0 1px 0 rgba(0,0,0,.02),0 10px 28px -18px rgba(30,34,63,.22);position:relative;overflow:hidden;
-  /* estado default: card lateral (menor, fade) */
-  transform:scale(.86);opacity:.42;filter:blur(.3px);
-  transition:transform .55s cubic-bezier(.22,1,.36,1),opacity .55s cubic-bezier(.22,1,.36,1),box-shadow .55s cubic-bezier(.22,1,.36,1),border-color .3s,filter .55s}
+/* palco: dá respiro para as sombras (overflow visible dentro de um wrapper que só corta horizontalmente) */
+.exec-stage{position:relative;padding:44px 60px 60px;overflow:hidden}
+.exec-track{display:flex;gap:36px;align-items:center;transition:transform .6s cubic-bezier(.22,1,.36,1);will-change:transform;padding:20px 0}
+.exec-card{flex:0 0 calc((100% - 72px)/3);background:var(--card);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:8px;padding:24px 24px 22px;box-shadow:0 3px 8px -3px rgba(30,34,63,.08),0 14px 34px -18px rgba(30,34,63,.2);position:relative;overflow:hidden;
+  /* estado default: card lateral (menor, mais atras, fade) */
+  transform:scale(.82) translateZ(0);opacity:.35;filter:blur(1.2px) saturate(.85);
+  transition:transform .6s cubic-bezier(.22,1,.36,1),opacity .6s cubic-bezier(.22,1,.36,1),box-shadow .6s cubic-bezier(.22,1,.36,1),border-color .3s,filter .6s}
 .exec-card::after{content:"";position:absolute;top:-40%;right:-30%;width:60%;height:80%;background:radial-gradient(circle,rgba(181,134,66,.06),transparent 60%);pointer-events:none;opacity:0;transition:opacity .5s}
-/* card central: destaque */
-.exec-card.on{transform:scale(1);opacity:1;filter:none;background:linear-gradient(160deg,#fff 0%,#fbf7ef 100%);border-top-width:4px;box-shadow:0 6px 16px -4px rgba(181,134,66,.15),0 22px 48px -20px rgba(30,34,63,.35)}
+/* card central: destaque com escala maior, elevação e sombra profunda */
+.exec-card.on{transform:scale(1.06) translateZ(0);opacity:1;filter:none;background:linear-gradient(160deg,#fff 0%,#fbf7ef 100%);border-top-width:4px;box-shadow:0 8px 22px -6px rgba(181,134,66,.22),0 32px 64px -18px rgba(30,34,63,.42);z-index:2}
 .exec-card.on::after{opacity:1}
 .exec-card.on .ec-title{font-size:19px}
 .exec-card.on .ec-eyebrow{font-size:11px}
@@ -724,10 +724,10 @@ body.has-sidenav{padding-left:var(--sn-w)}
 .exec-arrow:disabled:hover{transform:translateY(-50%) scale(1)}
 .exec-arrow.left{left:0}
 .exec-arrow.right{right:0}
-/* fade nas bordas para dar profundidade */
-.exec-stage::before,.exec-stage::after{content:"";position:absolute;top:0;bottom:0;width:80px;pointer-events:none;z-index:3}
-.exec-stage::before{left:60px;background:linear-gradient(90deg,var(--paper),transparent)}
-.exec-stage::after{right:60px;background:linear-gradient(-90deg,var(--paper),transparent)}
+/* fade nas bordas: leve, mais respirado, para dar profundidade sem cortar sombras */
+.exec-stage::before,.exec-stage::after{content:"";position:absolute;top:0;bottom:0;width:60px;pointer-events:none;z-index:3}
+.exec-stage::before{left:0;background:linear-gradient(90deg,var(--paper) 0%,rgba(245,241,232,.6) 55%,transparent 100%)}
+.exec-stage::after{right:0;background:linear-gradient(-90deg,var(--paper) 0%,rgba(245,241,232,.6) 55%,transparent 100%)}
 @media(max-width:980px){
   .exec-stage{padding:20px 46px}
   .exec-card{flex:0 0 100%;transform:scale(.9);opacity:.5}
@@ -1512,7 +1512,10 @@ let execIdx = 0;
 
 function renderRankingsExec(){
   const track = document.getElementById('exec-track');
-  track.innerHTML = RANKINGS_EXEC.map(r=>{
+  const N = RANKINGS_EXEC.length;
+
+  // gera o HTML de um card a partir do índice do RANKINGS_EXEC (com marca de clone opcional)
+  function cardHTML(r, clone){
     const base = r.filtro ? GRUPOS.filter(r.filtro) : GRUPOS;
     const rows = [...base].sort((a,b)=>r.dir*((a[r.key]||0)-(b[r.key]||0))).slice(0,10);
     const lis = rows.map((g,i)=>`
@@ -1521,33 +1524,69 @@ function renderRankingsExec(){
         <div class="nm" title="${g.nome}">${g.nome.replace(/^Grupo\s+/,'')}</div>
         <div class="vl">${r.fmt(g)}${r.sub(g)?`<small>${r.sub(g)}</small>`:''}</div>
       </div>`).join('');
-    return `<div class="exec-card">
+    return `<div class="exec-card${clone?' clone':''}">
       <div class="ec-eyebrow">${r.eyebrow}</div>
       <div class="ec-title">${r.title}</div>
       <div class="ec-list">${lis}</div>
     </div>`;
-  }).join('');
+  }
 
+  // Duplica: [último-1, último, ...todos, primeiro, primeiro+1]
+  // Isso garante que sempre há card à esquerda e à direita, mesmo no início e fim.
+  const seq = [
+    RANKINGS_EXEC[N-2],
+    RANKINGS_EXEC[N-1],
+    ...RANKINGS_EXEC,
+    RANKINGS_EXEC[0],
+    RANKINGS_EXEC[1]
+  ];
+  // Índice lógico real (0..N-1) começa em 0 (movimentação), mas na sequência clonada é 0+2=2.
+  const OFFSET = 2;
+  track.innerHTML = seq.map((r,i)=>cardHTML(r, i<OFFSET || i>=OFFSET+N)).join('');
+
+  const cards = track.querySelectorAll('.exec-card');
   const prev = document.getElementById('exec-prev');
   const next = document.getElementById('exec-next');
-  const posicionar = ()=>{
-    const cards = track.querySelectorAll('.exec-card');
-    if(!cards.length) return;
-    // Translação: o card ativo (execIdx) fica no centro do palco.
-    // Cada passo = largura do card + gap (24). O centro corresponde ao slot do meio (índice 1 em 3 visíveis).
+
+  let pos = OFFSET + execIdx; // posição na sequência clonada
+  let saltando = false;
+
+  function step(){
     const cardW = cards[0].getBoundingClientRect().width;
-    const gap = 24;
-    const step = cardW + gap;
-    // Deslocamento para colocar o card ativo no slot central:
-    // slot central = 1 (0-based), então translada -(idx-1)*step
-    const off = -(execIdx-1)*step;
+    const gap = 36;
+    return cardW + gap;
+  }
+
+  function posicionar(animar=true){
+    if(!cards.length) return;
+    track.style.transition = animar ? '' : 'none';
+    // desloca de forma que o slot central (índice 1 em 3 visíveis) coincida com `pos`
+    const off = -(pos-1)*step();
     track.style.transform = `translateX(${off}px)`;
-    cards.forEach((c,i)=>c.classList.toggle('on', i===execIdx));
-    prev.disabled = execIdx <= 0;
-    next.disabled = execIdx >= RANKINGS_EXEC.length-1;
-  };
-  prev.onclick = ()=>{ if(execIdx>0){ execIdx--; posicionar(); } };
-  next.onclick = ()=>{ if(execIdx<RANKINGS_EXEC.length-1){ execIdx++; posicionar(); } };
+    cards.forEach((c,i)=>c.classList.toggle('on', i===pos));
+  }
+
+  // Ao final da transição, se estamos num clone, saltamos silenciosamente para o original correspondente
+  track.addEventListener('transitionend', ()=>{
+    if(saltando) return;
+    if(pos < OFFSET){                    // clone da esquerda -> pula para o final
+      saltando = true;
+      pos = pos + N;
+      execIdx = pos - OFFSET;
+      posicionar(false);
+      requestAnimationFrame(()=>{ saltando = false; });
+    } else if(pos >= OFFSET + N){        // clone da direita -> pula para o começo
+      saltando = true;
+      pos = pos - N;
+      execIdx = pos - OFFSET;
+      posicionar(false);
+      requestAnimationFrame(()=>{ saltando = false; });
+    }
+  });
+
+  prev.onclick = ()=>{ pos--; execIdx = ((execIdx-1)%N + N)%N; posicionar(); };
+  next.onclick = ()=>{ pos++; execIdx = (execIdx+1)%N; posicionar(); };
+
   // teclado quando a seção está no viewport
   document.addEventListener('keydown', e=>{
     const sec = document.getElementById('sec-exec');
@@ -1557,8 +1596,16 @@ function renderRankingsExec(){
     if(e.key==='ArrowRight'){ next.click(); }
     else if(e.key==='ArrowLeft'){ prev.click(); }
   });
-  window.addEventListener('resize', posicionar);
-  requestAnimationFrame(posicionar);
+  window.addEventListener('resize', ()=>posicionar(false));
+  // posiciona inicialmente sem animação (várias tentativas para pegar o momento em que o card tem largura)
+  setTimeout(()=>posicionar(false), 30);
+  setTimeout(()=>posicionar(false), 250);
+  setTimeout(()=>posicionar(false), 900);
+  // reposiciona quando a seção entra no viewport (garante que width > 0)
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting) posicionar(false); });
+  }, {threshold:.1});
+  io.observe(document.getElementById('sec-exec'));
   attachTT();
 }
 
