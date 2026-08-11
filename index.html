@@ -12,7 +12,7 @@
   --ink:#20233B; --ink2:#3a3f5c;
   --navy:#1E223F; --navy-deep:#161A31; --navy2:#3F5276; --navy3:#4a5273;
   --gold:#B58642; --gold-soft:#CFA36E; --gold-line:#c9a869;
-  --paper:#FBFAF7; --paper2:#F3F0E9; --line:#e7e2d6; --line2:#dbd5c6;
+  --paper:#F5F1E8; --paper2:#EAE4D3; --line:#DDD5C0; --line2:#CFC5AA;
   --card:#ffffff; --muted:#7a7f96; --muted2:#9a9fb2;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -29,7 +29,7 @@ body{background:var(--paper);color:var(--ink);font-family:'Montserrat',system-ui
   linear-gradient(180deg, #1b1f3a 0%, var(--navy-deep) 100%);}
 .hero .wrap{position:relative;padding:38px 32px 46px}
 .hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
-.hero-logo{height:40px;width:auto;filter:brightness(0) invert(1);opacity:.95}
+.hero-logo{display:none}
 .eyebrow{font-size:10.5px;font-weight:600;letter-spacing:3.5px;text-transform:uppercase;color:var(--gold-soft)}
 .hero .doc-meta{text-align:right;font-size:11px;color:#aab0c6;line-height:1.9;letter-spacing:.3px}
 .hero .doc-meta b{color:#fff;font-weight:600}
@@ -603,28 +603,28 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
 body.has-sidenav{padding-left:var(--sn-w)}
 @media(max-width:820px){body.has-sidenav{padding-left:0}.sidenav{display:none}}
 
-/* Brand no topo */
-.sn-brand{padding:26px 22px 22px;border-bottom:1px solid rgba(255,255,255,.06);position:relative;z-index:2}
-.sn-brand-eyebrow{font-size:9.5px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--gold-soft);opacity:.85}
-.sn-brand-title{font-size:20px;font-weight:800;letter-spacing:-.3px;color:#fff;margin-top:6px;line-height:1}
+/* Brand no topo — só a logo */
+.sn-brand{padding:38px 26px 30px;position:relative;z-index:2;display:flex;justify-content:center}
+.sn-brand::after{content:"";position:absolute;left:26px;right:26px;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(181,134,66,.55) 30%,rgba(181,134,66,.55) 70%,transparent)}
+.sn-brand-logo{display:block;height:42px;width:auto;max-width:calc(var(--sn-w) - 52px);filter:brightness(0) invert(1);opacity:.95}
 
-/* Lista de links */
-.sn-list{position:relative;flex:1;padding:16px 12px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(181,134,66,.35) transparent;z-index:2}
+/* Lista de links — mais respiro, tipografia refinada */
+.sn-list{position:relative;flex:1;padding:22px 14px 30px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(181,134,66,.35) transparent;z-index:2}
 .sn-list::-webkit-scrollbar{width:4px}
 .sn-list::-webkit-scrollbar-thumb{background:rgba(181,134,66,.35);border-radius:2px}
 /* Marker dourado que desliza para o item ativo */
-.sn-marker{position:absolute;left:12px;width:3px;height:40px;background:linear-gradient(180deg,var(--gold-soft),var(--gold));border-radius:2px;box-shadow:0 0 12px rgba(181,134,66,.6);transition:top .55s cubic-bezier(.5,.1,.15,1),height .35s cubic-bezier(.5,.1,.15,1);pointer-events:none;top:16px;opacity:0}
+.sn-marker{position:absolute;left:0;width:2.5px;height:44px;background:linear-gradient(180deg,var(--gold-soft),var(--gold));border-radius:0 3px 3px 0;box-shadow:0 0 16px rgba(181,134,66,.7);transition:top .55s cubic-bezier(.5,.1,.15,1),height .35s cubic-bezier(.5,.1,.15,1);pointer-events:none;top:22px;opacity:0}
 .sn-marker.on{opacity:1}
-/* Itens */
-.sn-link{position:relative;display:flex;align-items:center;gap:12px;padding:11px 14px 11px 20px;border-radius:8px;font-size:12.5px;font-weight:600;color:#b6bdd2;text-decoration:none;cursor:pointer;transition:color .3s,background .3s,padding-left .3s,transform .3s;letter-spacing:.2px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transform:translateX(-6px);animation:snIn .5s cubic-bezier(.22,1,.36,1) forwards}
-.sn-link:hover{color:#fff;background:rgba(255,255,255,.04);padding-left:24px}
-.sn-link:hover .sn-icon{color:var(--gold-soft);transform:scale(1.12);filter:drop-shadow(0 0 8px rgba(181,134,66,.55))}
-.sn-link.on{color:#fff;background:linear-gradient(90deg,rgba(181,134,66,.15) 0%,rgba(181,134,66,.03) 60%,transparent 100%);padding-left:24px}
+/* Itens — tipografia elegante, mais espaço, um peso só (600) */
+.sn-link{position:relative;display:flex;align-items:center;gap:14px;padding:13px 16px 13px 22px;border-radius:0;font-size:13.5px;font-weight:600;color:#a9b0c6;text-decoration:none;cursor:pointer;transition:color .3s,background .3s,padding-left .3s;letter-spacing:.15px;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transform:translateX(-6px);animation:snIn .55s cubic-bezier(.22,1,.36,1) forwards;font-family:'Montserrat',sans-serif}
+.sn-link:hover{color:#fff;background:linear-gradient(90deg,rgba(255,255,255,.06),transparent 80%);padding-left:26px}
+.sn-link:hover .sn-icon{color:var(--gold-soft);transform:scale(1.1);filter:drop-shadow(0 0 8px rgba(181,134,66,.55))}
+.sn-link.on{color:#fff;background:linear-gradient(90deg,rgba(181,134,66,.14) 0%,rgba(181,134,66,.02) 65%,transparent 100%);padding-left:26px}
 .sn-link.on .sn-icon{color:var(--gold);filter:drop-shadow(0 0 10px rgba(181,134,66,.7))}
-.sn-icon{width:20px;height:20px;flex:0 0 auto;color:#8a92ab;transition:color .28s,transform .28s,filter .28s;display:flex;align-items:center;justify-content:center}
+.sn-icon{width:18px;height:18px;flex:0 0 auto;color:#8a92ab;transition:color .28s,transform .28s,filter .28s;display:flex;align-items:center;justify-content:center}
 .sn-icon svg{width:100%;height:100%}
 .sn-label{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
-/* Cascade animation delays */
+/* Cascade — feito por atraso escalonado */
 .sn-link:nth-child(2){animation-delay:.05s}
 .sn-link:nth-child(3){animation-delay:.10s}
 .sn-link:nth-child(4){animation-delay:.15s}
@@ -637,9 +637,9 @@ body.has-sidenav{padding-left:var(--sn-w)}
 .sn-link:nth-child(11){animation-delay:.50s}
 @keyframes snIn{to{opacity:1;transform:none}}
 
-/* Rodapé sidebar */
-.sn-foot{position:relative;z-index:2;padding:16px 22px 22px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold-soft);display:flex;align-items:center;gap:10px}
-.sn-foot-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold);animation:pulseDot 2.2s cubic-bezier(.4,0,.6,1) infinite}
+/* Rodapé sidebar — batimento institucional minimalista */
+.sn-foot{position:relative;z-index:2;padding:22px 26px 24px;display:flex;align-items:center;justify-content:center;border-top:1px solid rgba(255,255,255,.05)}
+.sn-foot-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold);animation:pulseDot 2.2s cubic-bezier(.4,0,.6,1) infinite}
 
 /* ============ Rankings executivos (carrossel 3 cards, meio em destaque) ============ */
 /* palco: viewport que corta o overflow — o track anda dentro */
@@ -733,8 +733,7 @@ body.has-sidenav{padding-left:var(--sn-w)}
 
 <aside class="sidenav" id="sidenav">
   <div class="sn-brand">
-    <div class="sn-brand-eyebrow">Painel</div>
-    <div class="sn-brand-title">Gerencial</div>
+    <img class="sn-brand-logo" id="sn-brand-logo" alt="Silva &amp; Silva">
   </div>
   <nav class="sn-list" id="sidenav-list">
     <div class="sn-marker" id="sn-marker"></div>
@@ -801,7 +800,6 @@ body.has-sidenav{padding-left:var(--sn-w)}
   </nav>
   <div class="sn-foot">
     <div class="sn-foot-dot"></div>
-    <span>Silva &amp; Silva</span>
   </div>
 </aside>
 
@@ -1863,6 +1861,10 @@ function _renderInstancia(inst){
 function ativarNav(){
   const nav = document.getElementById('sidenav');
   if(!nav) return;
+  // Copia o src da logo do hero para a sidebar (evita duplicar o base64)
+  const heroLogo = document.querySelector('.hero-logo');
+  const sidebarLogo = document.getElementById('sn-brand-logo');
+  if(heroLogo && sidebarLogo){ sidebarLogo.src = heroLogo.src; }
   const listEl = document.getElementById('sidenav-list');
   const marker = document.getElementById('sn-marker');
   const links = nav.querySelectorAll('.sn-link');
