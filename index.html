@@ -145,7 +145,7 @@ section{margin-bottom:66px;scroll-margin-top:20px}
 .stack-row .tot{font-size:12px;font-weight:700;color:var(--navy);text-align:right;font-family:'Montserrat',sans-serif;font-variant-numeric:tabular-nums}
 
 /* ============ Presença jurídica (foro) ============ */
-.foro-topo{display:grid;grid-template-columns:1fr 2fr;gap:22px;margin-bottom:22px}
+.foro-topo{display:grid;grid-template-columns:minmax(280px,320px) 1fr;gap:22px;margin-bottom:22px}
 .foro-meio{display:grid;grid-template-columns:2fr 1fr;gap:22px}
 @media(max-width:980px){.foro-topo,.foro-meio{grid-template-columns:1fr}}
 
@@ -153,7 +153,7 @@ section{margin-bottom:66px;scroll-margin-top:20px}
 .foro-conc{background:linear-gradient(160deg,var(--navy-deep) 0%,#191d38 100%);color:#fff;border-top-color:var(--gold);position:relative;overflow:hidden}
 .foro-conc::before{content:"";position:absolute;top:-30%;right:-25%;width:70%;height:80%;background:radial-gradient(circle,rgba(181,134,66,.18),transparent 60%);pointer-events:none}
 .foro-conc .fc-eyebrow{font-size:10px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--gold-soft);margin-bottom:10px;position:relative}
-.foro-conc .fc-headline{font-size:38px;font-weight:800;color:#fff;letter-spacing:-1.2px;line-height:1;position:relative;font-variant-numeric:tabular-nums}
+.foro-conc .fc-headline{font-size:34px;font-weight:800;color:#fff;letter-spacing:-1px;line-height:1;position:relative;font-variant-numeric:tabular-nums}
 .foro-conc .fc-headline .fc-lbl{display:block;font-size:16px;font-weight:700;color:var(--gold-soft);letter-spacing:.4px;margin-top:8px}
 .foro-conc .fc-sub{font-size:12px;color:#c2c6d6;margin-top:14px;line-height:1.6;position:relative;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
 .foro-conc .fc-list{margin-top:14px;display:flex;flex-direction:column;gap:8px;position:relative}
@@ -178,8 +178,9 @@ section{margin-bottom:66px;scroll-margin-top:20px}
 .foro-map-side{display:flex;flex-direction:column;gap:14px;min-width:180px}
 .foro-map-scale{background:var(--paper2);border-radius:5px;padding:12px 14px}
 .foro-map-scale-title{font-size:9.5px;font-weight:800;letter-spacing:1.4px;color:var(--navy);text-transform:uppercase;margin-bottom:8px}
-.foro-map-scale-bar{height:12px;border-radius:6px;background:linear-gradient(90deg,#e7e2d6 0%,#CFA36E 45%,#B58642 80%,#8a6534 100%);position:relative}
+.foro-map-scale-bar{height:12px;border-radius:6px;background:linear-gradient(90deg,#e7e2d6 0%,#b4bed2 22%,#667a9e 48%,#B58642 75%,#46371e 100%);position:relative}
 .foro-map-scale-ends{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);font-weight:600;margin-top:6px}
+.foro-map-scale-ticks{display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted);font-weight:700;margin-top:6px;font-variant-numeric:tabular-nums;letter-spacing:.2px}
 .foro-map-top{background:#fff;border:1px solid var(--line);border-radius:5px;padding:12px 14px}
 .foro-map-top-title{font-size:9.5px;font-weight:800;letter-spacing:1.4px;color:var(--navy);text-transform:uppercase;margin-bottom:10px}
 .foro-map-top-row{display:grid;grid-template-columns:26px 1fr auto;align-items:center;gap:10px;padding:5px 0;border-bottom:1px dashed var(--paper2);font-size:11.5px}
@@ -188,15 +189,16 @@ section{margin-bottom:66px;scroll-margin-top:20px}
 .foro-map-top-row .nm{color:var(--navy2);font-weight:600}
 .foro-map-top-row .qt{font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;text-align:right}
 
-/* Barras da instância (padrão bar-row) — usa .foro-inst-bars com estilo próprio */
-#foro-inst-bars{display:flex;flex-direction:column;gap:8px}
-.foro-inst-row{display:grid;grid-template-columns:110px 1fr auto;align-items:center;gap:12px;padding:6px 0}
-.foro-inst-row .name{font-size:12px;font-weight:700;color:var(--navy);text-align:right}
-.foro-inst-row .bar-track{height:14px;background:var(--paper2);border-radius:7px;overflow:hidden}
-.foro-inst-row .bar-fill{height:100%;background:linear-gradient(90deg,var(--navy3),var(--navy2));border-radius:7px;transition:width 1s cubic-bezier(.22,1,.36,1);position:relative}
-.foro-inst-row.pri .bar-fill{background:linear-gradient(90deg,var(--gold-soft),var(--gold))}
-.foro-inst-row .val{font-size:12.5px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;letter-spacing:-.2px}
-.foro-inst-row .val small{font-size:10px;color:var(--muted);font-weight:500;display:block}
+/* Pirâmide vertical de instância (Superiores no topo → 1º Grau na base) */
+.foro-piramide{display:flex;flex-direction:column;gap:14px;align-items:center;padding:8px 0}
+.pir-camada{display:flex;align-items:center;justify-content:center;gap:14px;width:100%;flex-direction:column;position:relative;animation:pirIn .6s cubic-bezier(.22,1,.36,1) forwards;opacity:0;transform:translateY(6px)}
+.pir-tag{font-size:10.5px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--navy);text-align:center}
+.pir-bar{position:relative;height:56px;min-width:80px;max-width:520px;border-radius:8px;transition:width 1s cubic-bezier(.22,1,.36,1);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px -10px rgba(30,34,63,.32);color:#fff}
+.pir-camada:first-child .pir-bar{border-radius:16px 16px 8px 8px}
+.pir-camada:last-child .pir-bar{border-radius:8px 8px 20px 20px;height:66px}
+.pir-val{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.6px;font-variant-numeric:tabular-nums;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+.pir-pct{font-size:11px;font-weight:700;color:rgba(255,255,255,.85);margin-left:8px;letter-spacing:.4px}
+@keyframes pirIn{to{opacity:1;transform:none}}
 .foro-inst-note{margin-top:14px;font-size:11px;color:var(--muted);line-height:1.6;padding-top:12px;border-top:1px solid var(--paper2)}
 .foro-inst-note b{color:var(--navy)}
 
@@ -923,9 +925,88 @@ function renderEficiencia(){
 }
 
 /* --- Bloco E: Presença jurídica (tribunais, mapa UF, instância) --- */
-// Mapeamento tribunal → UF principal (para conseguir filtrar por tribunal e recalcular UF/instância).
-// Como nossos JSONs só dão totais por dimensão, aproximamos: um filtro por tribunal reduz o universo aos
-// GRUPOS que TÊM esse tribunal, e escala o restante proporcionalmente ao peso do tribunal na sua carteira.
+// Nomes completos dos tribunais (para tooltip)
+const TRIB_NOMES = {
+  'TJSC':'Tribunal de Justiça de Santa Catarina',
+  'TJSP':'Tribunal de Justiça de São Paulo',
+  'TJPR':'Tribunal de Justiça do Paraná',
+  'TJRS':'Tribunal de Justiça do Rio Grande do Sul',
+  'TJRJ':'Tribunal de Justiça do Rio de Janeiro',
+  'TJMG':'Tribunal de Justiça de Minas Gerais',
+  'TJDF':'Tribunal de Justiça do Distrito Federal e Territórios',
+  'TJDFT':'Tribunal de Justiça do Distrito Federal e Territórios',
+  'TJBA':'Tribunal de Justiça da Bahia',
+  'TJPE':'Tribunal de Justiça de Pernambuco',
+  'TJPA':'Tribunal de Justiça do Pará',
+  'TJCE':'Tribunal de Justiça do Ceará',
+  'TJGO':'Tribunal de Justiça de Goiás',
+  'TJMS':'Tribunal de Justiça de Mato Grosso do Sul',
+  'TJMT':'Tribunal de Justiça de Mato Grosso',
+  'TJES':'Tribunal de Justiça do Espírito Santo',
+  'TJAL':'Tribunal de Justiça de Alagoas',
+  'TJMA':'Tribunal de Justiça do Maranhão',
+  'TJPB':'Tribunal de Justiça da Paraíba',
+  'TJRN':'Tribunal de Justiça do Rio Grande do Norte',
+  'TJPI':'Tribunal de Justiça do Piauí',
+  'TJSE':'Tribunal de Justiça de Sergipe',
+  'TJTO':'Tribunal de Justiça do Tocantins',
+  'TJRO':'Tribunal de Justiça de Rondônia',
+  'TJAC':'Tribunal de Justiça do Acre',
+  'TJAM':'Tribunal de Justiça do Amazonas',
+  'TJRR':'Tribunal de Justiça de Roraima',
+  'TJAP':'Tribunal de Justiça do Amapá',
+  'TRT1':'Tribunal Regional do Trabalho da 1ª Região (RJ)',
+  'TRT2':'Tribunal Regional do Trabalho da 2ª Região (SP)',
+  'TRT3':'Tribunal Regional do Trabalho da 3ª Região (MG)',
+  'TRT4':'Tribunal Regional do Trabalho da 4ª Região (RS)',
+  'TRT5':'Tribunal Regional do Trabalho da 5ª Região (BA)',
+  'TRT6':'Tribunal Regional do Trabalho da 6ª Região (PE)',
+  'TRT7':'Tribunal Regional do Trabalho da 7ª Região (CE)',
+  'TRT8':'Tribunal Regional do Trabalho da 8ª Região (PA/AP)',
+  'TRT9':'Tribunal Regional do Trabalho da 9ª Região (PR)',
+  'TRT10':'Tribunal Regional do Trabalho da 10ª Região (DF/TO)',
+  'TRT11':'Tribunal Regional do Trabalho da 11ª Região (AM/RR)',
+  'TRT12':'Tribunal Regional do Trabalho da 12ª Região (SC)',
+  'TRT13':'Tribunal Regional do Trabalho da 13ª Região (PB)',
+  'TRT14':'Tribunal Regional do Trabalho da 14ª Região (RO/AC)',
+  'TRT15':'Tribunal Regional do Trabalho da 15ª Região (Campinas/SP)',
+  'TRT16':'Tribunal Regional do Trabalho da 16ª Região (MA)',
+  'TRT17':'Tribunal Regional do Trabalho da 17ª Região (ES)',
+  'TRT18':'Tribunal Regional do Trabalho da 18ª Região (GO)',
+  'TRT19':'Tribunal Regional do Trabalho da 19ª Região (AL)',
+  'TRT20':'Tribunal Regional do Trabalho da 20ª Região (SE)',
+  'TRT21':'Tribunal Regional do Trabalho da 21ª Região (RN)',
+  'TRT22':'Tribunal Regional do Trabalho da 22ª Região (PI)',
+  'TRT23':'Tribunal Regional do Trabalho da 23ª Região (MT)',
+  'TRT24':'Tribunal Regional do Trabalho da 24ª Região (MS)',
+  'TRF1':'Tribunal Regional Federal da 1ª Região',
+  'TRF2':'Tribunal Regional Federal da 2ª Região',
+  'TRF3':'Tribunal Regional Federal da 3ª Região',
+  'TRF4':'Tribunal Regional Federal da 4ª Região',
+  'TRF5':'Tribunal Regional Federal da 5ª Região',
+  'TRF6':'Tribunal Regional Federal da 6ª Região',
+  'STF':'Supremo Tribunal Federal',
+  'STJ':'Superior Tribunal de Justiça',
+  'TST':'Tribunal Superior do Trabalho',
+  'TSE':'Tribunal Superior Eleitoral',
+  'STM':'Superior Tribunal Militar',
+  'CNJ':'Conselho Nacional de Justiça',
+  'CARF':'Conselho Administrativo de Recursos Fiscais',
+  'N/I':'Não informado'
+};
+function _nomeTrib(sigla){ return TRIB_NOMES[sigla] || sigla; }
+
+// Normaliza rótulos de instância (JSONs têm 6 grafias diferentes)
+function _normInstancia(k){
+  if(!k) return 'Não informado';
+  const s = String(k).toLowerCase().replace(/[º°ºo]/g,'').replace(/\s+/g,' ').trim();
+  if(s.startsWith('1 grau') || s === '1grau') return '1º Grau';
+  if(s.startsWith('2 grau') || s === '2grau') return '2º Grau';
+  if(s.startsWith('super')) return 'Superiores';
+  if(s.startsWith('nao inform') || s.includes('n/i')) return 'Não informado';
+  return k;
+}
+
 let foroTribFiltro = null; // sigla do tribunal selecionado ou null
 
 function renderForo(){
@@ -941,11 +1022,11 @@ function renderForo(){
       const escala = qt/totalG;
       trib[foroTribFiltro] = (trib[foroTribFiltro]||0) + qt;
       Object.entries(g.uf).forEach(([k,v])=>{ if(k && k!=='N/I') uf[k]=(uf[k]||0)+Math.round(v*escala); });
-      Object.entries(g.instancia).forEach(([k,v])=>inst[k]=(inst[k]||0)+Math.round(v*escala));
+      Object.entries(g.instancia).forEach(([k,v])=>{ const n=_normInstancia(k); inst[n]=(inst[n]||0)+Math.round(v*escala); });
     } else {
       Object.entries(g.tribunais).forEach(([k,v])=>trib[k]=(trib[k]||0)+v);
       Object.entries(g.uf).forEach(([k,v])=>{ if(k && k!=='N/I') uf[k]=(uf[k]||0)+v; });
-      Object.entries(g.instancia).forEach(([k,v])=>inst[k]=(inst[k]||0)+v);
+      Object.entries(g.instancia).forEach(([k,v])=>{ const n=_normInstancia(k); inst[n]=(inst[n]||0)+v; });
     }
   });
 
@@ -1011,8 +1092,9 @@ function _renderTribBars(trib){
     const podium = i===0?' top1':i===1?' top2':i===2?' top3':'';
     const gs = [...GRUPOS].filter(g=>g.tribunais[t]).sort((a,b)=>b.tribunais[t]-a.tribunais[t]).slice(0,3).map(g=>g.nome.replace(/^Grupo\s+/,'')).join(', ');
     const isFiltro = t===foroTribFiltro;
-    return `<div class="bar-row${podium}${isFiltro?' top1':''}" style="animation-delay:${Math.min(i*35,600)}ms;cursor:pointer" data-trib="${t}" data-tt="<b>${t}</b><br>${NUM(q)} processos · ${pctTot}% do total<br>Top grupos: ${gs}">
-      <div class="name" title="${t}"><span class="rk-badge">${i+1}</span>${t}</div>
+    const nomeCompleto = _nomeTrib(t);
+    return `<div class="bar-row${podium}${isFiltro?' top1':''}" style="animation-delay:${Math.min(i*35,600)}ms;cursor:pointer" data-trib="${t}" data-tt="<b>${t}</b> — ${nomeCompleto}<br>${NUM(q)} processos · ${pctTot}% do total<br>Top grupos: ${gs}">
+      <div class="name" title="${nomeCompleto}"><span class="rk-badge">${i+1}</span>${t}</div>
       <div class="bar-track"><div class="bar-fill gold" style="width:0" data-w="${pct}" data-v="${q}"></div></div>
       <div class="val"><span class="v-num" data-final="${q}">0</span><small>${pctTot}%</small></div>
     </div>`;
@@ -1048,35 +1130,7 @@ function _renderTribBars(trib){
 
 // C) Mapa do Brasil por UF (heatmap)
 // SVG dos estados (paths simplificados, viewBox 0 0 1000 1000)
-const BR_UFS = {
-  'AC':{path:'M120,405 L220,395 L235,435 L215,470 L155,485 L100,470 L95,435 Z',cx:170,cy:430},
-  'AM':{path:'M160,225 L390,215 L470,335 L440,405 L235,435 L220,395 L120,405 L95,435 L60,340 L110,240 Z',cx:265,cy:325},
-  'RR':{path:'M295,90 L400,80 L440,175 L415,220 L305,210 L275,155 Z',cx:355,cy:155},
-  'AP':{path:'M525,145 L610,155 L620,235 L560,265 L505,240 Z',cx:565,cy:200},
-  'PA':{path:'M400,215 L525,145 L610,155 L640,270 L620,360 L515,395 L470,335 L440,405 L440,270 Z',cx:525,cy:280},
-  'MA':{path:'M640,270 L735,265 L750,395 L680,420 L620,360 Z',cx:690,cy:340},
-  'PI':{path:'M735,265 L800,285 L810,420 L750,455 L680,420 L750,395 Z',cx:760,cy:355},
-  'CE':{path:'M810,240 L890,255 L895,320 L855,355 L800,285 Z',cx:850,cy:295},
-  'RN':{path:'M895,320 L945,315 L965,350 L925,380 L855,355 Z',cx:915,cy:340},
-  'PB':{path:'M925,380 L985,375 L985,410 L940,430 L890,415 L855,355 Z',cx:915,cy:395},
-  'PE':{path:'M810,420 L890,415 L940,430 L935,475 L810,470 Z',cx:875,cy:445},
-  'AL':{path:'M885,470 L935,475 L945,505 L905,520 Z',cx:915,cy:495},
-  'SE':{path:'M850,490 L905,520 L895,555 L855,555 Z',cx:875,cy:520},
-  'BA':{path:'M680,420 L810,420 L810,470 L885,470 L850,490 L855,555 L780,610 L695,590 L680,510 Z',cx:760,cy:510},
-  'MT':{path:'M400,435 L515,395 L620,360 L640,505 L560,570 L455,545 L395,505 Z',cx:490,cy:475},
-  'TO':{path:'M620,360 L680,420 L680,510 L640,505 Z',cx:650,cy:450},
-  'RO':{path:'M235,435 L440,405 L400,435 L395,505 L305,530 L250,505 Z',cx:325,cy:470},
-  'DF':{path:'M645,540 L665,540 L665,560 L645,560 Z',cx:655,cy:550},
-  'GO':{path:'M560,505 L640,505 L645,540 L665,560 L640,600 L575,610 L555,570 Z',cx:600,cy:555},
-  'MG':{path:'M640,600 L780,610 L810,690 L755,730 L695,720 L640,700 L600,650 Z',cx:715,cy:670},
-  'ES':{path:'M810,690 L855,690 L855,745 L820,745 Z',cx:830,cy:720},
-  'RJ':{path:'M755,730 L810,745 L810,780 L735,775 Z',cx:775,cy:755},
-  'SP':{path:'M555,690 L695,720 L735,775 L720,810 L600,815 L540,780 Z',cx:625,cy:760},
-  'PR':{path:'M485,780 L600,815 L620,850 L540,880 L470,860 Z',cx:540,cy:830},
-  'SC':{path:'M470,860 L620,850 L620,895 L500,920 Z',cx:545,cy:885},
-  'MS':{path:'M395,505 L560,570 L555,570 L555,690 L540,780 L470,780 L440,700 L410,620 Z',cx:485,cy:640},
-  'RS':{path:'M410,895 L500,920 L620,895 L555,975 L400,970 Z',cx:485,cy:940}
-};
+const BR_MAPA = {"viewBox":"0 0 1000 912","ufs":{"RS":"M451.8 716.4 468.4 714.6 468.9 717.8 485.3 718.8 491.0 724.4 502.0 726.9 516.6 744.0 535.2 749.1 525.8 762.9 528.0 766.5 530.1 762.8 534.9 765.8 517.1 802.1 487.3 832.5 487.1 824.4 492.2 825.0 504.1 815.8 505.9 806.4 509.5 807.9 509.5 802.2 515.2 798.4 514.5 789.9 517.8 792.0 516.8 785.8 510.7 791.7 503.3 781.7 502.4 786.7 507.2 789.7 503.6 799.7 501.4 796.5 500.1 806.8 489.6 812.7 488.7 820.1 487.2 818.0 484.5 822.3 483.7 829.8 487.2 829.2 487.0 832.4 475.9 855.7 460.5 870.3 457.9 856.5 466.5 845.7 457.4 839.2 453.5 829.8 436.4 815.7 423.5 810.6 416.5 801.3 408.1 806.8 408.1 800.1 391.6 783.9 383.3 788.3 375.9 785.7 410.2 744.1 414.5 744.6 412.9 740.7 427.9 732.0 432.4 724.7 451.8 716.4Z","RR":"M348.5 121.2 350.5 143.1 326.8 143.4 320.1 156.6 321.3 161.7 312.9 164.8 303.3 157.6 296.8 162.5 295.5 176.2 290.3 175.6 277.4 163.6 281.4 159.9 275.7 147.9 278.5 131.1 271.6 115.4 273.3 108.4 260.6 103.7 259.6 98.9 246.2 97.9 243.3 75.7 231.0 61.5 244.3 64.9 247.3 69.8 259.8 67.7 269.9 76.1 272.5 66.4 296.5 62.0 314.8 49.7 313.0 42.7 325.1 41.9 328.1 45.7 324.5 56.4 334.1 59.3 337.3 68.3 330.5 75.5 329.5 99.7 334.2 112.3 348.5 121.2Z","PA":"M433.0 98.2 433.8 112.0 441.4 112.2 460.1 122.5 478.5 165.4 483.4 170.5 490.7 170.9 489.0 175.8 474.6 179.9 483.3 178.2 484.8 181.7 512.2 166.0 509.9 170.4 516.0 182.7 512.2 187.1 516.9 184.2 520.8 189.4 529.6 184.4 532.9 190.1 532.2 186.0 537.4 188.2 540.8 183.5 535.9 201.6 550.0 179.9 548.6 184.9 556.2 175.5 560.8 181.1 562.9 177.3 559.4 177.1 559.7 173.5 562.7 174.1 566.3 163.4 573.3 159.0 574.7 162.9 577.8 159.3 581.7 164.0 580.9 159.3 586.8 163.8 587.8 161.0 588.4 165.1 590.2 161.7 590.6 165.8 593.2 162.0 594.6 166.7 597.7 165.1 594.6 168.2 601.1 165.2 600.1 168.7 604.7 169.7 605.7 165.9 604.4 171.5 608.3 170.4 604.1 190.8 588.0 225.8 577.9 239.3 554.5 255.5 566.2 260.5 564.8 267.4 556.0 281.9 544.9 287.5 541.4 300.1 546.0 305.3 543.2 316.8 528.1 336.2 524.4 346.9 392.8 337.8 376.3 324.5 375.2 313.7 359.3 286.7 402.0 192.7 394.3 192.1 374.8 179.6 353.2 160.8 348.5 121.2 357.4 122.2 361.6 115.4 367.5 117.1 386.1 106.9 409.3 110.3 405.4 102.2 408.9 96.7 413.9 99.4 429.3 95.1 433.0 98.2ZM560.1 159.3 556.5 169.5 550.9 170.7 552.7 176.2 549.5 173.7 552.5 176.9 545.3 175.6 544.8 180.3 538.6 177.8 535.8 183.4 534.3 179.5 533.7 184.1 528.6 181.0 526.0 183.5 524.0 177.6 521.6 184.6 513.0 176.6 513.2 169.5 517.9 171.5 519.6 168.6 513.2 168.2 514.3 158.8 518.1 161.3 515.1 154.9 521.7 149.8 560.8 152.9 560.1 159.3ZM505.3 160.0 503.6 168.2 490.3 177.3 498.3 160.4 505.3 160.0ZM528.4 141.6 538.6 140.5 531.8 147.9 522.2 146.7 521.5 143.5 528.4 141.6ZM521.5 142.7 518.7 143.5 521.8 135.2 521.5 142.7ZM509.5 153.5 510.1 147.9 516.0 148.1 509.5 153.5ZM532.5 149.7 539.3 145.9 542.3 147.9 532.5 149.7ZM516.4 146.2 518.8 144.3 520.3 147.7 516.4 146.2Z","AC":"M49.7 291.4 118.9 312.5 193.9 348.4 154.3 372.9 138.5 369.2 113.5 370.8 115.8 338.5 100.2 349.9 82.2 350.2 79.8 340.5 61.6 338.0 66.6 329.7 45.6 300.4 46.2 296.2 51.6 295.2 49.7 291.4Z","AP":"M433.0 98.2 445.9 105.2 453.3 99.9 470.3 103.5 497.2 62.3 500.2 68.5 498.6 58.1 505.3 65.5 505.5 74.1 507.4 69.4 513.5 106.0 530.2 113.0 531.5 121.3 526.1 123.1 531.4 124.2 513.2 144.3 502.4 149.3 494.6 168.4 487.4 172.2 478.5 165.4 476.2 155.5 470.4 151.5 460.1 122.5 441.4 112.2 433.8 112.0 433.0 98.2Z","MS":"M373.6 510.7 378.7 515.2 393.1 501.9 405.9 499.1 424.8 509.6 436.4 505.8 445.7 508.4 454.9 500.4 449.1 514.9 467.7 516.6 468.1 523.9 473.4 525.0 470.8 530.4 479.2 531.3 509.8 547.6 508.4 562.9 497.3 571.7 488.0 594.8 479.6 606.0 457.0 621.7 444.5 646.5 435.7 641.5 420.4 645.3 415.9 615.9 411.1 608.3 399.8 603.6 391.1 608.4 368.3 603.6 371.8 579.8 364.8 562.4 370.9 558.5 365.5 553.1 378.8 521.4 373.6 510.7Z","PR":"M443.7 646.9 457.0 621.7 469.8 614.4 487.5 613.4 513.8 622.8 529.4 621.6 536.4 629.5 537.3 643.2 544.8 653.4 543.3 660.5 557.6 660.8 557.9 669.1 564.8 668.2 568.8 673.0 565.2 678.1 566.9 674.1 562.7 675.9 562.9 673.0 559.9 678.5 554.5 675.8 562.2 680.6 558.5 686.8 553.9 687.3 557.7 689.8 546.8 690.1 539.0 695.4 530.1 690.5 517.2 690.4 514.3 695.5 504.7 697.2 500.6 706.1 455.4 696.1 450.4 681.9 446.3 678.9 439.6 683.3 436.5 680.7 443.7 646.9Z","SC":"M534.9 765.8 530.1 762.8 525.8 765.0 534.1 746.3 516.6 744.0 502.0 726.9 483.4 718.2 468.9 717.8 468.4 714.6 451.8 716.5 455.4 696.1 500.6 706.1 504.7 697.2 514.3 695.5 517.2 690.4 530.1 690.5 539.0 695.4 546.8 690.1 557.7 689.8 556.0 695.5 553.4 691.8 559.8 716.2 556.9 718.3 556.6 740.7 554.1 746.6 551.8 743.3 553.2 749.2 534.9 765.8ZM558.5 697.9 555.3 697.1 558.7 694.0 558.5 697.9Z","AM":"M259.6 102.6 273.6 109.1 271.6 115.4 278.5 131.1 275.7 147.9 281.4 159.9 277.4 163.6 290.3 175.6 295.5 176.2 296.8 162.5 303.3 157.6 312.9 164.8 321.3 161.7 320.1 156.6 326.8 143.4 350.5 143.1 350.9 155.0 360.2 168.8 393.2 191.5 402.0 192.7 358.7 282.9 365.3 295.9 358.4 323.6 293.2 323.3 289.1 327.1 272.7 310.4 256.5 309.3 247.4 318.0 244.8 328.8 231.5 329.4 225.7 338.4 222.8 334.8 211.9 341.3 199.1 337.8 190.2 346.8 118.9 312.5 49.7 291.4 52.4 284.9 63.0 278.4 61.2 270.3 67.6 251.2 88.0 238.8 106.9 236.1 110.6 231.4 126.9 234.2 138.5 171.5 134.0 158.2 125.0 150.9 125.3 135.8 143.8 134.6 139.7 126.2 129.4 126.3 129.3 113.3 163.4 113.0 162.8 107.1 168.1 112.6 178.2 104.6 184.4 113.2 185.1 124.0 189.3 123.0 201.2 132.6 215.1 127.9 216.6 134.6 224.3 125.0 239.0 117.3 240.1 120.2 246.5 108.8 259.6 102.6Z","RO":"M193.9 348.4 190.2 346.8 198.9 337.9 211.9 341.3 222.8 334.8 225.5 338.5 231.5 329.4 244.8 328.8 247.4 318.0 256.5 309.3 270.8 309.6 285.0 325.2 289.4 327.1 293.5 323.3 297.8 327.3 297.4 370.3 327.9 373.8 329.6 378.5 325.7 385.9 331.3 399.1 329.6 403.9 313.2 425.5 306.7 421.4 290.8 422.9 285.1 414.8 271.6 411.8 265.8 404.6 241.4 401.4 226.9 390.8 219.2 375.8 219.1 343.7 193.9 348.4Z","MT":"M365.3 295.9 375.2 313.7 376.3 324.5 392.8 337.8 524.4 346.9 514.2 380.2 515.6 404.0 519.5 409.2 511.7 426.6 509.3 444.3 505.5 452.8 495.9 457.2 491.5 469.8 478.3 477.2 474.5 487.8 468.3 492.4 463.8 507.0 467.7 516.6 449.1 514.9 454.9 500.4 445.7 508.4 436.4 505.8 424.8 509.6 406.3 499.1 393.1 501.9 378.7 515.2 371.8 506.1 360.0 500.2 361.0 480.0 324.5 479.7 322.8 463.2 316.0 455.3 322.3 455.0 320.0 432.1 313.2 425.5 319.8 420.7 331.3 399.5 325.7 385.9 329.6 378.5 327.7 373.5 318.9 370.6 297.1 369.9 295.3 324.9 357.1 324.5 365.3 295.9Z","MA":"M554.9 255.7 577.9 239.3 588.0 225.8 610.1 168.9 613.5 174.4 615.3 170.5 616.2 175.2 621.5 173.6 620.6 178.8 623.6 174.4 623.0 182.7 632.5 176.3 633.7 184.2 639.4 184.7 640.0 188.9 633.4 193.6 636.8 196.6 640.7 190.9 642.7 194.7 636.8 199.9 639.1 198.8 634.0 214.2 641.3 207.1 642.9 198.6 648.5 196.0 643.3 204.6 655.5 197.6 661.0 199.1 661.9 194.7 685.4 204.8 693.9 202.7 691.3 211.7 680.1 217.3 670.3 233.1 674.1 252.1 668.0 267.2 673.1 273.9 671.8 282.3 661.8 285.8 650.5 283.7 636.0 296.9 620.3 302.7 610.1 328.2 613.8 339.1 610.8 356.6 602.7 353.6 596.2 344.9 598.9 340.2 587.9 330.4 592.9 319.0 599.8 317.4 599.9 308.7 589.1 310.1 577.7 298.0 579.8 295.1 574.6 292.9 579.2 289.2 581.4 278.4 579.6 259.1 562.6 251.8 554.9 255.7Z","PI":"M610.8 356.6 613.8 339.1 610.1 328.2 620.3 302.7 636.0 296.9 650.5 283.7 661.8 285.8 671.6 282.6 673.6 275.9 668.6 269.8 668.1 261.1 674.1 251.7 670.3 233.1 680.1 217.3 691.3 211.7 693.4 203.4 703.5 206.5 701.4 216.9 708.9 234.9 706.7 246.8 716.0 281.7 722.2 285.2 716.5 298.7 718.8 311.7 695.6 329.3 693.2 334.9 683.8 336.0 677.8 341.2 660.9 335.8 653.5 338.5 656.1 350.5 647.1 362.5 628.5 368.4 618.2 357.2 610.8 356.6Z","CE":"M719.7 296.9 722.2 285.2 714.8 278.2 705.8 242.9 708.7 233.5 701.4 216.3 704.4 206.0 720.6 203.8 730.8 205.1 761.4 222.3 786.2 245.0 776.4 249.8 768.0 266.6 759.1 274.0 755.8 288.4 760.1 295.5 751.2 306.3 737.5 296.6 719.7 296.9Z","RN":"M760.2 276.5 776.4 249.8 786.2 245.0 800.1 251.1 821.0 251.4 832.0 278.9 803.2 274.9 796.6 288.5 794.9 284.1 780.6 282.5 786.6 269.2 775.9 272.1 768.4 279.2 760.2 276.5Z","PB":"M756.8 301.6 760.1 295.0 755.9 287.2 760.5 275.9 768.4 279.2 785.7 269.2 780.4 282.1 786.3 285.4 791.2 283.1 799.7 287.4 801.0 276.5 804.8 274.8 832.0 278.9 835.4 292.6 834.9 300.1 821.2 298.2 820.0 302.3 802.7 305.7 791.7 315.1 788.0 308.9 783.9 309.0 791.1 298.9 786.1 294.6 769.2 305.7 756.8 301.6Z","PE":"M702.9 323.8 718.8 311.7 717.3 297.1 737.5 296.6 749.1 306.3 756.8 301.6 765.9 306.2 785.8 294.5 791.1 298.9 783.9 309.0 788.0 308.9 791.7 315.1 802.7 305.7 812.5 306.1 825.4 296.8 835.2 301.6 828.3 327.9 811.2 327.4 804.1 333.8 792.2 336.9 775.7 326.8 766.1 336.4 761.1 326.3 757.8 329.2 743.0 320.1 717.6 339.6 712.6 326.6 702.9 323.8Z","AL":"M766.1 336.4 775.7 326.8 792.2 336.9 804.1 333.8 810.8 327.5 828.2 327.9 817.2 343.4 811.8 342.1 815.2 344.4 802.9 360.4 791.7 349.6 766.1 336.4Z","SE":"M770.9 340.4 791.7 349.6 802.9 360.4 788.2 373.1 785.4 371.0 788.0 374.4 777.4 382.2 771.0 378.5 765.9 367.9 775.2 362.9 770.9 340.4Z","BA":"M614.6 356.9 623.5 366.1 633.4 368.1 651.7 358.9 656.5 346.9 653.5 338.5 660.9 335.8 677.8 341.2 683.8 336.0 693.2 334.9 702.9 323.8 712.6 326.6 717.6 339.6 743.0 320.1 765.0 329.9 775.4 352.4 775.0 363.5 767.0 364.7 766.1 368.5 774.9 381.3 783.7 379.9 764.4 410.4 760.1 412.1 756.9 402.9 754.6 408.3 752.2 406.3 756.2 409.1 749.4 420.0 751.1 429.1 747.7 427.0 749.9 436.1 752.1 430.3 749.3 446.5 753.5 471.1 746.5 498.6 747.7 510.2 737.1 523.1 726.8 516.5 726.4 511.3 718.3 503.6 720.1 493.4 725.6 491.8 725.2 486.3 733.3 477.2 726.3 470.5 703.9 468.8 694.3 455.5 688.4 457.0 666.6 445.6 655.9 447.8 652.6 445.9 654.2 439.6 645.7 437.4 608.0 458.2 611.3 439.7 604.5 429.7 608.5 410.8 602.8 398.4 603.0 393.2 608.3 389.5 604.2 386.1 608.0 382.9 598.2 377.1 605.1 368.3 603.5 365.7 614.6 356.9Z","ES":"M726.4 515.8 737.1 523.1 734.8 550.4 711.1 586.3 696.1 582.8 693.2 566.3 703.0 562.9 711.8 545.2 705.6 534.3 712.1 532.8 707.6 522.3 715.1 519.4 712.2 515.2 726.4 515.8Z","RJ":"M693.0 575.6 696.1 582.8 711.1 586.3 711.1 600.9 690.9 613.7 690.0 623.4 669.5 623.3 668.6 616.5 664.7 618.3 665.7 623.7 650.2 626.0 658.0 624.0 653.0 621.5 645.2 624.9 643.0 622.0 635.9 626.2 639.9 630.3 633.5 630.3 634.0 623.5 646.7 616.7 633.2 610.9 654.3 603.2 668.8 603.7 684.0 596.3 687.4 579.6 693.0 575.6Z","SP":"M465.4 617.3 488.0 594.8 497.3 571.7 519.3 554.2 543.8 558.2 544.9 565.2 549.2 562.1 551.3 568.3 552.9 562.1 580.1 558.0 584.8 563.3 585.0 578.2 589.6 589.1 599.5 590.2 595.5 608.7 601.9 613.5 602.8 620.9 614.1 620.5 615.2 614.8 621.8 616.2 633.2 610.9 646.7 616.7 634.1 623.4 635.2 631.8 621.5 637.4 621.3 642.1 612.4 640.4 603.9 646.3 601.9 643.0 602.1 646.3 568.4 668.7 571.7 669.2 567.8 674.8 564.8 668.2 557.9 669.1 557.6 660.8 543.3 660.5 544.8 653.4 537.3 643.2 536.4 629.5 529.6 621.7 513.8 622.8 487.5 613.4 465.4 617.3ZM625.5 643.7 620.7 643.4 623.6 639.6 625.5 643.7Z","GO":"M509.8 547.6 479.2 531.3 470.8 530.4 473.4 525.0 467.7 523.2 463.8 507.0 468.3 492.4 476.1 485.3 475.4 480.3 491.2 470.1 495.9 457.2 507.0 450.9 511.7 426.6 522.1 402.3 526.5 399.7 524.3 410.4 541.3 416.9 549.2 404.6 554.3 419.7 556.3 415.2 566.1 413.1 576.1 419.1 576.2 413.9 578.9 417.9 605.0 407.5 608.5 410.9 604.5 429.7 611.3 439.7 611.5 446.8 607.8 451.9 599.4 447.2 598.7 454.1 591.8 454.2 592.9 471.3 583.5 475.0 580.4 484.6 586.5 494.8 578.9 504.8 583.9 506.9 584.0 517.5 571.1 525.9 550.3 523.2 541.7 529.7 539.0 526.8 523.2 531.1 509.8 547.6ZM583.5 475.0 581.1 463.7 565.6 463.8 564.4 474.8 583.5 475.0Z","DF":"M583.5 475.0 564.4 474.8 565.6 463.8 581.1 463.7 583.5 475.0Z","MG":"M509.1 561.1 509.8 547.6 522.6 531.4 539.0 526.8 541.7 529.7 550.3 523.2 571.1 525.9 584.0 517.5 584.1 507.4 578.9 503.9 586.5 494.1 580.4 484.5 583.5 475.0 592.9 471.3 591.7 454.5 598.7 454.1 599.4 447.2 603.7 451.4 609.2 450.5 608.4 458.4 638.7 439.6 649.9 438.1 654.2 439.6 653.5 446.9 671.1 446.6 688.4 457.0 694.3 455.5 703.9 468.8 725.8 470.3 733.3 476.5 719.0 497.7 718.3 503.6 726.4 515.8 712.2 515.2 715.1 519.4 707.5 522.6 712.1 532.8 705.6 534.3 711.6 540.6 711.3 547.5 703.0 562.9 693.2 566.3 694.1 572.8 687.4 579.6 684.6 595.8 668.8 603.7 654.3 603.2 621.8 616.2 615.2 614.8 614.1 620.5 603.1 621.0 601.9 613.5 595.5 608.7 599.5 590.2 589.6 589.1 585.0 578.2 584.8 563.3 580.1 558.0 552.9 562.1 551.3 568.3 549.2 562.1 544.9 565.2 543.4 558.1 519.3 554.2 509.1 561.1Z","TO":"M524.4 346.9 528.1 336.2 543.2 316.8 546.0 305.3 541.4 300.1 544.9 287.5 556.0 281.9 563.7 270.7 566.4 260.8 554.9 255.7 561.1 251.8 571.9 253.8 579.6 259.1 582.1 273.5 579.4 288.7 574.6 292.9 579.8 295.1 577.7 298.0 589.1 310.1 600.0 309.0 599.8 317.4 592.9 319.0 587.9 330.4 598.9 340.2 596.2 344.9 602.8 353.7 614.6 356.9 603.5 365.7 605.1 368.3 598.2 377.1 608.0 382.9 604.2 386.5 608.3 389.5 602.9 393.8 605.0 407.5 578.9 417.9 576.2 413.9 576.1 419.1 566.1 413.1 556.3 415.2 554.5 419.7 549.2 404.6 541.6 416.9 523.8 409.9 526.1 399.4 517.2 407.8 514.2 380.2 524.4 346.9Z"},"centroids":{"RS":[476.1,789.0],"RR":[296.7,105.4],"PA":[510.7,185.1],"AC":[91.8,331.0],"AP":[486.2,113.2],"MS":[428.6,557.6],"PR":[520.0,668.4],"SC":[523.5,721.3],"AM":[223.4,197.6],"RO":[263.6,363.1],"MT":[402.6,432.0],"MA":[624.5,243.0],"PI":[669.0,294.1],"CE":[737.0,258.4],"RN":[788.7,270.0],"PB":[790.6,292.4],"PE":[769.2,315.5],"AL":[798.5,338.8],"SE":[780.7,363.7],"BA":[695.5,410.3],"ES":[713.7,540.9],"RJ":[666.2,610.7],"SP":[569.6,616.8],"GO":[546.2,468.3],"DF":[575.6,470.5],"MG":[623.7,527.3],"TO":[570.8,343.6]},"nomes":{"RS":"Rio Grande do Sul","RR":"Roraima","PA":"Pará","AC":"Acre","AP":"Amapá","MS":"Mato Grosso do Sul","PR":"Paraná","SC":"Santa Catarina","AM":"Amazonas","RO":"Rondônia","MT":"Mato Grosso","MA":"Maranhão","PI":"Piauí","CE":"Ceará","RN":"Rio Grande do Norte","PB":"Paraíba","PE":"Pernambuco","AL":"Alagoas","SE":"Sergipe","BA":"Bahia","ES":"Espírito Santo","RJ":"Rio de Janeiro","SP":"São Paulo","GO":"Goiás","DF":"Distrito Federal","MG":"Minas Gerais","TO":"Tocantins"}};
 
 function _renderMapa(uf){
   const el = document.getElementById('foro-map');
@@ -1087,51 +1141,77 @@ function _renderMapa(uf){
   const rankUf = [...entries].sort((a,b)=>b[1]-a[1]);
   const topUfs = rankUf.slice(0,6);
 
-  // gera paths
-  const paths = Object.entries(BR_UFS).map(([sigla,{path,cx,cy}])=>{
+  // gera paths reais do Brasil (BR_MAPA.ufs, BR_MAPA.centroids)
+  const siglas = Object.keys(BR_MAPA.ufs).sort();
+  const paths = siglas.map(sigla=>{
+    const d = BR_MAPA.ufs[sigla];
+    const [cx,cy] = BR_MAPA.centroids[sigla] || [0,0];
     const v = uf[sigla]||0;
-    const pct = v/maxV;
-    return `<path data-uf="${sigla}" data-v="${v}" d="${path}" data-tt="<b>${sigla}</b><br>${NUM(v)} processos · ${(v/total*100).toFixed(1)}%${v?`<br>${_topGruposUf(sigla)}`:''}"></path>
+    const nomeUF = BR_MAPA.nomes[sigla] || sigla;
+    const topG = v ? _topGruposUf(sigla) : '';
+    return `<path data-uf="${sigla}" data-v="${v}" d="${d}" data-tt="<b>${sigla} — ${nomeUF}</b><br>${NUM(v)} processos · ${(v/total*100).toFixed(1)}%${topG?`<br>${topG}`:''}"></path>
       ${v>0 ? `<text class="uf-lbl" x="${cx}" y="${cy}" text-anchor="middle" dy="3">${sigla}</text>` : ''}`;
   }).join('');
 
+  // Escala em degraus (legenda): 0, 1-quartil, 2-quartil, 3-quartil, max
+  const sortedVals = entries.map(([,v])=>v).sort((a,b)=>a-b);
+  const q = pct => sortedVals[Math.floor(sortedVals.length * pct)] || 0;
+  const stopsLbl = [
+    {v:0, lbl:'0'},
+    {v:q(.25), lbl:NUM(q(.25))},
+    {v:q(.5), lbl:NUM(q(.5))},
+    {v:q(.75), lbl:NUM(q(.75))},
+    {v:maxV, lbl:NUM(maxV)}
+  ];
+
   el.innerHTML = `
     <div class="foro-map-wrap">
-      <svg class="foro-map-svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">${paths}</svg>
+      <svg class="foro-map-svg" viewBox="${BR_MAPA.viewBox}" preserveAspectRatio="xMidYMid meet">${paths}</svg>
       <div class="foro-map-side">
         <div class="foro-map-scale">
           <div class="foro-map-scale-title">Volume por UF</div>
           <div class="foro-map-scale-bar"></div>
-          <div class="foro-map-scale-ends"><span>0</span><span>${NUM(maxV)}</span></div>
+          <div class="foro-map-scale-ticks">
+            ${stopsLbl.map(s=>`<span>${s.lbl}</span>`).join('')}
+          </div>
         </div>
         <div class="foro-map-top">
           <div class="foro-map-top-title">Top 6 estados</div>
-          ${topUfs.map(([u,q])=>`<div class="foro-map-top-row"><div class="uf">${u}</div><div class="nm">${(q/total*100).toFixed(1)}% da carteira</div><div class="qt">${NUM(q)}</div></div>`).join('')}
+          ${topUfs.map(([u,pQ])=>`<div class="foro-map-top-row"><div class="uf">${u}</div><div class="nm">${(pQ/total*100).toFixed(1)}% da carteira</div><div class="qt">${NUM(pQ)}</div></div>`).join('')}
         </div>
       </div>
     </div>`;
 
-  // aplica cores em cascata
-  const paths_el = el.querySelectorAll('path');
-  paths_el.forEach((p,i)=>{
+  // Cores em cascata (por ordem de volume, do maior para o menor, com atraso curto)
+  const paths_el = [...el.querySelectorAll('path')];
+  paths_el.sort((a,b)=>(+b.dataset.v)-(+a.dataset.v)).forEach((p,i)=>{
     const v = +p.dataset.v;
     setTimeout(()=>{
       const pct = v/maxV;
-      const cor = _corHeatmap(pct);
-      p.style.fill = cor;
-    }, i*30);
+      p.style.fill = _corHeatmap(pct);
+    }, i*28);
   });
 }
 
-// escala de cor: neutro claro → dourado claro → dourado → bronze escuro
+// Escala navy → dourado forte (contraste alto).
+// 0 = paper claro; 0.25 = navy claro; 0.5 = navy médio; 0.75 = dourado; 1 = gold escuro.
 function _corHeatmap(pct){
-  if(pct===0) return 'var(--paper2)';
-  // 4 stops: E7E2D6 (0), CFA36E (0.35), B58642 (0.7), 8a6534 (1)
-  const stops = [[231,226,214],[207,163,110],[181,134,66],[138,101,52]];
-  const idx = Math.min(Math.floor(pct*3), 2);
-  const local = pct*3 - idx;
-  const a = stops[idx], b = stops[idx+1];
-  const rgb = a.map((v,i)=>Math.round(v + (b[i]-v)*local));
+  if(pct === 0) return 'var(--paper2)';
+  // stops calibrados para contraste alto
+  const stops = [
+    [231, 226, 214],  // 0.00 — paper
+    [180, 190, 210],  // 0.20 — navy muito claro
+    [102, 122, 158],  // 0.45 — navy médio
+    [181, 134, 66],   // 0.75 — dourado
+    [70, 55, 30]      // 1.00 — bronze/marrom escuro
+  ];
+  // função de rampa
+  const n = stops.length - 1;
+  const p = Math.max(0, Math.min(1, pct));
+  const idx = Math.min(Math.floor(p * n), n - 1);
+  const local = p * n - idx;
+  const a = stops[idx], b = stops[idx + 1];
+  const rgb = a.map((v, i) => Math.round(v + (b[i] - v) * local));
   return `rgb(${rgb.join(',')})`;
 }
 
@@ -1143,50 +1223,62 @@ function _topGruposUf(sigla){
     .map(x=>`${x.n}: <b>${NUM(x.q)}</b>`).join('<br>');
 }
 
-// D) Instância como barras horizontais (pirâmide de instâncias)
+// D) Instância como pirâmide vertical (funil executivo)
 function _renderInstancia(inst){
-  // ordena: 1º Grau, 2º Grau, Superiores, Não informado
-  const ordem = ['1º Grau','2º Grau','Superiores','Não informado','N/I'];
-  const rows = ordem.map(k=>[k, inst[k]||0]).filter(([,v])=>v>0);
-  // adiciona qualquer chave não prevista no fim
-  Object.entries(inst).forEach(([k,v])=>{ if(!ordem.includes(k) && v>0) rows.push([k,v]); });
-  const total = rows.reduce((s,[,v])=>s+v,0)||1;
-  const max = Math.max(...rows.map(r=>r[1]),1);
+  // Ordem hierárquica de baixo pra cima: 1º Grau (base) → 2º → Superiores (topo)
+  const ordem = ['Superiores','2º Grau','1º Grau'];
+  const rowsAll = ordem.map(k=>[k, inst[k]||0]);
+  const naoInf = inst['Não informado']||0;
+  const total = rowsAll.reduce((s,[,v])=>s+v,0) + naoInf || 1;
+  const totalConhecido = rowsAll.reduce((s,[,v])=>s+v,0) || 1;
+  const max = Math.max(...rowsAll.map(r=>r[1]),1);
+
+  // Descrição de cada nível
+  const desc = {
+    '1º Grau':'Onde a maior parte das disputas está ativa',
+    '2º Grau':'Reforma / apelação em curso',
+    'Superiores':'STF · STJ · TST — jurisprudência estratégica'
+  };
+  const cores = {
+    '1º Grau':'linear-gradient(180deg,var(--gold-soft),var(--gold))',
+    '2º Grau':'linear-gradient(180deg,var(--navy2),var(--navy))',
+    'Superiores':'linear-gradient(180deg,var(--muted2),var(--navy2))'
+  };
 
   const container = document.getElementById('foro-inst-bars');
-  container.innerHTML = rows.map((r,i)=>{
-    const [nome, q] = r;
-    const pct = q/max*100;
-    const pctTot = (q/total*100).toFixed(1);
-    const pri = i===0 ? ' pri' : '';
-    return `<div class="foro-inst-row${pri}" data-tt="<b>${nome}</b><br>${NUM(q)} · ${pctTot}%">
-      <div class="name">${nome}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:0" data-w="${pct}" data-v="${q}"></div></div>
-      <div class="val"><span class="v-num" data-final="${q}">0</span><small>${pctTot}%</small></div>
-    </div>`;
-  }).join('');
+  container.innerHTML = `<div class="foro-piramide">
+    ${rowsAll.map((r,i)=>{
+      const [nome, q] = r;
+      const pct = q/max*100;
+      const pctTot = (q/totalConhecido*100).toFixed(1);
+      return `<div class="pir-camada" style="animation-delay:${i*120}ms" data-tt="<b>${nome}</b><br>${NUM(q)} processos · ${pctTot}% do escritório<br><i>${desc[nome]||''}</i>">
+        <div class="pir-tag">${nome}</div>
+        <div class="pir-bar" style="width:0;background:${cores[nome]||'var(--navy2)'}" data-w="${Math.max(pct,3)}">
+          <span class="pir-val">${NUM(q)}</span>
+          <span class="pir-pct">${pctTot}%</span>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+
+  // Anima crescendo de dentro pra fora (efeito funil)
   setTimeout(()=>{
-    container.querySelectorAll('.foro-inst-row').forEach((row,i)=>{
-      const fill = row.querySelector('.bar-fill'), vNum = row.querySelector('.v-num');
-      const alvo = +fill.dataset.v;
+    container.querySelectorAll('.pir-bar').forEach((bar,i)=>{
       setTimeout(()=>{
-        fill.style.width = fill.dataset.w+'%';
-        const dur=800, passos=25; let k=0;
-        const iv = setInterval(()=>{
-          k++;
-          const p=k/passos, e=1-Math.pow(1-p,5);
-          if(k<passos) vNum.textContent = NUM(Math.round(alvo*e));
-          else { vNum.textContent = NUM(alvo); clearInterval(iv); }
-        }, dur/passos);
-      }, i*80+50);
+        bar.style.width = bar.dataset.w + '%';
+      }, i*140+120);
     });
   }, 30);
 
-  // Nota executiva embaixo
-  const pri = rows[0] ? rows[0] : ['—',0];
-  const pctPri = (pri[1]/total*100).toFixed(1);
-  document.getElementById('foro-inst-note').innerHTML =
-    `<b>${pctPri}%</b> da carteira está em <b>${pri[0]}</b> — recorte natural das disputas ativas do escritório.`;
+  // Nota: destaca a camada dominante + trata "não informado" se existir
+  const dominante = [...rowsAll].sort((a,b)=>b[1]-a[1])[0];
+  const pctDom = (dominante[1]/totalConhecido*100).toFixed(1);
+  let nota = `<b>${pctDom}%</b> da carteira está em <b>${dominante[0]}</b> — recorte natural das disputas ativas do escritório.`;
+  if(naoInf > 0){
+    const pctNi = (naoInf/total*100).toFixed(1);
+    nota += ` <span style="color:var(--muted2)">· ${NUM(naoInf)} processos (${pctNi}%) sem instância cadastrada.</span>`;
+  }
+  document.getElementById('foro-inst-note').innerHTML = nota;
 }
 
 /* --- Nav sticky: shadow ao rolar + scrollspy --- */
