@@ -94,6 +94,8 @@ body.theme-dark{background:#0a0d1e}
 
 /* trava scroll enquanto está carregando */
 body.loading{overflow:hidden}
+/* transição suave quando atualiza em background com dado novo */
+body.reloading main{transition:opacity .35s cubic-bezier(.22,1,.36,1);opacity:.4}
 
 @keyframes curtainLogoIn{to{opacity:1;transform:none}}
 @keyframes curtainCaptionIn{to{opacity:1}}
@@ -1541,13 +1543,13 @@ function carregarDoEmbed(){
 function abrirCortina(){
   const cur = document.getElementById('curtain');
   if(!cur) return;
-  // Espera um beat pra as animações de entrada renderizarem antes de abrir
+  // Beat mínimo para mostrar a logo e o brilho antes de abrir.
+  // Como agora carregamos do embed instantaneamente, esse tempo é só para a experiência de abertura.
   setTimeout(()=>{
     cur.classList.add('open');
     document.body.classList.remove('loading');
-    // Remove do DOM depois da transição completa
     setTimeout(()=>cur.classList.add('done'), 1400);
-  }, 850);
+  }, 550);
 }
 function inicializarCurtainLogo(){
   const heroLogo = document.querySelector('.hero-logo');
@@ -1555,26 +1557,71 @@ function inicializarCurtainLogo(){
   if(heroLogo && cLogo && heroLogo.src) cLogo.src = heroLogo.src;
 }
 
+// Estratégia "embed first, remoto no fundo":
+// 1) Mostra IMEDIATAMENTE o embed (dados congelados na última atualização mensal). Zero espera visível.
+// 2) Em paralelo (silenciosamente), busca a fonte remota. Se vier diferente do embed, re-renderiza.
 async function carregar(){
   inicializarCurtainLogo();
   document.getElementById('m-corte').textContent = DATA_CORTE;
-  // Estratégia de fontes, em ordem:
-  //  1) FONTE_REMOTA (repo dos clientes no Pages) — dado vivo; painel reflete a última mensal.
-  //  2) dados/ local — quando servido por HTTP a partir da própria pasta.
-  //  3) window.DADOS_EMBED — fallback offline (duplo-clique sem internet).
+
+  // 1) Abre com o embed instantâneo
+  if(carregarDoEmbed()){
+    render();
+    abrirCortina();
+    // 2) Em background: atualiza se o remoto tiver dado mais novo (ignora silenciosamente se falhar)
+    atualizarEmBackground();
+    return;
+  }
+
+  // Fallback: se o embed estiver vazio, tenta remoto ou dados/ local
   const tentativas = [];
   if(FONTE_REMOTA) tentativas.push(()=>carregarDeBase(FONTE_REMOTA));
-  // dados/ local só faz sentido quando servido por HTTP; em file:// o fetch é bloqueado
-  // (evita erro vermelho no console — nesse caso vamos direto ao embed).
   if(location.protocol !== 'file:') tentativas.push(()=>carregarDeBase('dados/'));
   for(const t of tentativas){
     try{ if(await t()){ render(); abrirCortina(); return; } }
     catch(e){ console.warn('Fonte indisponível, tentando próxima…', e.message); }
   }
-  if(carregarDoEmbed()){ render(); abrirCortina(); return; }
   document.getElementById('kpirow').innerHTML =
     '<div style="grid-column:1/-1;padding:24px;color:var(--muted);font-weight:600">Não foi possível carregar os dados.</div>';
   abrirCortina();
+}
+
+// Atualiza os dados no fundo. Se vier algo diferente do embed, re-renderiza com fade suave.
+async function atualizarEmBackground(){
+  if(!FONTE_REMOTA) return;
+  // Espera 800ms antes de começar, para não competir com o render inicial (que faz várias animações).
+  await new Promise(r=>setTimeout(r, 800));
+  try{
+    // Baixa todos os JSONs EM PARALELO (muito mais rápido que sequencial).
+    const v = '?v='+Date.now();
+    const manifest = await (await fetch(FONTE_REMOTA+'manifest.json'+v, {cache:'no-store'})).json();
+    const promessas = manifest.ordem.map(cod =>
+      fetch(FONTE_REMOTA+cod+'.json'+v, {cache:'no-store'})
+        .then(r=>r.json())
+        .then(d=>processarGrupo(cod, d))
+        .catch(()=>null)
+    );
+    const lidos = (await Promise.all(promessas)).filter(Boolean);
+    if(!lidos.length) return;
+
+    // Compara com o que já está: se o total ou distribuição mudou, re-renderiza.
+    const antesHash = GRUPOS.map(g=>`${g.cod}:${g.proc}:${g.ativos}:${g.horas}`).join('|');
+    const depoisHash = lidos.map(g=>`${g.cod}:${g.proc}:${g.ativos}:${g.horas}`).join('|');
+    if(antesHash === depoisHash) return; // idêntico ao embed — nada a fazer.
+
+    GRUPOS = lidos;
+    // Sinaliza no console para debug, e re-renderiza com transição suave.
+    console.info(`✓ Dados atualizados em background: ${lidos.length} grupos (fonte remota).`);
+    document.body.classList.add('reloading');
+    setTimeout(()=>{
+      render();
+      // Aguarda o render terminar antes de tirar a classe reloading
+      setTimeout(()=>document.body.classList.remove('reloading'), 400);
+    }, 200);
+  }catch(e){
+    // Silencioso: falha em background não incomoda o usuário. Ele já está vendo o embed.
+    console.info('Atualização em background falhou (usando embed).', e.message);
+  }
 }
 
 /* ====================== Render ====================== */
