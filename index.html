@@ -144,6 +144,63 @@ section{margin-bottom:66px;scroll-margin-top:20px}
 .stack-bar span{height:100%;transition:width .9s cubic-bezier(.22,1,.36,1)}
 .stack-row .tot{font-size:12px;font-weight:700;color:var(--navy);text-align:right;font-family:'Montserrat',sans-serif;font-variant-numeric:tabular-nums}
 
+/* ============ Movimento anual (fluxo) ============ */
+.mov-topo{display:grid;grid-template-columns:3fr 2fr;gap:22px;margin-bottom:22px}
+@media(max-width:980px){.mov-topo{grid-template-columns:1fr}}
+.mov-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:1180px){.mov-kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.mov-kpis{grid-template-columns:1fr}}
+.mov-kpi{padding:18px 18px 16px}
+.mov-kpi .tk-num{font-size:32px}
+.mov-kpi .tk-desc{font-size:11px}
+/* KPI de saldo — cor muda conforme sinal */
+.mov-kpi-saldo.pos .tk-num{color:#2f7a44}
+.mov-kpi-saldo.pos{border-top-color:#2f7a44}
+.mov-kpi-saldo.neg .tk-num{color:#a63d38}
+.mov-kpi-saldo.neg{border-top-color:#a63d38}
+.mov-kpi-saldo.neu .tk-num{color:var(--muted)}
+.mov-kpi-saldo.neu{border-top-color:var(--muted2)}
+
+/* Card diagnóstico (navy dourado) */
+.mov-diag{background:linear-gradient(160deg,var(--navy-deep) 0%,#191d38 100%);color:#fff;border-top-color:var(--gold);position:relative;overflow:hidden}
+.mov-diag::before{content:"";position:absolute;top:-30%;right:-25%;width:70%;height:80%;background:radial-gradient(circle,rgba(181,134,66,.18),transparent 60%);pointer-events:none}
+.mov-diag .md-eyebrow{font-size:10px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--gold-soft);margin-bottom:10px;position:relative}
+.mov-diag .md-headline{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.3px;line-height:1.2;position:relative}
+.mov-diag .md-headline .md-num{font-size:36px;color:var(--gold-soft);display:block;margin-bottom:6px;font-variant-numeric:tabular-nums;letter-spacing:-1px}
+.mov-diag .md-sub{font-size:12px;color:#c2c6d6;margin-top:14px;line-height:1.65;position:relative}
+.mov-diag .md-sub b{color:#fff;font-weight:800}
+
+/* Gráfico principal */
+.mov-panel #mov-chart{margin-top:6px}
+.mov-panel svg{width:100%;height:auto;display:block}
+.mov-badge-live{margin-left:10px;font-size:9.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;background:linear-gradient(90deg,var(--gold-soft),var(--gold));color:#fff;padding:3px 10px;border-radius:99px;box-shadow:0 3px 8px -3px rgba(181,134,66,.55);vertical-align:middle}
+/* Legenda */
+.mov-legend{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:14px;font-size:11.5px;font-weight:600}
+.mov-legend .ml-item{display:flex;align-items:center;gap:8px;color:var(--navy2)}
+.mov-legend .ml-swatch{width:16px;height:12px;border-radius:3px;flex:0 0 auto}
+.mov-legend .ml-swatch.entradas{background:linear-gradient(135deg,var(--gold-soft),var(--gold))}
+.mov-legend .ml-swatch.encerr{background:linear-gradient(135deg,var(--navy2),var(--navy))}
+.mov-legend .ml-swatch.estoque{background:linear-gradient(180deg,rgba(181,134,66,.65),rgba(181,134,66,.08))}
+.mov-legend .ml-swatch.proj{background:transparent;border:1.5px dashed var(--muted2)}
+.mov-legend .ml-lbl{color:var(--navy);font-weight:700}
+
+/* Extrajudicial: barras horizontais coloridas */
+#mov-extra{display:flex;flex-direction:column;gap:2px;margin-top:6px}
+.mov-extra-row{display:grid;grid-template-columns:70px 1fr 100px;align-items:center;gap:14px;padding:8px 4px;border-bottom:1px dashed var(--paper2);transition:background .18s,padding .2s;border-radius:4px}
+.mov-extra-row:last-child{border-bottom:0}
+.mov-extra-row:hover{background:linear-gradient(90deg,rgba(181,134,66,.05),transparent);padding-left:10px}
+.mov-extra-row .fx-name{font-size:13px;font-weight:800;color:var(--navy);text-align:right;font-variant-numeric:tabular-nums}
+.mov-extra-row .fx-track{height:14px;background:var(--paper2);border-radius:7px;overflow:hidden}
+.mov-extra-row .fx-fill{height:100%;background:linear-gradient(90deg,#6a4d94,#3d2b57);border-radius:7px;transition:width 1s cubic-bezier(.22,1,.36,1);position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.15)}
+.mov-extra-row .fx-fill::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.45) 45%,rgba(255,255,255,.55) 50%,rgba(255,255,255,.45) 55%,transparent 100%);transform:translateX(-100%);animation:shimmer 1.6s cubic-bezier(.22,1,.36,1) .35s 1 forwards;opacity:.5}
+.mov-extra-row .fx-val{font-size:13px;font-weight:800;color:var(--navy);text-align:right;font-variant-numeric:tabular-nums}
+
+/* Pastilhas de delta (badges +/-) */
+.mov-delta{display:inline-block;padding:3px 8px;border-radius:99px;font-size:9.5px;font-weight:800;letter-spacing:.4px;font-variant-numeric:tabular-nums;box-shadow:0 2px 5px -2px rgba(0,0,0,.25);white-space:nowrap}
+.mov-delta.pos{background:linear-gradient(135deg,#78c290,#2f7a44);color:#fff}
+.mov-delta.neg{background:linear-gradient(135deg,#d67f7a,#a63d38);color:#fff}
+.mov-delta.neu{background:linear-gradient(135deg,#d4d8e0,#9aa0b8);color:#3a3f5c}
+
 /* ============ Partes contrárias (adversários) ============ */
 .partes-topo{display:grid;grid-template-columns:2fr 1fr;gap:22px;margin-bottom:6px}
 @media(max-width:980px){.partes-topo{grid-template-columns:1fr}}
@@ -595,7 +652,7 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
       <a class="tn-link" data-target="sec-tempo">Idade da carteira</a>
       <a class="tn-link" data-target="sec-polo">Perfil processual</a>
       <a class="tn-link" data-target="sec-partes">Partes contrárias</a>
-      <a class="tn-link" data-target="sec-series">Fluxo anual</a>
+      <a class="tn-link" data-target="sec-series">Movimento anual</a>
       <a class="tn-link" data-target="sec-pano">Panorama</a>
     </div>
   </div>
@@ -929,13 +986,56 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
     <div class="sec-head">
       <div class="roman">VIII</div>
       <div class="sec-titles">
-        <h2>Fluxo anual do escritório</h2>
-        <div class="sec-desc">Entradas versus encerramentos por ano. Onde as duas séries convergem, o estoque estabiliza; quando entradas descolam, a carteira cresce.</div>
+        <h2>A carteira está crescendo ou encolhendo?</h2>
       </div>
     </div>
-    <div class="panel">
-      <div id="series-fluxo"></div>
-      <div class="scatter-note">Extrajudicial por ano (soma de todos os grupos): <span id="series-extra"></span></div>
+
+    <!-- Linha 1: 4 KPIs + card diagnóstico -->
+    <div class="mov-topo">
+      <div class="mov-kpis">
+        <div class="tk-card mov-kpi" id="mov-kpi-ent">
+          <div class="tk-eyebrow">Entradas 2025</div>
+          <div class="tk-num" id="mov-num-ent">0</div>
+          <div class="tk-desc">novos processos no último ano cheio</div>
+        </div>
+        <div class="tk-card mov-kpi" id="mov-kpi-enc">
+          <div class="tk-eyebrow">Encerramentos 2025</div>
+          <div class="tk-num" id="mov-num-enc">0</div>
+          <div class="tk-desc">baixados no mesmo período</div>
+        </div>
+        <div class="tk-card mov-kpi mov-kpi-saldo" id="mov-kpi-saldo">
+          <div class="tk-eyebrow" id="mov-lbl-saldo">Saldo 2025</div>
+          <div class="tk-num" id="mov-num-saldo">0</div>
+          <div class="tk-desc" id="mov-desc-saldo">carteira cresceu / estabilizou / encolheu</div>
+        </div>
+        <div class="tk-card mov-kpi" id="mov-kpi-tx">
+          <div class="tk-eyebrow">Taxa de encerramento</div>
+          <div class="tk-num" id="mov-num-tx">0<small>%</small></div>
+          <div class="tk-desc">encerramentos ÷ entradas · <span id="mov-tx-anos">últimos 5 anos</span></div>
+        </div>
+      </div>
+      <div class="panel mov-diag">
+        <div class="md-eyebrow">Diagnóstico da carteira</div>
+        <div class="md-headline" id="mov-diag-head"></div>
+        <div class="md-sub" id="mov-diag-sub"></div>
+      </div>
+    </div>
+
+    <!-- Gráfico principal -->
+    <div class="panel mov-panel">
+      <div class="panel-label">
+        Movimento e estoque acumulado por ano
+        <span class="mov-badge-live" id="mov-badge-live"></span>
+      </div>
+      <div id="mov-chart"></div>
+      <div class="mov-legend" id="mov-legend"></div>
+    </div>
+
+    <!-- Extrajudicial -->
+    <div class="panel" style="margin-top:22px" id="mov-extra-panel">
+      <div class="panel-label">Atuação extrajudicial por ano</div>
+      <div id="mov-extra"></div>
+      <div class="scatter-note" id="mov-extra-note"></div>
     </div>
   </section>
 
@@ -2854,7 +2954,7 @@ function ativarFiltroPartes(){
 
 /* --- Bloco A/F: Séries anuais (entradas × encerramentos) --- */
 function renderSeries(){
-  // agrega por ano somando todos os grupos
+  // agrega por ano
   const ent={}, enc={}, extra={};
   GRUPOS.forEach(g=>{
     Object.entries(g.entradasAno).forEach(([a,v])=>ent[a]=(ent[a]||0)+v);
@@ -2862,56 +2962,293 @@ function renderSeries(){
     Object.entries(g.extraAno).forEach(([a,v])=>extra[a]=(extra[a]||0)+v);
   });
   const anos = [...new Set([...Object.keys(ent),...Object.keys(enc)])].filter(a=>+a>=2020&&+a<=2026).sort();
-  const maxY = Math.max(...anos.map(a=>Math.max(ent[a]||0, enc[a]||0)),1);
-  const W=920, H=340, P={l:52,r:26,t:20,b:44};
-  const bw = (W-P.l-P.r)/(anos.length||1);
+  if(!anos.length) return;
+
+  // Ano de referência = último ano cheio (2025 se dashboard rodou em 2026)
+  const ANO_CORRENTE = 2026;
+  const ANO_REF = 2025;
+  const anoCorrenteIdx = anos.indexOf(String(ANO_CORRENTE));
+
+  // Projeção 2026 (baseada no ritmo dos meses passados até a data-corte 24/07/2026 = 7 meses).
+  // Multiplica o parcial por 12/7 ~= 1.71 para estimar o total.
+  const MESES_TRANSCORRIDOS = 7; // até 24/07
+  const ratioProj = 12/MESES_TRANSCORRIDOS;
+  const entProj = (ent[String(ANO_CORRENTE)]||0) * ratioProj;
+  const encProj = (enc[String(ANO_CORRENTE)]||0) * ratioProj;
+
+  // === KPIs ===
+  const entRef = ent[String(ANO_REF)]||0;
+  const encRef = enc[String(ANO_REF)]||0;
+  const saldoRef = entRef - encRef;
+  _tempoAnimarKpi('mov-num-ent', entRef, v=>NUM(Math.round(v)));
+  _tempoAnimarKpi('mov-num-enc', encRef, v=>NUM(Math.round(v)));
+  // saldo com sinal e classe
+  const sldKpi = document.getElementById('mov-kpi-saldo');
+  const sldEl = document.getElementById('mov-num-saldo');
+  sldKpi.classList.remove('pos','neg','neu');
+  if(saldoRef > 20) sldKpi.classList.add('pos');
+  else if(saldoRef < -20) sldKpi.classList.add('neg');
+  else sldKpi.classList.add('neu');
+  const sinalKpi = saldoRef > 0 ? '+' : saldoRef < 0 ? '−' : '';
+  {
+    const dur=900, passos=32; let k=0;
+    const abs = Math.abs(saldoRef);
+    const iv = setInterval(()=>{
+      k++;
+      const p=k/passos, e=1-Math.pow(1-p,5);
+      sldEl.textContent = sinalKpi + NUM(Math.round(abs*e));
+      if(k>=passos){ sldEl.textContent = sinalKpi + NUM(abs); clearInterval(iv); }
+    }, dur/passos);
+  }
+  document.getElementById('mov-desc-saldo').innerHTML =
+    saldoRef > 0 ? `carteira <b style="color:#2f7a44">cresceu</b> em ${NUM(saldoRef)} processos` :
+    saldoRef < 0 ? `carteira <b style="color:#a63d38">encolheu</b> em ${NUM(Math.abs(saldoRef))} processos` :
+    `carteira <b>estabilizada</b>`;
+
+  // Taxa de encerramento — últimos 5 anos (excluindo o corrente parcial)
+  const janela = anos.filter(a=>+a>=ANO_REF-4 && +a<=ANO_REF);
+  const totEnt5 = janela.reduce((s,a)=>s+(ent[a]||0),0);
+  const totEnc5 = janela.reduce((s,a)=>s+(enc[a]||0),0);
+  const taxaEnc = totEnt5 ? (totEnc5/totEnt5*100) : 0;
+  _tempoAnimarKpi('mov-num-tx', taxaEnc, v=>v.toFixed(1));
+  document.getElementById('mov-tx-anos').textContent = `${janela[0]}–${janela[janela.length-1]}`;
+
+  // === Diagnóstico ===
+  // Analisa os últimos 3 anos cheios para tendência
+  const janela3 = [ANO_REF-2, ANO_REF-1, ANO_REF].map(a=>String(a));
+  const saldos3 = janela3.map(a=>(ent[a]||0)-(enc[a]||0));
+  const somaSaldo3 = saldos3.reduce((s,v)=>s+v,0);
+  const cresceu3 = saldos3.filter(v=>v>0).length;
+
+  // Crescimento entradas ano ref vs ano ref-1
+  const entPrev = ent[String(ANO_REF-1)]||0;
+  const growthEntPct = entPrev ? ((entRef-entPrev)/entPrev*100) : 0;
+
+  let head, sub;
+  if(somaSaldo3 > 50 || cresceu3 >= 2){
+    head = `<span class="md-num">+${NUM(somaSaldo3)}</span>Carteira em expansão`;
+    sub = `Nos últimos 3 anos, a carteira ganhou <b>${NUM(somaSaldo3)} processos</b> líquidos.` +
+          (growthEntPct >= 5 ? ` Entradas aceleraram <b>${growthEntPct.toFixed(1)}%</b> vs. ${ANO_REF-1}, indicando maior contencioso a absorver.` :
+           ` A capacidade de encerramento (${taxaEnc.toFixed(1)}%) ainda não acompanha o volume de novos casos.`);
+  } else if(somaSaldo3 < -50 || cresceu3 <= 1){
+    head = `<span class="md-num">${somaSaldo3>=0?'+':''}${NUM(somaSaldo3)}</span>Carteira em contração`;
+    sub = `Nos últimos 3 anos, a carteira encolheu em <b>${NUM(Math.abs(somaSaldo3))} processos</b> líquidos.` +
+          ` Taxa de encerramento de <b>${taxaEnc.toFixed(1)}%</b> superior ao ritmo de entradas — desmobilização em curso.`;
+  } else {
+    head = `<span class="md-num">${somaSaldo3>=0?'+':''}${NUM(somaSaldo3)}</span>Carteira estável`;
+    sub = `Nos últimos 3 anos, entradas e encerramentos rodam próximos do equilíbrio (saldo líquido de <b>${NUM(somaSaldo3)}</b> processos). Estoque em regime de manutenção.`;
+  }
+  document.getElementById('mov-diag-head').innerHTML = head;
+  document.getElementById('mov-diag-sub').innerHTML = sub;
+
+  // === Gráfico principal ===
+  // Estoque acumulado (soma cumulativa dos saldos anuais). Começa em 0 no ano inicial.
+  // Interpretação: onde estava o estoque acumulado a partir da série disponível.
+  // Para incluir base, começamos em 0 e somamos os saldos ano a ano.
+  let est = 0;
+  const estoque = {};
+  anos.forEach(a=>{
+    const s = (ent[a]||0) - (enc[a]||0);
+    est += s;
+    estoque[a] = est;
+  });
+
+  const maxY = Math.max(
+    ...anos.map(a=>Math.max(ent[a]||0, enc[a]||0)),
+    entProj, encProj,
+    1
+  );
+  // estoque pode ficar negativo em algum ano; ajustamos a escala secundária
+  const estMin = Math.min(0, ...Object.values(estoque));
+  const estMax = Math.max(0, ...Object.values(estoque));
+  const estRange = Math.max(estMax - estMin, 1);
+
+  const W=1000, H=380, P={l:56,r:56,t:36,b:56};
+  const bw = (W-P.l-P.r) / anos.length;
   const y = v => H-P.b - v/maxY*(H-P.t-P.b);
+  const yEst = v => H-P.b - (v-estMin)/estRange*(H-P.t-P.b);
   const x = i => P.l + i*bw + bw/2;
 
-  // eixos + grid
+  // --- grid ---
   let grid='';
   for(let i=0;i<=4;i++){
     const v = Math.round(maxY*i/4);
-    grid += `<line x1="${P.l}" y1="${y(v)}" x2="${W-P.r}" y2="${y(v)}" stroke="var(--line)" opacity=".6"/>`;
-    grid += `<text x="${P.l-8}" y="${y(v)+3}" text-anchor="end" style="font-size:9.5px;fill:var(--muted2);font-weight:600">${NUM(v)}</text>`;
+    grid += `<line x1="${P.l}" y1="${y(v)}" x2="${W-P.r}" y2="${y(v)}" stroke="var(--line)" opacity=".55"/>`;
+    grid += `<text x="${P.l-10}" y="${y(v)+3}" text-anchor="end" style="font-size:10px;fill:var(--muted2);font-weight:700">${NUM(v)}</text>`;
   }
+  // rótulo eixo Y esquerdo
+  grid += `<text transform="rotate(-90 16 ${(H-P.b+P.t)/2})" x="16" y="${(H-P.b+P.t)/2}" text-anchor="middle" style="font-size:10px;fill:var(--muted);font-weight:800;letter-spacing:1.4px">MOVIMENTO ANUAL</text>`;
+  // eixo Y direito (para estoque) — ticks discretos
+  const nTicksEst = 4;
+  for(let i=0;i<=nTicksEst;i++){
+    const v = Math.round(estMin + (estRange*i/nTicksEst));
+    grid += `<text x="${W-P.r+10}" y="${yEst(v)+3}" text-anchor="start" style="font-size:10px;fill:var(--gold);font-weight:700;font-variant-numeric:tabular-nums">${v>=0?'+':''}${NUM(v)}</text>`;
+  }
+  grid += `<text transform="rotate(90 ${W-16} ${(H-P.b+P.t)/2})" x="${W-16}" y="${(H-P.b+P.t)/2}" text-anchor="middle" style="font-size:10px;fill:var(--gold);font-weight:800;letter-spacing:1.4px">ESTOQUE ACUMULADO</text>`;
 
-  // barras agrupadas: entradas (dourado) + encerramentos (navy) lado a lado
+  // --- área de estoque acumulado ---
+  // pontos: (x_i, yEst(estoque_i)) + baseline em yEst(0)
+  const yZero = yEst(0);
+  const estPts = anos.map((a,i)=>[x(i), yEst(estoque[a])]);
+  const areaPath = estPts.length ?
+    `M ${estPts[0][0]},${yZero} ` +
+    estPts.map(p=>`L ${p[0]},${p[1]}`).join(' ') +
+    ` L ${estPts[estPts.length-1][0]},${yZero} Z` : '';
+  const linePath = estPts.length ?
+    `M ${estPts[0][0]},${estPts[0][1]} ` + estPts.slice(1).map(p=>`L ${p[0]},${p[1]}`).join(' ') : '';
+
+  const defs = `
+    <defs>
+      <linearGradient id="grad-estoque" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="rgb(181,134,66)" stop-opacity="0.75"/>
+        <stop offset="70%" stop-color="rgb(181,134,66)" stop-opacity="0.14"/>
+        <stop offset="100%" stop-color="rgb(181,134,66)" stop-opacity="0.02"/>
+      </linearGradient>
+      <linearGradient id="grad-bar-ent" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#CFA36E"/><stop offset="100%" stop-color="#B58642"/>
+      </linearGradient>
+      <linearGradient id="grad-bar-enc" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#5b6a94"/><stop offset="100%" stop-color="#1E223F"/>
+      </linearGradient>
+      <filter id="glow-est" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3.5" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>`;
+
+  const areaHtml = `
+    <path class="mov-area" d="${areaPath}" fill="url(#grad-estoque)" opacity="0"/>
+    <path class="mov-line" d="${linePath}" fill="none" stroke="rgb(181,134,66)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0" filter="url(#glow-est)"/>
+  `;
+
+  // --- barras (entradas + encerramentos) ---
+  const barW = Math.min(24, bw*0.28);
   let bars='';
   anos.forEach((a,i)=>{
     const cx = x(i);
-    const barW = Math.min(28, bw*0.35);
     const e = ent[a]||0, f = enc[a]||0;
-    bars += `<rect x="${cx-barW-2}" y="${y(e)}" width="${barW}" height="${H-P.b-y(e)}" fill="var(--gold)" rx="2"
-      data-tt="<b>${a}</b><br>Entradas: ${NUM(e)}"></rect>`;
-    bars += `<rect x="${cx+2}" y="${y(f)}" width="${barW}" height="${H-P.b-y(f)}" fill="var(--navy2)" rx="2"
-      data-tt="<b>${a}</b><br>Encerramentos: ${NUM(f)}"></rect>`;
-    bars += `<text x="${cx}" y="${H-P.b+16}" text-anchor="middle" style="font-size:11px;fill:var(--navy);font-weight:700">${a}</text>`;
-    // rótulos em cima das barras
-    bars += `<text x="${cx-barW/2-2}" y="${y(e)-5}" text-anchor="middle" style="font-size:9px;fill:var(--gold);font-weight:800">${NUM(e)}</text>`;
-    bars += `<text x="${cx+barW/2+2}" y="${y(f)-5}" text-anchor="middle" style="font-size:9px;fill:var(--navy2);font-weight:800">${NUM(f)}</text>`;
+    const isProj = +a === ANO_CORRENTE;
+    const projE = isProj ? entProj : 0;
+    const projF = isProj ? encProj : 0;
+    // barra real de entrada
+    const yE = y(e); const hE = H-P.b - yE;
+    bars += `<rect class="mov-bar mov-bar-ent" x="${cx-barW-3}" y="${H-P.b}" width="${barW}" height="0"
+      data-anim-y="${yE}" data-anim-h="${hE}"
+      fill="url(#grad-bar-ent)" rx="3" data-tt="<b>${a} — Entradas</b><br>${NUM(e)} processos${isProj?' <i>(parcial · até 24/07)</i>':''}"/>`;
+    // barra real de encerramento
+    const yF = y(f); const hF = H-P.b - yF;
+    bars += `<rect class="mov-bar mov-bar-enc" x="${cx+3}" y="${H-P.b}" width="${barW}" height="0"
+      data-anim-y="${yF}" data-anim-h="${hF}"
+      fill="url(#grad-bar-enc)" rx="3" data-tt="<b>${a} — Encerramentos</b><br>${NUM(f)} processos${isProj?' <i>(parcial · até 24/07)</i>':''}"/>`;
+    // barras de projeção (fantasma) sobrepostas se for ano corrente
+    if(isProj){
+      const yPE = y(projE); const hPE = H-P.b - yPE;
+      const yPF = y(projF); const hPF = H-P.b - yPF;
+      bars += `<rect class="mov-bar mov-bar-proj" x="${cx-barW-3}" y="${yPE}" width="${barW}" height="${hPE}"
+        fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-dasharray="4 3" rx="3" opacity="0"
+        data-tt="<b>${a} — Projeção Entradas</b><br>${NUM(Math.round(projE))} (parcial ${NUM(e)} × ${ratioProj.toFixed(2)})"/>`;
+      bars += `<rect class="mov-bar mov-bar-proj" x="${cx+3}" y="${yPF}" width="${barW}" height="${hPF}"
+        fill="none" stroke="var(--navy2)" stroke-width="1.5" stroke-dasharray="4 3" rx="3" opacity="0"
+        data-tt="<b>${a} — Projeção Encerramentos</b><br>${NUM(Math.round(projF))} (parcial ${NUM(f)} × ${ratioProj.toFixed(2)})"/>`;
+    }
+    // rótulos números em cima
+    bars += `<text x="${cx-barW/2-3}" y="${yE-6}" text-anchor="middle" style="font-size:10px;fill:var(--gold-line);font-weight:800;font-variant-numeric:tabular-nums">${NUM(e)}</text>`;
+    bars += `<text x="${cx+barW/2+3}" y="${yF-6}" text-anchor="middle" style="font-size:10px;fill:var(--navy);font-weight:800;font-variant-numeric:tabular-nums">${NUM(f)}</text>`;
+    // rótulo do ano embaixo + delta
+    bars += `<text x="${cx}" y="${H-P.b+18}" text-anchor="middle" style="font-size:12px;fill:var(--navy);font-weight:800;letter-spacing:.4px">${a}${isProj?' *':''}</text>`;
+    // pastilha de delta (usa foreignObject para ficar centralizada)
+    const delta = e-f;
+    const dSinal = delta>0?'+':delta<0?'−':'';
+    const dCls = delta>20?'pos':delta<-20?'neg':'neu';
+    const badgeW = 62, badgeH = 20;
+    bars += `<foreignObject x="${cx-badgeW/2}" y="${H-P.b+24}" width="${badgeW}" height="${badgeH}">
+      <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex;justify-content:center;pointer-events:none">
+        <span class="mov-delta ${dCls}">${dSinal}${NUM(Math.abs(delta))}</span>
+      </div>
+    </foreignObject>`;
   });
 
-  // linha do saldo (entradas−encerramentos) sobreposta
-  const saldoMax = Math.max(...anos.map(a=>Math.abs((ent[a]||0)-(enc[a]||0))),1);
-  const ySaldo = v => (H-P.b+P.t)/2 - v/saldoMax*(H-P.t-P.b)/2.5;
-  const pts = anos.map((a,i)=>[x(i), ySaldo((ent[a]||0)-(enc[a]||0))]);
-  const line = pts.length>1 ? `<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="var(--navy-deep)" stroke-width="1.8" stroke-dasharray="5 3" opacity=".55"/>` : '';
-  const dots = pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="var(--navy-deep)" opacity=".7" data-tt="<b>Saldo ${anos[i]}</b><br>${(ent[anos[i]]||0)-(enc[anos[i]]||0)}"></circle>`).join('');
+  // Marcadores das linhas do estoque (dots dourados)
+  const estDots = anos.map((a,i)=>`
+    <circle class="mov-est-dot" cx="${x(i)}" cy="${yEst(estoque[a])}" r="0" fill="#B58642" stroke="#fff" stroke-width="2"
+      data-final-r="4.5" data-tt="<b>${a} — Estoque acumulado</b><br>${estoque[a]>=0?'+':''}${NUM(estoque[a])} processos"/>`).join('');
 
-  // legenda
-  const leg = `<g transform="translate(${W-P.r-220}, ${P.t+2})">
-    <rect x="0" y="0" width="12" height="12" fill="var(--gold)" rx="2"/><text x="18" y="10" style="font-size:10px;fill:var(--navy);font-weight:600">Entradas</text>
-    <rect x="80" y="0" width="12" height="12" fill="var(--navy2)" rx="2"/><text x="98" y="10" style="font-size:10px;fill:var(--navy);font-weight:600">Encerr.</text>
-    <line x1="152" y1="6" x2="180" y2="6" stroke="var(--navy-deep)" stroke-width="1.8" stroke-dasharray="5 3"/><text x="186" y="10" style="font-size:10px;fill:var(--navy);font-weight:600">Saldo</text>
-  </g>`;
+  document.getElementById('mov-chart').innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+      ${defs}
+      ${grid}
+      ${areaHtml}
+      ${bars}
+      ${estDots}
+    </svg>`;
 
-  document.getElementById('series-fluxo').innerHTML =
-    `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">${grid}${bars}${line}${dots}${leg}</svg>`;
+  // Legenda + badge live
+  const badge = document.getElementById('mov-badge-live');
+  badge.textContent = anoCorrenteIdx>=0 ? `${ANO_CORRENTE} projetado *` : '';
+  document.getElementById('mov-legend').innerHTML = `
+    <div class="ml-item"><span class="ml-swatch entradas"></span><span class="ml-lbl">Entradas</span></div>
+    <div class="ml-item"><span class="ml-swatch encerr"></span><span class="ml-lbl">Encerramentos</span></div>
+    <div class="ml-item"><span class="ml-swatch estoque"></span><span class="ml-lbl">Estoque acumulado</span></div>
+    <div class="ml-item"><span class="ml-swatch proj"></span><span class="ml-lbl">Projeção ${ANO_CORRENTE} <small style="color:var(--muted);font-weight:500">*com base em 7 meses × 12/7</small></span></div>`;
 
-  // Extrajudicial: linha inline
-  const extraTxt = anos.filter(a=>extra[a]).map(a=>`${a}: <b>${NUM(extra[a])}</b>`).join(' · ') || '—';
-  document.getElementById('series-extra').innerHTML = extraTxt;
+  // Anima barras + área + dots
+  setTimeout(()=>{
+    // barras crescem
+    const rects = document.querySelectorAll('#mov-chart .mov-bar:not(.mov-bar-proj)');
+    rects.forEach((r,i)=>{
+      setTimeout(()=>{
+        r.style.transition = 'y .75s cubic-bezier(.22,1,.36,1), height .75s cubic-bezier(.22,1,.36,1)';
+        r.setAttribute('y', r.dataset.animY);
+        r.setAttribute('height', r.dataset.animH);
+      }, i*50);
+    });
+    // projeção aparece com fade depois
+    setTimeout(()=>{
+      document.querySelectorAll('#mov-chart .mov-bar-proj').forEach(p=>{
+        p.style.transition = 'opacity .6s ease-out';
+        p.style.opacity = '.85';
+      });
+    }, rects.length*50 + 300);
+    // área e linha entram por opacidade
+    const area = document.querySelector('#mov-chart .mov-area');
+    const line = document.querySelector('#mov-chart .mov-line');
+    if(area) setTimeout(()=>{ area.style.transition = 'opacity .8s ease-out'; area.style.opacity = '1'; }, rects.length*50 + 200);
+    if(line) setTimeout(()=>{ line.style.transition = 'opacity .8s ease-out'; line.style.opacity = '1'; }, rects.length*50 + 400);
+    // dots do estoque
+    setTimeout(()=>{
+      document.querySelectorAll('#mov-chart .mov-est-dot').forEach((d,i)=>{
+        setTimeout(()=>{
+          d.style.transition = 'r .4s cubic-bezier(.22,1,.36,1)';
+          d.setAttribute('r', d.dataset.finalR);
+        }, i*60);
+      });
+    }, rects.length*50 + 500);
+  }, 60);
+
+  // === Extrajudicial ===
+  const anosExtra = anos.filter(a=>extra[a]>0);
+  const maxExtra = Math.max(...anosExtra.map(a=>extra[a]),1);
+  const contExtra = document.getElementById('mov-extra');
+  if(anosExtra.length){
+    contExtra.innerHTML = anosExtra.map(a=>{
+      const v = extra[a];
+      const pct = v/maxExtra*100;
+      return `<div class="mov-extra-row" data-tt="<b>${a}</b><br>${NUM(v)} atuações extrajudiciais">
+        <div class="fx-name">${a}</div>
+        <div class="fx-track"><div class="fx-fill" style="width:0" data-w="${pct}"></div></div>
+        <div class="fx-val">${NUM(v)}</div>
+      </div>`;
+    }).join('');
+    setTimeout(()=>{
+      contExtra.querySelectorAll('.fx-fill').forEach((f,i)=>{
+        setTimeout(()=>f.style.width=f.dataset.w+'%', i*80+120);
+      });
+    }, 60);
+    const totExtra = anosExtra.reduce((s,a)=>s+extra[a],0);
+    document.getElementById('mov-extra-note').innerHTML = `<b>${NUM(totExtra)}</b> atuações extrajudiciais acumuladas na série. Complementa o contencioso judicial com negociações, notificações e composições.`;
+  } else {
+    document.getElementById('mov-extra-panel').style.display='none';
+  }
 
   attachTT();
 }
