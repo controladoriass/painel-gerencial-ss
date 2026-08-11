@@ -1560,10 +1560,17 @@ function renderRankingsExec(){
   function posicionar(animar=true){
     if(!cards.length) return;
     track.style.transition = animar ? '' : 'none';
-    // desloca de forma que o slot central (índice 1 em 3 visíveis) coincida com `pos`
-    const off = -(pos-1)*step();
-    track.style.transform = `translateX(${off}px)`;
     cards.forEach((c,i)=>c.classList.toggle('on', i===pos));
+    // Método iterativo simples: aplica offset atual, mede a diferença real via getBoundingClientRect,
+    // corrige. É robusto para qualquer padding/margem.
+    const stage = track.parentElement;
+    const stageCenter = stage.getBoundingClientRect().left + stage.getBoundingClientRect().width/2;
+    const currentTx = parseFloat((track.style.transform.match(/-?\d+(?:\.\d+)?/)||['0'])[0]);
+    // Aplica um offset provisório para medir onde o card fica
+    const cardCenter = cards[pos].getBoundingClientRect().left + cards[pos].getBoundingClientRect().width/2;
+    const delta = stageCenter - cardCenter;
+    const newOff = currentTx + delta;
+    track.style.transform = `translateX(${newOff}px)`;
   }
 
   // Ao final da transição, se estamos num clone, saltamos silenciosamente para o original correspondente
