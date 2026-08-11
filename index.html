@@ -144,6 +144,95 @@ section{margin-bottom:66px;scroll-margin-top:20px}
 .stack-bar span{height:100%;transition:width .9s cubic-bezier(.22,1,.36,1)}
 .stack-row .tot{font-size:12px;font-weight:700;color:var(--navy);text-align:right;font-family:'Montserrat',sans-serif;font-variant-numeric:tabular-nums}
 
+/* ============ Perfil processual (polo) ============ */
+/* Cores oficiais do perfil */
+:root{
+  --polo-autor:#3F5276;      /* navy médio - polo ativo (autor) */
+  --polo-autor-forte:#1E223F;
+  --polo-reu:#B58642;        /* dourado - polo passivo (réu, urgente) */
+  --polo-reu-forte:#8a6534;
+  --polo-terc:#9aa0b8;       /* neutro - terceiro */
+  --polo-comb:#2f7a44;       /* verde combativo */
+  --polo-eq:#c9a54a;         /* amarelo equilibrado */
+  --polo-def:#a63d38;        /* vermelho defensivo */
+}
+/* Topo: barra macro + card dominante */
+.polo-topo{display:grid;grid-template-columns:2fr 1fr;gap:22px;margin-bottom:22px}
+@media(max-width:980px){.polo-topo{grid-template-columns:1fr}}
+
+/* Barra macro do escritório (única, gigante, animada) */
+.polo-macro{margin-top:6px;position:relative;height:60px;border-radius:10px;overflow:hidden;background:var(--paper2);box-shadow:inset 0 1px 3px rgba(0,0,0,.06);display:flex}
+.polo-macro-seg{height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:15px;letter-spacing:-.3px;transition:width 1.2s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden;text-shadow:0 1px 3px rgba(0,0,0,.4)}
+.polo-macro-seg small{font-weight:500;font-size:10px;opacity:.85;margin-left:6px;letter-spacing:.4px}
+.polo-macro-seg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.35) 45%,rgba(255,255,255,.5) 50%,rgba(255,255,255,.35) 55%,transparent 100%);transform:translateX(-100%);animation:shimmer 1.8s cubic-bezier(.22,1,.36,1) .4s 1 forwards}
+.polo-macro-seg.mac-autor{background:linear-gradient(135deg,var(--polo-autor),var(--polo-autor-forte))}
+.polo-macro-seg.mac-reu{background:linear-gradient(135deg,var(--polo-reu),var(--polo-reu-forte))}
+.polo-macro-seg.mac-terc{background:linear-gradient(135deg,var(--polo-terc),var(--navy2))}
+.polo-legend{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:16px;font-size:11.5px;font-weight:600}
+.polo-legend .pl-item{display:flex;align-items:center;gap:8px;color:var(--navy2)}
+.polo-legend .pl-dot{width:12px;height:12px;border-radius:3px;box-shadow:0 2px 6px -2px rgba(0,0,0,.25)}
+.polo-legend .pl-lbl{color:var(--navy);font-weight:700}
+.polo-legend .pl-tag{font-size:9.5px;font-weight:800;letter-spacing:1.2px;color:var(--muted);text-transform:uppercase;margin-left:2px}
+
+/* Card 'Perfil dominante' (mesma família dos cards escuros) */
+.polo-dom{background:linear-gradient(160deg,var(--navy-deep) 0%,#191d38 100%);color:#fff;border-top-color:var(--gold);position:relative;overflow:hidden}
+.polo-dom::before{content:"";position:absolute;top:-30%;right:-25%;width:70%;height:80%;background:radial-gradient(circle,rgba(181,134,66,.18),transparent 60%);pointer-events:none}
+.polo-dom .pd-eyebrow{font-size:10px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--gold-soft);margin-bottom:10px;position:relative}
+.polo-dom .pd-headline{font-size:34px;font-weight:800;color:#fff;letter-spacing:-1px;line-height:1;position:relative;font-variant-numeric:tabular-nums}
+.polo-dom .pd-headline .pd-lbl{display:block;font-size:14px;font-weight:700;color:var(--gold-soft);letter-spacing:.4px;margin-top:8px}
+.polo-dom .pd-sub{font-size:12px;color:#c2c6d6;margin-top:14px;line-height:1.6;position:relative}
+.polo-dom .pd-sub b{color:#fff;font-weight:800}
+
+/* 3 Pilhas colapsáveis */
+.polo-pilhas{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:6px}
+@media(max-width:980px){.polo-pilhas{grid-template-columns:1fr}}
+.pilha-card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--polo-terc);border-radius:6px;padding:22px 22px 18px;box-shadow:0 8px 26px -18px rgba(30,34,63,.22);transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s;position:relative;overflow:hidden}
+.pilha-card:hover{transform:translateY(-5px);box-shadow:0 6px 16px -4px rgba(30,34,63,.15),0 22px 44px -22px rgba(30,34,63,.35)}
+.pilha-card.pilha-combativo{border-top-color:var(--polo-comb)}
+.pilha-card.pilha-equilibrado{border-top-color:var(--polo-eq)}
+.pilha-card.pilha-defensivo{border-top-color:var(--polo-def)}
+.pilha-card::after{content:"";position:absolute;top:-40%;right:-30%;width:60%;height:80%;background:radial-gradient(circle,rgba(181,134,66,.06),transparent 60%);pointer-events:none;opacity:.55;transition:opacity .4s}
+.pilha-card:hover::after{opacity:1}
+.pc-head{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;margin-bottom:10px}
+.pc-dot{width:14px;height:14px;border-radius:50%;box-shadow:0 3px 8px -2px rgba(0,0,0,.3)}
+.pilha-combativo .pc-dot{background:linear-gradient(135deg,#78c290,var(--polo-comb))}
+.pilha-equilibrado .pc-dot{background:linear-gradient(135deg,#efd076,var(--polo-eq))}
+.pilha-defensivo .pc-dot{background:linear-gradient(135deg,#d67f7a,var(--polo-def))}
+.pc-eyebrow{font-size:9.5px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted)}
+.pilha-combativo .pc-eyebrow{color:var(--polo-comb)}
+.pilha-equilibrado .pc-eyebrow{color:var(--polo-eq)}
+.pilha-defensivo .pc-eyebrow{color:var(--polo-def)}
+.pc-name{font-size:17px;font-weight:800;color:var(--navy);letter-spacing:-.4px;line-height:1;margin-top:3px}
+.pc-num{font-size:32px;font-weight:800;color:var(--navy);letter-spacing:-1px;font-variant-numeric:tabular-nums;line-height:1}
+.pc-num small{font-size:11px;color:var(--muted);font-weight:500;letter-spacing:0;margin-left:3px}
+.pc-desc{font-size:11.5px;color:var(--muted);font-weight:500;line-height:1.55;margin-bottom:14px;min-height:38px}
+.pc-list{display:flex;flex-direction:column;gap:6px;overflow:hidden;transition:max-height .5s cubic-bezier(.22,1,.36,1)}
+.pc-list-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:6px 8px;border-radius:4px;font-size:12px;transition:background .18s,padding .18s;animation:pcRowIn .4s cubic-bezier(.22,1,.36,1) forwards;opacity:0;transform:translateY(4px)}
+.pc-list-row:nth-child(1){animation-delay:.05s}
+.pc-list-row:nth-child(2){animation-delay:.1s}
+.pc-list-row:nth-child(3){animation-delay:.15s}
+.pc-list-row:nth-child(4){animation-delay:.2s}
+.pc-list-row:nth-child(5){animation-delay:.25s}
+.pc-list-row:hover{background:linear-gradient(90deg,rgba(181,134,66,.06),transparent);padding-left:12px}
+.pc-list-row .lbl{font-weight:600;color:var(--navy2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc-list-row .val{font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums;font-size:12px;letter-spacing:-.2px}
+@keyframes pcRowIn{to{opacity:1;transform:none}}
+.pc-toggle{margin-top:14px;font-family:inherit;font-size:10.5px;font-weight:700;color:var(--navy);background:transparent;border:1px solid var(--line);border-radius:999px;padding:7px 16px;cursor:pointer;transition:.22s cubic-bezier(.22,1,.36,1);letter-spacing:.6px;text-transform:uppercase;width:100%}
+.pc-toggle:hover{background:var(--navy);color:#fff;border-color:var(--navy);transform:translateY(-1px);box-shadow:0 6px 16px -8px rgba(30,34,63,.4)}
+.pc-toggle.oculto{display:none}
+
+/* Ranking detalhado stack (herda o padrão da secao Áreas) */
+#polo-stack .stack-row{grid-template-columns:170px 1fr 60px}
+#polo-stack .stack-row.top1,#polo-stack .stack-row.top2,#polo-stack .stack-row.top3{background:linear-gradient(90deg,#fbf6ea 0%,#ffffff 60%);border-radius:6px;padding:10px 12px;margin-bottom:5px;border:1px solid var(--line);border-left:3px solid var(--gold);box-shadow:0 3px 10px -8px rgba(30,34,63,.18)}
+#polo-stack .stack-row{animation:barIn .5s cubic-bezier(.22,1,.36,1) forwards;opacity:0;transform:translateY(4px)}
+#polo-stack .stack-row .stack-bar{height:20px;border-radius:10px;background:var(--paper2);box-shadow:inset 0 1px 3px rgba(0,0,0,.05)}
+#polo-stack .stack-row .stack-bar span{transition:width 1s cubic-bezier(.22,1,.36,1)}
+#polo-stack .stack-row .stack-bar span:first-child{border-radius:10px 0 0 10px}
+#polo-stack .stack-row .stack-bar span:last-child{border-radius:0 10px 10px 0}
+#polo-stack .stack-row .stack-bar span:only-child{border-radius:10px}
+#polo-stack .stack-row .name{font-size:12.5px}
+#polo-stack .stack-row .tot{font-size:12.5px;font-weight:800;color:var(--navy);text-align:right}
+
 /* ============ Idade da carteira (tempo) ============ */
 .tempo-topo{display:grid;grid-template-columns:2fr 1fr;gap:22px;margin-bottom:6px}
 @media(max-width:980px){.tempo-topo{grid-template-columns:1fr}}
@@ -466,7 +555,7 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
       <a class="tn-link" data-target="sec-scatter">Eficiência</a>
       <a class="tn-link" data-target="sec-foro">Presença jurídica</a>
       <a class="tn-link" data-target="sec-tempo">Idade da carteira</a>
-      <a class="tn-link" data-target="sec-polo">Polo</a>
+      <a class="tn-link" data-target="sec-polo">Perfil processual</a>
       <a class="tn-link" data-target="sec-partes">Partes contrárias</a>
       <a class="tn-link" data-target="sec-series">Fluxo anual</a>
       <a class="tn-link" data-target="sec-pano">Panorama</a>
@@ -679,16 +768,79 @@ footer .conf{color:var(--gold-soft);font-weight:600;letter-spacing:1.5px;text-tr
     <div class="sec-head">
       <div class="roman">VI</div>
       <div class="sec-titles">
-        <h2>Polo ativo × passivo</h2>
-        <div class="sec-desc">Percentual dos processos de cada grupo em que o cliente ataca (polo ativo) versus é atacado (polo passivo). Ajuda a ler o perfil de risco processual da carteira.</div>
+        <h2>Quem está atacando e quem está se defendendo</h2>
       </div>
     </div>
-    <div class="panel">
+
+    <!-- Linha 1: Barra macro do escritório + Card 'Perfil dominante' -->
+    <div class="polo-topo">
+      <div class="panel polo-macro-panel">
+        <div class="panel-label">Panorama do escritório</div>
+        <div class="polo-macro" id="polo-macro"></div>
+        <div class="polo-legend" id="polo-legend"></div>
+      </div>
+      <div class="panel polo-dom">
+        <div class="pd-eyebrow">Perfil dominante</div>
+        <div class="pd-headline" id="polo-dom-head"></div>
+        <div class="pd-sub" id="polo-dom-sub"></div>
+      </div>
+    </div>
+
+    <!-- Linha 2: 3 pilhas colapsáveis (Combativos / Equilibrados / Defensivos) -->
+    <div class="polo-pilhas">
+      <div class="pilha-card pilha-combativo" data-perfil="combativo">
+        <div class="pc-head">
+          <div class="pc-dot"></div>
+          <div class="pc-title">
+            <div class="pc-eyebrow">&gt;70% autor</div>
+            <div class="pc-name">Combativos</div>
+          </div>
+          <div class="pc-num" id="pilha-combativo-num">0</div>
+        </div>
+        <div class="pc-desc">O cliente lidera as ações — recuperação, exigência, execução ativa.</div>
+        <div class="pc-list" id="pilha-combativo-list"></div>
+        <button class="pc-toggle" id="pilha-combativo-toggle"></button>
+      </div>
+      <div class="pilha-card pilha-equilibrado" data-perfil="equilibrado">
+        <div class="pc-head">
+          <div class="pc-dot"></div>
+          <div class="pc-title">
+            <div class="pc-eyebrow">30–70% autor</div>
+            <div class="pc-name">Equilibrados</div>
+          </div>
+          <div class="pc-num" id="pilha-equilibrado-num">0</div>
+        </div>
+        <div class="pc-desc">A carteira mistura ações ofensivas e defensivas de forma equilibrada.</div>
+        <div class="pc-list" id="pilha-equilibrado-list"></div>
+        <button class="pc-toggle" id="pilha-equilibrado-toggle"></button>
+      </div>
+      <div class="pilha-card pilha-defensivo" data-perfil="defensivo">
+        <div class="pc-head">
+          <div class="pc-dot"></div>
+          <div class="pc-title">
+            <div class="pc-eyebrow">&lt;30% autor</div>
+            <div class="pc-name">Defensivos</div>
+          </div>
+          <div class="pc-num" id="pilha-defensivo-num">0</div>
+        </div>
+        <div class="pc-desc">O cliente está majoritariamente sofrendo ações — é réu na maior parte dos processos.</div>
+        <div class="pc-list" id="pilha-defensivo-list"></div>
+        <button class="pc-toggle" id="pilha-defensivo-toggle"></button>
+      </div>
+    </div>
+
+    <!-- Linha 3: Ranking detalhado com filtro e expandir -->
+    <div class="panel" style="margin-top:22px">
+      <div class="panel-label">Distribuição grupo a grupo</div>
+      <div class="rank-toolbar">
+        <div class="rank-search">
+          <input type="text" id="polo-filtro" placeholder="Filtrar por grupo…" autocomplete="off">
+          <span class="rs-clear" id="polo-filtro-clear" title="Limpar">×</span>
+        </div>
+      </div>
       <div class="stack" id="polo-stack"></div>
-      <div class="area-legend" style="margin-top:14px">
-        <span class="li"><span class="sw" style="background:var(--gold)"></span>Polo ativo (cliente autor)</span>
-        <span class="li"><span class="sw" style="background:var(--navy2)"></span>Polo passivo (cliente réu)</span>
-        <span class="li"><span class="sw" style="background:var(--muted2)"></span>Terceiro / outros</span>
+      <div class="rank-footer">
+        <button class="rank-expand" id="polo-expand"></button>
       </div>
     </div>
   </section>
@@ -913,6 +1065,7 @@ function render(){
   ativarFiltroArea();
   ativarFiltroEff();
   ativarFiltroTempo();
+  ativarFiltroPolo();
 }
 
 /* --- Bloco H: Rankings executivos (carrossel 3 cards, meio em destaque) --- */
@@ -2293,21 +2446,174 @@ function ativarFiltroTempo(){
 }
 
 /* --- Bloco C: Polo processual --- */
+// Estado para colapso/expansão + filtro
+let poloExpandidoStack = false;
+let poloFiltro = '';
+const POLO_TOP = 15;
+const PILHA_PREVIEW = 5;
+const pilhaExpandida = {combativo:false, equilibrado:false, defensivo:false};
+
+// classifica um grupo pelo perfil (combativo/equilibrado/defensivo) por % ativo
+function _perfilPolo(g){
+  if(g.pctAtivo >= 70) return 'combativo';
+  if(g.pctAtivo <= 30) return 'defensivo';
+  return 'equilibrado';
+}
+
 function renderPolo(){
-  const gs = [...GRUPOS.filter(g=>g.polTot>0)].sort((a,b)=>b.pctAtivo-a.pctAtivo);
-  document.getElementById('polo-stack').innerHTML = gs.map(g=>{
+  const gs = GRUPOS.filter(g=>g.polTot>0);
+  if(!gs.length) return;
+
+  // agregado do escritório (soma das contagens brutas — evita ponderar por grupo)
+  const totAutor = gs.reduce((s,g)=>s+g.polAtivo,0);
+  const totReu   = gs.reduce((s,g)=>s+g.polPassivo,0);
+  const totTerc  = gs.reduce((s,g)=>s+g.polTerc,0);
+  const totAll   = totAutor+totReu+totTerc || 1;
+
+  _renderPoloMacro(totAutor, totReu, totTerc, totAll);
+  _renderPoloDominante(gs, totAutor, totReu, totTerc, totAll);
+  _renderPoloPilhas(gs);
+  _renderPoloStack(gs);
+
+  attachTT();
+}
+
+// A) Barra macro do escritório (uma só, empilhada, gigante)
+function _renderPoloMacro(a, r, t, tot){
+  const pA = a/tot*100, pR = r/tot*100, pT = t/tot*100;
+  const el = document.getElementById('polo-macro');
+  el.innerHTML = `
+    <div class="polo-macro-seg mac-autor" style="width:0" data-w="${pA}" data-tt="<b>Autor (polo ativo)</b><br>${NUM(a)} processos · ${pA.toFixed(1)}%">
+      ${pA>7?`<span>${pA.toFixed(0)}%<small>autor</small></span>`:''}
+    </div>
+    <div class="polo-macro-seg mac-reu" style="width:0" data-w="${pR}" data-tt="<b>Réu (polo passivo)</b><br>${NUM(r)} processos · ${pR.toFixed(1)}%">
+      ${pR>7?`<span>${pR.toFixed(0)}%<small>réu</small></span>`:''}
+    </div>
+    <div class="polo-macro-seg mac-terc" style="width:0" data-w="${pT}" data-tt="<b>Terceiro / outros</b><br>${NUM(t)} processos · ${pT.toFixed(1)}%">
+      ${pT>7?`<span>${pT.toFixed(0)}%<small>terc.</small></span>`:''}
+    </div>`;
+  setTimeout(()=>{
+    el.querySelectorAll('.polo-macro-seg').forEach(s=>s.style.width = s.dataset.w+'%');
+  }, 60);
+  document.getElementById('polo-legend').innerHTML = `
+    <div class="pl-item"><span class="pl-dot" style="background:linear-gradient(135deg,var(--polo-autor),var(--polo-autor-forte))"></span><span class="pl-lbl">Autor</span> <span class="pl-tag">polo ativo</span></div>
+    <div class="pl-item"><span class="pl-dot" style="background:linear-gradient(135deg,var(--polo-reu),var(--polo-reu-forte))"></span><span class="pl-lbl">Réu</span> <span class="pl-tag">polo passivo</span></div>
+    <div class="pl-item"><span class="pl-dot" style="background:linear-gradient(135deg,var(--polo-terc),var(--navy2))"></span><span class="pl-lbl">Terceiro</span> <span class="pl-tag">outros</span></div>`;
+}
+
+// B) Card 'Perfil dominante' (o que domina o escritório)
+function _renderPoloDominante(gs, a, r, t, tot){
+  const pA = a/tot*100, pR = r/tot*100, pT = t/tot*100;
+  let head, lbl, sub;
+  if(pR >= 55){
+    head = pR.toFixed(1); lbl = 'Predominantemente defensivo';
+    sub = `A carteira é majoritariamente <b>reativa</b>: em ${pR.toFixed(1)}% dos processos o cliente é <b>réu</b>. A gestão do escritório se concentra em contenção de risco e defesa técnica.`;
+  } else if(pA >= 55){
+    head = pA.toFixed(1); lbl = 'Predominantemente ofensivo';
+    sub = `A carteira é majoritariamente <b>ativa</b>: em ${pA.toFixed(1)}% dos processos o cliente é <b>autor</b>. O escritório atua principalmente na recuperação e cobrança.`;
+  } else {
+    head = Math.max(pA,pR).toFixed(1); lbl = 'Perfil equilibrado';
+    sub = `A carteira mistura ações ofensivas e defensivas de forma equilibrada — ${pA.toFixed(0)}% como autor, ${pR.toFixed(0)}% como réu.`;
+  }
+  document.getElementById('polo-dom-head').innerHTML = `${head}<span style="font-size:22px;font-weight:700;color:var(--gold-soft);margin-left:2px">%</span><span class="pd-lbl">${lbl}</span>`;
+  document.getElementById('polo-dom-sub').innerHTML = sub;
+}
+
+// C) 3 Pilhas colapsáveis (Combativos / Equilibrados / Defensivos)
+function _renderPoloPilhas(gs){
+  const por = {combativo:[], equilibrado:[], defensivo:[]};
+  gs.forEach(g=>{ por[_perfilPolo(g)].push(g); });
+  // ordena cada bucket por relevância
+  por.combativo.sort((a,b)=>b.pctAtivo-a.pctAtivo || b.polTot-a.polTot);
+  por.equilibrado.sort((a,b)=>b.polTot-a.polTot);
+  por.defensivo.sort((a,b)=>a.pctAtivo-b.pctAtivo || b.polTot-a.polTot);
+
+  ['combativo','equilibrado','defensivo'].forEach(k=>{
+    const arr = por[k];
+    const numEl = document.getElementById(`pilha-${k}-num`);
+    const listEl = document.getElementById(`pilha-${k}-list`);
+    const btn = document.getElementById(`pilha-${k}-toggle`);
+    // count-up do número
+    _tempoAnimarKpi(`pilha-${k}-num`, arr.length, v=>NUM(Math.round(v)));
+    setTimeout(()=>{ numEl.innerHTML = `${NUM(arr.length)}<small> grupos</small>`; }, 950);
+
+    const preview = pilhaExpandida[k] ? arr.length : Math.min(PILHA_PREVIEW, arr.length);
+    const rows = arr.slice(0, preview);
+    listEl.innerHTML = rows.length ? rows.map(g=>{
+      const pA = g.pctAtivo, pR = g.pctPassivo;
+      const info = k==='combativo' ? `${pA.toFixed(0)}% autor` : k==='defensivo' ? `${pR.toFixed(0)}% réu` : `${pA.toFixed(0)}% / ${pR.toFixed(0)}%`;
+      return `<div class="pc-list-row" data-tt="<b>${g.nome}</b><br>Autor: ${g.polAtivo} (${pA.toFixed(0)}%)<br>Réu: ${g.polPassivo} (${pR.toFixed(0)}%)<br>${g.polTot} processos total">
+        <div class="lbl">${g.nome.replace(/^Grupo\s+/,'')}</div>
+        <div class="val">${info}</div>
+      </div>`;
+    }).join('') : `<div style="padding:12px 8px;color:var(--muted);font-size:11.5px;font-style:italic">Nenhum grupo neste perfil.</div>`;
+
+    if(arr.length > PILHA_PREVIEW){
+      btn.classList.remove('oculto');
+      btn.textContent = pilhaExpandida[k] ? `Recolher (mostrar top ${PILHA_PREVIEW})` : `Ver todos os ${arr.length}`;
+      btn.onclick = ()=>{ pilhaExpandida[k] = !pilhaExpandida[k]; _renderPoloPilhas(gs); };
+    } else {
+      btn.classList.add('oculto');
+    }
+  });
+}
+
+// D) Ranking detalhado (stack) com filtro e ver todos
+function _renderPoloStack(gs){
+  const q = poloFiltro.trim().toLowerCase();
+  const filtrados = q ? gs.filter(g=>g.nome.toLowerCase().includes(q)) : gs;
+  const ordenados = [...filtrados].sort((a,b)=>b.pctAtivo-a.pctAtivo);
+  const limite = (poloExpandidoStack || q) ? ordenados.length : Math.min(POLO_TOP, ordenados.length);
+  const rows = ordenados.slice(0, limite);
+
+  const container = document.getElementById('polo-stack');
+  container.innerHTML = rows.length ? rows.map((g,i)=>{
     const pA = g.pctAtivo, pP = g.pctPassivo, pT = 100-pA-pP;
-    return `<div class="stack-row" data-tt="<b>${g.nome}</b><br>Ativo: ${g.polAtivo} (${pA.toFixed(0)}%)<br>Passivo: ${g.polPassivo} (${pP.toFixed(0)}%)<br>Terceiro: ${g.polTerc} (${pT.toFixed(0)}%)">
+    const podium = i===0?' top1':i===1?' top2':i===2?' top3':'';
+    return `<div class="stack-row${podium}" style="animation-delay:${Math.min(i*30,500)}ms" data-tt="<b>${g.nome}</b><br>Autor: ${g.polAtivo} (${pA.toFixed(0)}%)<br>Réu: ${g.polPassivo} (${pP.toFixed(0)}%)<br>Terceiro: ${g.polTerc} (${pT.toFixed(0)}%)">
       <div class="name" title="${g.nome}">${g.nome.replace(/^Grupo\s+/,'')}</div>
       <div class="stack-bar">
-        <span style="width:${pA}%;background:var(--gold)"></span>
-        <span style="width:${pP}%;background:var(--navy2)"></span>
-        <span style="width:${pT}%;background:var(--muted2)"></span>
+        <span style="width:0;background:linear-gradient(90deg,var(--polo-autor),var(--polo-autor-forte))" data-w="${pA}"></span>
+        <span style="width:0;background:linear-gradient(90deg,var(--polo-reu),var(--polo-reu-forte))" data-w="${pP}"></span>
+        <span style="width:0;background:linear-gradient(90deg,var(--polo-terc),var(--navy2))" data-w="${pT}"></span>
       </div>
       <div class="tot">${g.polTot}</div>
     </div>`;
-  }).join('');
+  }).join('') : `<div style="padding:24px;text-align:center;color:var(--muted);font-size:12px">Nenhum grupo encontrado${q?' com esse filtro':''}.</div>`;
+  // anima as larguras
+  setTimeout(()=>{
+    container.querySelectorAll('.stack-row .stack-bar span').forEach(sp=>sp.style.width = sp.dataset.w+'%');
+  }, 100);
+
+  const footer = container.parentElement.querySelector('.rank-footer');
+  const btn = document.getElementById('polo-expand');
+  if(!q && ordenados.length > POLO_TOP){
+    footer.style.display='flex';
+    btn.textContent = poloExpandidoStack ? `Recolher (voltar ao top ${POLO_TOP})` : `Ver todos os ${ordenados.length} grupos`;
+    btn.onclick = ()=>{ poloExpandidoStack = !poloExpandidoStack; _renderPoloStack(gs); };
+  } else {
+    footer.style.display='none';
+  }
   attachTT();
+}
+
+// Filtro Polo
+function ativarFiltroPolo(){
+  const inp = document.getElementById('polo-filtro');
+  const clr = document.getElementById('polo-filtro-clear');
+  if(!inp) return;
+  const wrap = inp.parentElement;
+  const atualizarWrap = ()=>wrap.classList.toggle('has', !!inp.value);
+  const gs = ()=>GRUPOS.filter(g=>g.polTot>0);
+  inp.addEventListener('input', ()=>{
+    poloFiltro = inp.value;
+    atualizarWrap();
+    _renderPoloStack(gs());
+  });
+  clr.addEventListener('click', ()=>{
+    inp.value=''; poloFiltro=''; atualizarWrap();
+    _renderPoloStack(gs()); inp.focus();
+  });
 }
 
 /* --- Bloco D: Partes contrárias recorrentes --- */
