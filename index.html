@@ -596,12 +596,13 @@ table.pano tbody tr.top2 td.grp .grp-rank,table.pano tbody tr.top3 td.grp .grp-r
 .pir-camada{display:flex;align-items:center;justify-content:center;gap:14px;width:100%;flex-direction:column;position:relative;animation:pirIn .6s cubic-bezier(.22,1,.36,1) forwards;opacity:0;transform:translateY(6px)}
 .pir-tag{font-size:10.5px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--navy);text-align:center}
 body.theme-dark .pir-tag{color:#EDE9DC}
-.pir-bar{position:relative;height:56px;min-width:80px;max-width:520px;border-radius:8px;transition:width 1s cubic-bezier(.22,1,.36,1);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px -10px rgba(30,34,63,.32);color:#fff}
+.pir-bar{position:relative;height:70px;min-width:120px;max-width:none;width:100%;border-radius:10px;transition:width 1s cubic-bezier(.22,1,.36,1);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px -10px rgba(30,34,63,.32);color:#fff}
 body.theme-dark .pir-bar{box-shadow:0 6px 20px -8px rgba(0,0,0,.55),0 0 0 1px rgba(181,134,66,.15)}
-.pir-camada:first-child .pir-bar{border-radius:16px 16px 8px 8px}
-.pir-camada:last-child .pir-bar{border-radius:8px 8px 20px 20px;height:66px}
-.pir-val{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.6px;font-variant-numeric:tabular-nums;text-shadow:0 1px 3px rgba(0,0,0,.35)}
-.pir-pct{font-size:11px;font-weight:700;color:rgba(255,255,255,.85);margin-left:8px;letter-spacing:.4px}
+.pir-camada:first-child .pir-bar{border-radius:18px 18px 10px 10px}
+.pir-camada:last-child .pir-bar{border-radius:10px 10px 22px 22px;height:82px}
+.pir-val{font-size:30px;font-weight:800;color:#fff;letter-spacing:-.8px;font-variant-numeric:tabular-nums;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+.pir-camada:last-child .pir-val{font-size:36px}
+.pir-pct{font-size:12.5px;font-weight:700;color:rgba(255,255,255,.9);margin-left:10px;letter-spacing:.4px}
 @keyframes pirIn{to{opacity:1;transform:none}}
 .foro-inst-note{margin-top:14px;font-size:11px;color:var(--muted);line-height:1.6;padding-top:12px;border-top:1px solid var(--paper2)}
 .foro-inst-note b{color:var(--navy)}
