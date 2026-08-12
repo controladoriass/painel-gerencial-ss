@@ -1,119 +1,93 @@
-# Painel Gerencial de Carteira — Silva & Silva (uso interno)
+# Painel Gerencial de Carteira · Silva & Silva
 
-**No ar (link interno):** https://controladoriass.github.io/painel-gerencial-ss/
+**No ar:** https://controladoriass.github.io/painel-gerencial-ss/
 
-Dashboard **interno** (não para clientes) com a visão consolidada do escritório:
-quem concentra o trabalho, cobertura por área, esforço × tamanho da carteira e
-panorama grupo a grupo.
+Dashboard interno de uso da diretoria com a visão consolidada da carteira
+processual do escritório: quem concentra o trabalho, cobertura por área,
+esforço × tamanho da carteira, presença jurídica, idade da carteira, perfil
+processual, partes contrárias, movimento anual e panorama grupo a grupo.
 
 > Documento de **uso interno**. Link discreto, mas público — não divulgar a clientes.
 
-## De onde vêm os dados (LEIA ISTO)
-
-**Este painel NÃO tem dados próprios.** Ele lê, ao vivo, os mesmos arquivos JSON já
-publicados no repositório dos **indicadores jurídicos** (`dashboard-juridico`), pela
-URL do GitHub Pages:
-
-    https://controladoriass.github.io/dashboard-juridico/dados/
-
-Consequências práticas:
-
-- **Você atualiza os dados num lugar só:** a rotina mensal do `dashboard-juridico`
-  (`Dashboard/ATUALIZAR_MENSAL.md`). Assim que aquele repositório é republicado, este
-  painel reflete os números novos ao recarregar a página. **Nada a fazer aqui.**
-- **Dependência:** se os JSONs forem removidos ou o repositório dos indicadores sair
-  do ar, o painel deixa de receber dado vivo e passa a mostrar o **retrato embutido**
-  (cópia congelada dentro do próprio HTML) — não quebra, mas para de atualizar.
-- **Onde trocar a fonte:** constante `FONTE_REMOTA`, no topo do `<script>` em
-  `index.html`. Se o repositório dos indicadores mudar de nome/URL, é só esse valor
-  que precisa ser ajustado.
-
-Ordem das fontes que o painel tenta, em cascata (`index.html`):
-1. **Remota** — a URL acima (dado vivo). É o que vale quando publicado/online.
-2. **`dados/` local** — só quando servido por HTTP a partir desta pasta.
-3. **Embed** (`window.DADOS_EMBED`, dentro do HTML) — fallback offline / duplo-clique.
-
-### Trocar a data-corte
-No `index.html`, constante `DATA_CORTE` (aparece no cabeçalho). Atualizar quando a
-mensal mudar a data dos dados.
-
-### Atualizar o embed offline (opcional)
-O embed é só um retrato de segurança para abrir sem internet. Para atualizá-lo ao
-estado corrente dos JSONs locais:
-
-    python atualizar.py            # copia de ../Dashboard/dados/ e re-embute
-    python atualizar.py --no-copy  # só re-embute o que já está em ./dados/
-
-Depois, para republicar o painel (só necessário se você mexeu no visual/embed):
-
-    cp index.html _publicar/index.html
-    cd _publicar && git add -A && git commit -m "..." && git push
-
-## Estrutura
-
-```
-Dashboard-Interno/
-├── index.html          # o painel (autocontido; sem dependência de biblioteca de gráfico)
-├── dados/              # os 10 JSONs por grupo + manifest.json
-│   ├── manifest.json   # {"ordem": [...]} — quais grupos carregar
-│   └── <grupo>.json    # mesmo formato do dashboard de indicadores por cliente
-└── README.md
-```
-
-### Como abrir
-
-**Basta dar duplo-clique no `index.html`.** Os dados ficam embutidos dentro do
-próprio arquivo (bloco `window.DADOS_EMBED`), então o painel funciona offline,
-sem servidor, mesmo por `file://`.
-
-Se preferir servir por HTTP (opcional — ele detecta e usa `dados/*.json` como
-fallback quando o embed não existe):
-
-```bash
-cd Dashboard-Interno
-python -m http.server 8777
-# abrir http://localhost:8777/index.html
-```
-
 ## De onde vêm os dados
 
-São **os mesmos JSONs** do dashboard de indicadores por cliente
-(`Dashboard/dados/*.json`), gerados na rotina mensal (`Dashboard/ATUALIZAR_MENSAL.md`).
-Este painel **não recoleta nada** — só lê e consolida.
+Este painel **não tem base de dados própria**. Ele lê os JSONs já publicados
+no repositório dos indicadores por cliente (`dashboard-juridico`) via GitHub Pages:
 
-### Atualização mensal (1 comando)
-
-Depois de rodar a atualização mensal no projeto principal, rode:
-
-```bash
-cd Dashboard-Interno
-python atualizar.py
+```
+https://controladoriass.github.io/dashboard-juridico/dados/
 ```
 
-Isso copia os JSONs de `../Dashboard/dados/` e **re-embute** os dados dentro do
-`index.html` (para continuar abrindo por duplo-clique). O painel descobre grupos,
-áreas e totais sozinho — não há nada a editar no HTML, **exceto a data-corte**
-(ver abaixo).
+Estratégia de carregamento em cascata:
 
-> Se os JSONs novos já estiverem em `./dados/`, use `python atualizar.py --no-copy`.
+1. **Embed local** (`src/data-embed.js`) — dados congelados na última atualização
+   mensal. É o que aparece imediatamente ao abrir a página.
+2. **Fetch remoto em background** — 800 ms após a página abrir, o painel busca
+   os JSONs vivos do repo dos clientes. Se houver diferença, re-renderiza com
+   fade suave. Zero espera visível.
+3. **`dados/` local** — só ativa quando servido por HTTP local (`python -m http.server`).
 
-## Decisões de dado embutidas no código
+## Estrutura do projeto
 
-- **Horas por estimativa:** os grupos em `HORAS_ESTIMATIVA` (`abc`, `russi`, `wf`)
-  têm o total de horas estimado — o volume de apontamentos inviabilizou a coleta
-  integral via API na data-corte 24/07/2026. Aparecem marcados com `^`.
-  Fonte: `../Dashboard/ESTADO_FINAL_24-07.md`. **Revisar essa lista** se a coleta
-  real desses grupos passar a ser viável numa mensal futura.
-- **Áreas/complexidade:** calculadas sobre os processos **ativos** de cada grupo.
-- **Movimentação:** soma de prazos + audiências + reuniões/diligências (acumulado
-  da série).
+```
+painel-gerencial-ss/
+├── index.html                    ← arquivo gerado, é o que sobe pro Pages
+├── src/                          ← código-fonte
+│   ├── index.template.html         esqueleto HTML com marcadores /* BUILD:INJECT_* */
+│   ├── styles/                     CSS (concatenado em ordem alfabética)
+│   │   └── main.css
+│   ├── scripts/                    JS (concatenado em ordem alfabética)
+│   │   └── app.js
+│   └── data-embed.js               fallback offline com dados da última mensal
+├── scripts/
+│   └── build.py                  ← gera index.html a partir de src/
+├── docs/
+│   ├── ARCHITECTURE.md             como o projeto está organizado
+│   └── CHANGELOG.md                histórico de mudanças relevantes
+└── README.md                     ← este arquivo
+```
 
-## Data-corte
+## Como mexer no painel
 
-Os dados são um retrato de **24/07/2026**. O rótulo no cabeçalho do painel
-(`#m-corte`) está fixo em `index.html` — atualizar junto com a mensal.
+**Nunca edite `index.html` na raiz.** Ele é gerado. Edite em `src/` e rebuilde.
 
-## Publicação (GitHub Pages) — PENDENTE decisão de acesso
+```bash
+# 1. edite o que quiser em src/styles/ ou src/scripts/
+# 2. gere o index.html
+python scripts/build.py
 
-Repositório separado do dashboard de clientes. Antes de publicar, definir a
-proteção (repo privado × link secreto × senha na página) — é **uso interno**.
+# 3. verifique abrindo o index.html no browser (duplo-clique funciona)
+# 4. publique
+git add -A
+git commit -m "descrição da mudança"
+git push
+```
+
+O Pages atualiza sozinho em ~1 minuto. Ctrl+Shift+R no browser para forçar
+reload sem cache.
+
+## Requisitos
+
+Só Python 3. Nada de Node, npm ou build tool. O `build.py` usa apenas
+`pathlib` da stdlib.
+
+## Deploy
+
+Pushes na `main` são publicados automaticamente pelo GitHub Pages. O `index.html`
+na raiz é o único arquivo servido — ele contém CSS, JS, dados e logo tudo
+embutido, e por isso também funciona por duplo-clique sem servidor.
+
+## Atualização mensal dos dados
+
+Ao rodar a rotina mensal no repositório dos indicadores por cliente
+(`dashboard-juridico`), o painel interno reflete os números novos automaticamente
+na próxima abertura — sem tocar em nada aqui.
+
+Para atualizar também o embed offline (opcional, mas recomendado para manter o
+duplo-clique com dados frescos), copie os JSONs para `src/data-embed.js` seguindo
+o script `atualizar.py` na pasta de trabalho local `Dashboard-Interno/`.
+
+## Documentação técnica
+
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md) — como o código está organizado
+- [CHANGELOG.md](docs/CHANGELOG.md) — histórico das mudanças
