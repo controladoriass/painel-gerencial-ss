@@ -49,6 +49,92 @@ body.theme-dark .exec-stage::after{background:linear-gradient(-90deg,var(--paper
 body.theme-dark .bar-track,body.theme-dark .fx-track,body.theme-dark .stack-bar,body.theme-dark .pv-bar,body.theme-dark .polo-macro,body.theme-dark .foro-inst-row .bar-track{background:#2B2F45}
 body.theme-dark .rank-search input{background:#12162A;color:#EDE9DC;border-color:#2B2F45}
 body.theme-dark .rank-search input:focus{background:#161A31}
+/* Correções pontuais adicionais tema escuro */
+body.theme-dark .sec-titles .sec-desc{color:#a3a2a0}
+body.theme-dark .sec-titles h2{color:#EDE9DC}
+body.theme-dark .roman{color:var(--gold-soft);border-right-color:#2B2F45}
+body.theme-dark .exec-head-title{color:#EDE9DC}
+body.theme-dark .panel-label{color:#c9c5b8}
+body.theme-dark .panel-label::after{background:#2B2F45}
+/* Sparkbars da tabela panorama no dark */
+body.theme-dark .pano-cell .pv-bar-fill{background:linear-gradient(90deg,#5b6a94,#3F5276)}
+body.theme-dark .pano-cell.gold .pv-bar-fill{background:linear-gradient(90deg,var(--gold-soft),var(--gold))}
+/* Mapa Brasil no dark: estados sem dado ficam sutis, nao brancos */
+body.theme-dark .foro-map-svg path{stroke:#12162A}
+body.theme-dark .foro-map-svg .uf-lbl{fill:#EDE9DC;text-shadow:0 1px 3px rgba(0,0,0,.85)}
+/* Extrajudicial tracks no dark */
+body.theme-dark .mov-extra-row .fx-track{background:#2B2F45}
+body.theme-dark .foro-map-scale{background:#161A31}
+body.theme-dark .foro-map-top{background:#161A31;border-color:#2B2F45}
+body.theme-dark .foro-map-top-row{border-bottom-color:#2B2F45}
+body.theme-dark .foro-map-top-row .nm{color:#a9b0c6}
+body.theme-dark .foro-map-scale-title,body.theme-dark .foro-map-top-title{color:#EDE9DC}
+/* Piramide de instancia: nomes das camadas no escuro */
+body.theme-dark .pir-tag{color:#c9c5b8}
+/* Legendas com cor de texto muted no escuro */
+body.theme-dark .area-legend,body.theme-dark .mov-legend,body.theme-dark .polo-legend,body.theme-dark .tempo-hist-legend{color:#a9b0c6}
+body.theme-dark .area-legend .li,body.theme-dark .polo-legend .pl-item,body.theme-dark .mov-legend .ml-item{color:#a9b0c6}
+body.theme-dark .polo-legend .pl-lbl,body.theme-dark .mov-legend .ml-lbl{color:#EDE9DC}
+body.theme-dark .scatter-note{color:#a9b0c6;border-top-color:#2B2F45}
+body.theme-dark .scatter-note b{color:#EDE9DC}
+body.theme-dark .foro-inst-note{color:#a9b0c6;border-top-color:#2B2F45}
+body.theme-dark .foro-inst-note b{color:#EDE9DC}
+/* Textos do KPI no rodape */
+body.theme-dark .totals .kpi .v{color:#EDE9DC}
+body.theme-dark .totals .kpi .s{color:#a9b0c6}
+body.theme-dark .tk-card .tk-num{color:#EDE9DC}
+body.theme-dark .tk-card .tk-desc{color:#a9b0c6}
+body.theme-dark .tk-card .tk-desc b{color:#EDE9DC}
+/* Card Concentracao regional (foro) e Especializacao (areas) — sao dark ja, garante que subs fiquem legiveis */
+body.theme-dark .foro-conc .fc-item .val{color:#EDE9DC}
+body.theme-dark .area-insight .ai-item .val{color:#EDE9DC}
+/* Ranking bars .val no dark */
+body.theme-dark .bar-row .val{color:#EDE9DC}
+body.theme-dark .bar-row .val small{color:#a9b0c6}
+body.theme-dark .bar-row .name{color:#c9c5b8}
+body.theme-dark .bar-row.top1 .name{color:#EDE9DC}
+body.theme-dark .bar-row.top2 .name,body.theme-dark .bar-row.top3 .name{color:#EDE9DC}
+/* Faixa etaria linha */
+body.theme-dark .tempo-faixa-row .fx-name{color:#EDE9DC}
+body.theme-dark .tempo-faixa-row .fx-val{color:#EDE9DC}
+body.theme-dark .tempo-faixa-row .fx-val small{color:#a9b0c6}
+/* Pilhas do Perfil processual */
+body.theme-dark .pc-name{color:#EDE9DC}
+body.theme-dark .pc-num{color:#EDE9DC}
+body.theme-dark .pc-num small{color:#a9b0c6}
+body.theme-dark .pc-desc{color:#a9b0c6}
+body.theme-dark .pc-list-row .lbl{color:#c9c5b8}
+body.theme-dark .pc-list-row .val{color:#EDE9DC}
+body.theme-dark .pc-toggle{background:#12162A;color:#EDE9DC;border-color:#2B2F45}
+body.theme-dark .pc-toggle:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+/* Cards de resumo Eficiencia */
+body.theme-dark .eff-sum-card .esc-title{color:#EDE9DC}
+body.theme-dark .eff-sum-card .esc-num{color:#EDE9DC}
+body.theme-dark .eff-sum-card .esc-num small{color:#a9b0c6}
+body.theme-dark .eff-sum-card .esc-list{color:#a9b0c6}
+body.theme-dark .eff-sum-card .esc-list b{color:#EDE9DC}
+body.theme-dark .eff-quad-labels .eff-ql{color:#8a92ab}
+body.theme-dark .eff-quad-labels .eff-ql b{color:#EDE9DC}
+/* Ranking de partes contrarias adv-nome no dark */
+body.theme-dark #partes-top .bar-row .adv-nome{color:#EDE9DC}
+body.theme-dark #partes-top .bar-row.top1 .adv-nome{color:#EDE9DC}
+body.theme-dark #partes-top .bar-row .val .v-num{color:#EDE9DC}
+body.theme-dark #partes-top .bar-row .val small{color:#a9b0c6}
+/* KPI do saldo Movimento anual — mantem cores +/-/= */
+body.theme-dark .mov-kpi-saldo.neu .tk-num{color:#8a92ab}
+/* Instancia processual — piramide nomes */
+body.theme-dark .foro-inst-row .fx-name,body.theme-dark .foro-inst-row .val{color:#EDE9DC}
+body.theme-dark .foro-inst-row .val small{color:#a9b0c6}
+/* Ranking bars .bar-fill no ranking padrao (nao gold) fica claro no dark */
+body.theme-dark .bar-row .bar-fill:not(.gold){background:linear-gradient(90deg,#5b6a94,#3F5276)}
+/* Bar-track quando esta em card escuro (partes-lider, area-insight, tempo-crit) mais discreto */
+body.theme-dark .foro-conc .pl-list .pl-item .lbl,body.theme-dark .area-insight .ai-item .lbl,body.theme-dark .tempo-crit .tc-item .lbl,body.theme-dark .mov-diag .md-headline,body.theme-dark .partes-lider .pl-list .pl-item .lbl{color:#c2c6d6}
+/* Botao voltar ao topo e toggle tema no rodape sidebar */
+body.theme-dark .back-top{background:linear-gradient(160deg,#1B1F35 0%,#12162A 100%);border-color:rgba(181,134,66,.4);color:#EDE9DC}
+body.theme-dark .back-top:hover{background:linear-gradient(160deg,var(--gold) 0%,var(--gold-soft) 100%);color:#fff}
+body.theme-dark .back-top svg{color:var(--gold-soft)}
+/* Bar-fill do ranking do foro e tempo etc quando nao tem classe gold */
+body.theme-dark #tempo-bars .bar-fill{filter:brightness(1.05)}
 body.theme-dark .metric-tabs.pill{background:#12162A}
 body.theme-dark .metric-tabs.pill button:not(.on){color:#a9b0c6}
 body.theme-dark .metric-tabs.pill button:not(.on):hover{background:rgba(181,134,66,.08)}
