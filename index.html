@@ -135,6 +135,16 @@ body.theme-dark .back-top:hover{background:linear-gradient(160deg,var(--gold) 0%
 body.theme-dark .back-top svg{color:var(--gold-soft)}
 /* Bar-fill do ranking do foro e tempo etc quando nao tem classe gold */
 body.theme-dark #tempo-bars .bar-fill{filter:brightness(1.05)}
+/* Panorama consolidado no tema escuro: a .pano-wrap tinha gradiente linear-gradient(paper, #fff)
+   que ficava branco puro no dark; thead e tfoot idem. Sobrescrevo com paleta escura. */
+body.theme-dark .pano-wrap{background:transparent}
+body.theme-dark #pano-table th{background:linear-gradient(180deg,#161A31,#12162A) !important;color:#a9b0c6 !important;border-bottom-color:var(--gold-soft)}
+body.theme-dark #pano-table th:hover{color:var(--gold) !important;background:linear-gradient(180deg,#1B1F35,#161A31) !important}
+body.theme-dark #pano-table th.on{color:var(--gold-soft) !important;background:linear-gradient(180deg,#1B1F35,#161A31) !important}
+body.theme-dark #pano-table tfoot td{background:linear-gradient(180deg,#161A31,#12162A) !important;color:#EDE9DC !important;border-top-color:var(--gold-soft)}
+body.theme-dark #pano-table tfoot td:first-child{color:var(--gold-soft) !important}
+/* Top 6 estados no Presenca juridica: chip da sigla usava var(--navy) que vira creme no dark */
+body.theme-dark .foro-map-top-row .uf{background:#12162A;color:var(--gold-soft)}
 /* Setas do carrossel — no dark theme --navy vira creme, entao usar cor fixa navy escuro */
 body.theme-dark .exec-arrow{background:#12162A;color:var(--gold-soft);border:1px solid rgba(181,134,66,.35)}
 body.theme-dark .exec-arrow:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
