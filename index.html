@@ -135,6 +135,27 @@ body.theme-dark .back-top:hover{background:linear-gradient(160deg,var(--gold) 0%
 body.theme-dark .back-top svg{color:var(--gold-soft)}
 /* Bar-fill do ranking do foro e tempo etc quando nao tem classe gold */
 body.theme-dark #tempo-bars .bar-fill{filter:brightness(1.05)}
+/* Setas do carrossel — no dark theme --navy vira creme, entao usar cor fixa navy escuro */
+body.theme-dark .exec-arrow{background:#12162A;color:var(--gold-soft);border:1px solid rgba(181,134,66,.35)}
+body.theme-dark .exec-arrow:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+/* Tabs em pilula ativa: no dark --navy vira creme, precisamos cor fixa */
+body.theme-dark .metric-tabs.pill button.on{background:#12162A;color:#EDE9DC}
+body.theme-dark .metric-tabs.pill{background:#161A31}
+body.theme-dark .metric-tabs.pill button:not(.on){color:#a9b0c6}
+/* Pill MEDIANA no histograma juridico — mesmo bug (var(--navy) = creme) */
+body.theme-dark #tempo-hist rect[fill="var(--navy)"]{fill:#12162A !important}
+/* Linhas top-1/top-2/top-3 do panorama tinham fundo bege claro — sumia no fundo escuro */
+body.theme-dark table.pano tbody tr.top1{background:linear-gradient(90deg,rgba(181,134,66,.12) 0%,transparent 55%)}
+body.theme-dark table.pano tbody tr.top2,body.theme-dark table.pano tbody tr.top3{background:linear-gradient(90deg,rgba(181,134,66,.06) 0%,transparent 55%)}
+body.theme-dark table.pano tbody tr.top1 td,body.theme-dark table.pano tbody tr.top2 td,body.theme-dark table.pano tbody tr.top3 td{color:#EDE9DC}
+body.theme-dark table.pano tbody tr.top1 td .pano-cell .pv-num,body.theme-dark table.pano tbody tr.top2 td .pano-cell .pv-num,body.theme-dark table.pano tbody tr.top3 td .pano-cell .pv-num{color:#EDE9DC}
+body.theme-dark table.pano tbody tr.top1 td.grp .grp-rank,body.theme-dark table.pano tbody tr.top2 td.grp .grp-rank,body.theme-dark table.pano tbody tr.top3 td.grp .grp-rank{background:transparent;color:var(--gold)}
+/* Todas as celulas da tabela panorama — texto em creme */
+body.theme-dark table.pano tbody td{color:#c9c5b8}
+body.theme-dark table.pano tbody td:first-child{color:#EDE9DC}
+body.theme-dark table.pano tbody td .pano-cell .pv-num{color:#EDE9DC}
+/* Estado sem dado no mapa Brasil vira quase invisivel se ficar --paper2 (bege claro) no escuro */
+body.theme-dark .foro-map-svg path[data-v="0"]{fill:#161A31}
 body.theme-dark .metric-tabs.pill{background:#12162A}
 body.theme-dark .metric-tabs.pill button:not(.on){color:#a9b0c6}
 body.theme-dark .metric-tabs.pill button:not(.on):hover{background:rgba(181,134,66,.08)}
@@ -2172,9 +2193,19 @@ function _renderMapa(uf){
 // Escala navy → dourado forte (contraste alto).
 // 0 = paper claro; 0.25 = navy claro; 0.5 = navy médio; 0.75 = dourado; 1 = gold escuro.
 function _corHeatmap(pct){
-  if(pct === 0) return 'var(--paper2)';
-  // stops calibrados para contraste alto
-  const stops = [
+  if(pct === 0){
+    // Estado sem processos: cor de fundo neutra sensível ao tema
+    return document.body.classList.contains('theme-dark') ? '#2B2F45' : '#e7e2d6';
+  }
+  // stops calibrados para contraste alto — troca conforme o tema
+  const isDark = document.body.classList.contains('theme-dark');
+  const stops = isDark ? [
+    [43, 47, 69],     // 0.00 — navy escuro (fundo do painel)
+    [91, 106, 148],   // 0.20 — navy médio
+    [154, 130, 90],   // 0.45 — bronze
+    [207, 163, 110],  // 0.75 — dourado suave
+    [231, 199, 142]   // 1.00 — dourado brilhante
+  ] : [
     [231, 226, 214],  // 0.00 — paper
     [180, 190, 210],  // 0.20 — navy muito claro
     [102, 122, 158],  // 0.45 — navy médio
@@ -2354,6 +2385,17 @@ function ativarTema(){
     const isDark = document.body.classList.contains('theme-dark');
     localStorage.setItem('painel-tema', isDark ? 'dark' : 'light');
     atualizarLabel();
+    // Re-renderiza o mapa do Brasil e o histograma jurídico para que as cores
+    // sensíveis ao tema (heatmap do mapa e pill da mediana) sejam recalculadas.
+    if(typeof renderForo === 'function') renderForo();
+    if(typeof _renderTempoHist === 'function' && typeof GRUPOS !== 'undefined'){
+      const gs = GRUPOS.filter(g=>g.tramitDias>0);
+      if(gs.length){
+        const dias = gs.map(g=>g.tramitDias).sort((a,b)=>a-b);
+        const mediana = dias[Math.floor(dias.length/2)] || 0;
+        _renderTempoHist(gs, mediana);
+      }
+    }
   };
 }
 
