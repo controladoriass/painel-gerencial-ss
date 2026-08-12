@@ -213,6 +213,7 @@ async function atualizarEmBackground(){
 /* ====================== Render ====================== */
 function render(){
   renderKPIs();
+  renderAlerta();
   renderRankingsExec();
   renderRanking();
   renderArea();
@@ -282,7 +283,7 @@ function renderRankingsExec(){
     const lis = rows.map((g,i)=>`
       <div class="exec-row${i===0?' top1':''}" data-tt="<b>${g.nome}</b><br>${r.eyebrow}: ${r.fmt(g)}">
         <div class="rk">${i+1}</div>
-        <div class="nm" title="${g.nome}">${g.nome.replace(/^Grupo\s+/,'')}</div>
+        <div class="nm" title="${g.nome}">${g.nome}</div>
         <div class="vl">${r.fmt(g)}${r.sub(g)?`<small>${r.sub(g)}</small>`:''}</div>
       </div>`).join('');
     return `<div class="exec-card${clone?' clone':''}">
@@ -388,7 +389,7 @@ function renderEficiencia(){
       const pct = media/max*100;
       const est = g.horasEst ? '<span class="est-mark" data-tt="Horas por estimativa">^</span>' : '';
       return `<div class="bar-row" data-tt="<b>${g.nome}</b><br>${NUM(g.horas)}h ÷ ${NUM(g.ativos)} ativos = ${media.toFixed(1)} h/proc">
-        <div class="name" title="${g.nome}">${g.nome.replace(/^Grupo\s+/,'')}</div>
+        <div class="name" title="${g.nome}">${g.nome}</div>
         <div class="bar-track"><div class="bar-fill gold" style="width:0" data-w="${pct}"></div></div>
         <div class="val">${est}${media.toFixed(1)}<small>h/proc</small><br><small>${NUM(g.horas)}h total</small></div>
       </div>`;
@@ -563,7 +564,7 @@ function _renderTribBars(trib){
     const pct = q/max*100;
     const pctTot = (q/total*100).toFixed(1);
     const podium = i===0?' top1':i===1?' top2':i===2?' top3':'';
-    const gs = [...GRUPOS].filter(g=>g.tribunais[t]).sort((a,b)=>b.tribunais[t]-a.tribunais[t]).slice(0,3).map(g=>g.nome.replace(/^Grupo\s+/,'')).join(', ');
+    const gs = [...GRUPOS].filter(g=>g.tribunais[t]).sort((a,b)=>b.tribunais[t]-a.tribunais[t]).slice(0,3).map(g=>g.nome).join(', ');
     const isFiltro = t===foroTribFiltro;
     const nomeCompleto = _nomeTrib(t);
     return `<div class="bar-row${podium}${isFiltro?' top1':''}" style="animation-delay:${Math.min(i*35,600)}ms;cursor:pointer" data-trib="${t}" data-tt="<b>${t}</b> · ${nomeCompleto}<br>${NUM(q)} processos · ${pctTot}% do total<br>Top grupos: ${gs}">
@@ -700,7 +701,7 @@ function _corHeatmap(pct){
 
 function _topGruposUf(sigla){
   return [...GRUPOS]
-    .map(g=>({n:g.nome.replace(/^Grupo\s+/,''), q:g.uf[sigla]||0}))
+    .map(g=>({n:g.nome, q:g.uf[sigla]||0}))
     .filter(x=>x.q>0)
     .sort((a,b)=>b.q-a.q).slice(0,3)
     .map(x=>`${x.n}: <b>${NUM(x.q)}</b>`).join('<br>');
@@ -929,17 +930,96 @@ function renderKPIs(){
   }),{grupos:0,empresas:0,proc:0,ativos:0,horas:0,mov:0});
   const areasSet = new Set(); GRUPOS.forEach(g=>Object.keys(g.area).forEach(a=>areasSet.add(a)));
   const anyEst = GRUPOS.some(g=>g.horasEst);
+
+  // === Variação vs. ano anterior cheio ===
+  // Como o painel não tem snapshot mensal (o EasyJur só dá o "estado atual"),
+  // calculamos o delta ANO A ANO a partir das séries anuais dos grupos:
+  //   - Entradas 2025 vs Entradas 2024 → aproxima o crescimento de "Processos"
+  //   - Movimentação 2025 vs 2024 → delta de "Movimentações"
+  //   - Horas 2025 vs 2024 → delta de "Horas"
+  // O ano corrente (2026) é parcial e não usamos.
+  const ANO_REF = 2025;
+  const ANO_ANT = 2024;
+  let entRef = 0, entAnt = 0;
+  let movRef = 0, movAnt = 0;    // prazos + audiências
+  let horasRef = 0, horasAnt = 0;
+  GRUPOS.forEach(g => {
+    entRef += (g.entradasAno?.[ANO_REF] || 0);
+    entAnt += (g.entradasAno?.[ANO_ANT] || 0);
+    // usamos prazos + audiências como proxy de movimentação por ano (dados que temos)
+    movRef += (g.prazAno?.[ANO_REF] || 0) + (g.audAno?.[ANO_REF] || 0);
+    movAnt += (g.prazAno?.[ANO_ANT] || 0) + (g.audAno?.[ANO_ANT] || 0);
+    horasRef += (g.horasAno?.[ANO_REF] || 0);
+    horasAnt += (g.horasAno?.[ANO_ANT] || 0);
+  });
+  const pct = (ref, ant) => ant > 0 ? ((ref - ant) / ant * 100) : null;
+  const dEnt = pct(entRef, entAnt);
+  const dMov = pct(movRef, movAnt);
+  const dHoras = pct(horasRef, horasAnt);
+  const deltaChip = d => {
+    if(d === null || !isFinite(d)) return '';
+    const sinal = d > 0 ? '+' : '';
+    const cls = d > 0 ? 'up' : d < 0 ? 'down' : 'flat';
+    return `<span class="kpi-delta ${cls}" title="Variação ${ANO_REF} vs ${ANO_ANT}">${sinal}${d.toFixed(1)}%</span>`;
+  };
+
   const kpis = [
-    {v:NUM(t.proc), l:'Processos', s:NUM(t.empresas)+' empresas'},
-    {v:NUM(t.ativos), l:'Ativos', s:Math.round(t.ativos/t.proc*100)+'% da carteira'},
-    {v:NUM(t.grupos), l:'Grupos econômicos', s:'clientes gerenciados'},
-    {v:NUM(areasSet.size), l:'Áreas do direito', s:'cobertas na carteira'},
-    {v:NUM(t.mov), l:'Movimentações', s:'prazos + aud. + diligências'},
-    {v:(anyEst?'^':'')+NUM(t.horas), l:'Horas apontadas', s:'timesheet acumulado'}
+    {v:NUM(t.proc), l:'Processos', s:NUM(t.empresas)+' empresas', d:deltaChip(dEnt)},
+    {v:NUM(t.ativos), l:'Ativos', s:Math.round(t.ativos/t.proc*100)+'% da carteira', d:''},
+    {v:NUM(t.grupos), l:'Grupos econômicos', s:'clientes gerenciados', d:''},
+    {v:NUM(areasSet.size), l:'Áreas do direito', s:'cobertas na carteira', d:''},
+    {v:NUM(t.mov), l:'Movimentações', s:'prazos + aud. + diligências', d:deltaChip(dMov)},
+    {v:(anyEst?'^':'')+NUM(t.horas), l:'Horas apontadas', s:'timesheet acumulado', d:deltaChip(dHoras)}
   ];
   document.getElementById('kpirow').innerHTML = kpis.map(k=>`
-    <div class="kpi"><div class="v">${k.v.replace('^','<small>~</small>')}</div>
+    <div class="kpi"><div class="v">${k.v.replace('^','<small>~</small>')}${k.d}</div>
     <div class="l">${k.l}</div><div class="s">${k.s}</div></div>`).join('');
+}
+
+/* --- Alerta de envelhecimento crítico no topo --- */
+function renderAlerta(){
+  const wrap = document.getElementById('alert-strip-wrap');
+  const box = document.getElementById('alert-strip');
+  if(!wrap || !box) return;
+
+  // Critério: processos ativos em grupos com tramitação média > 5 anos (1825 dias).
+  // É o mesmo corte que usamos no card "Envelhecimento crítico" na Idade da carteira.
+  const criticos = GRUPOS.filter(g => g.tramitDias > 1825);
+  const procsCriticos = criticos.reduce((s, g) => s + g.ativos, 0);
+  const totalAtivos = GRUPOS.reduce((s, g) => s + g.ativos, 0) || 1;
+  const pct = (procsCriticos / totalAtivos * 100);
+
+  if(criticos.length === 0 || procsCriticos === 0){
+    wrap.style.display = 'none';
+    return;
+  }
+
+  wrap.style.display = 'block';
+  box.innerHTML = `
+    <div class="as-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2 L1.5 20 L22.5 20 Z"/>
+        <line x1="12" y1="10" x2="12" y2="14"/>
+        <circle cx="12" cy="17.5" r=".9" fill="currentColor" stroke="none"/>
+      </svg>
+    </div>
+    <div class="as-body">
+      <div class="as-eyebrow">Envelhecimento crítico</div>
+      <div class="as-headline">
+        <b>${NUM(procsCriticos)} processos ativos</b> em <b>${criticos.length} grupos</b> tramitam há mais de <b>5 anos</b>.
+        Representam <b>${pct.toFixed(1)}%</b> da carteira ativa · risco de prescrição ou paralisia processual.
+      </div>
+    </div>
+    <button class="as-cta" id="as-goto">Ver detalhes</button>
+  `;
+  const btn = document.getElementById('as-goto');
+  if(btn) btn.onclick = () => {
+    const t = document.getElementById('sec-tempo');
+    if(t){
+      const y = t.getBoundingClientRect().top + window.scrollY - 20;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    }
+  };
 }
 
 /* --- Ranking com métrica alternável --- */
@@ -981,7 +1061,7 @@ function renderRanking(){
     const totalMetric = GRUPOS.reduce((s,x)=>s+(x[m.key]||0),0)||1;
     const pctTot = (v/totalMetric*100).toFixed(1);
     return `<div class="bar-row${podium}" style="animation-delay:${Math.min(i*35,700)}ms" data-tt="<b>${g.nome}</b><br>${m.label}: ${m.fmt(v)}<br>${pctTot}% do total do escritório">
-      <div class="name" title="${g.nome}"><span class="rk-badge">${medalha}</span>${g.nome.replace(/^Grupo\s+/,'')}</div>
+      <div class="name" title="${g.nome}"><span class="rk-badge">${medalha}</span>${g.nome}</div>
       <div class="bar-track"><div class="bar-fill ${m.gold?'gold':''}" style="width:0" data-w="${pct}" data-v="${v}"></div></div>
       <div class="val"><span class="v-num" data-final="${v}">${est}0</span><small>${m.sub(g)}</small></div>
     </div>`;
@@ -1162,7 +1242,7 @@ function _renderDonut(areasOrd, totalAg){
 
 function _topGruposArea(area){
   return [...GRUPOS]
-    .map(g=>({n:g.nome.replace(/^Grupo\s+/,''), q:g.area[area]||0}))
+    .map(g=>({n:g.nome, q:g.area[area]||0}))
     .filter(x=>x.q>0)
     .sort((a,b)=>b.q-a.q).slice(0,5)
     .map(x=>`${x.n}: <b>${NUM(x.q)}</b>`).join('<br>');
@@ -1231,7 +1311,7 @@ function _renderAreaRanking(areasOrd){
     const pctEsc = (v/totalAll*100).toFixed(1);
     const podium = i===0?' top1':i===1?' top2':i===2?' top3':'';
     return `<div class="bar-row${podium}" style="animation-delay:${Math.min(i*35,700)}ms" data-tt="<b>${g.nome}</b><br>${labelMetrica}: ${formatoVal(v)}<br>${pctEsc}% do total do escritório na área">
-      <div class="name" title="${g.nome}"><span class="rk-badge">${i+1}</span>${g.nome.replace(/^Grupo\s+/,'')}</div>
+      <div class="name" title="${g.nome}"><span class="rk-badge">${i+1}</span>${g.nome}</div>
       <div class="bar-track"><div class="bar-fill ${gold?'gold':''}" style="width:0" data-w="${pct}" data-v="${v}"></div></div>
       <div class="val"><span class="v-num" data-final="${v}">0</span><small>${subFn(g)}</small></div>
     </div>`;
@@ -1461,7 +1541,7 @@ function _renderEffSummary(universo, medX, medY){
   ];
   const html = defs.map(d=>{
     const gs = [...grupos[d.k]].sort((a,b)=>(b.ativos+b.horas/1000)-(a.ativos+a.horas/1000)).slice(0,3);
-    const lista = gs.map(g=>`<b>${g.nome.replace(/^Grupo\s+/,'')}</b>`).join(' · ') || '<i>sem grupos neste perfil</i>';
+    const lista = gs.map(g=>`<b>${g.nome}</b>`).join(' · ') || '<i>sem grupos neste perfil</i>';
     return `<div class="eff-sum-card ${d.k}">
       <div class="esc-eyebrow">${d.title}</div>
       <div class="esc-title">${d.desc}</div>
@@ -1741,7 +1821,7 @@ function _renderTempoFaixas(gs){
     const n = b.grupos.length;
     const pct = n/maxN*100;
     const pctTot = totalGs ? (n/totalGs*100).toFixed(0) : '0';
-    const topNomes = [...b.grupos].sort((a,b)=>b.tramitDias-a.tramitDias).slice(0,5).map(g=>g.nome.replace(/^Grupo\s+/,'')).join(' · ') || '<i>nenhum</i>';
+    const topNomes = [...b.grupos].sort((a,b)=>b.tramitDias-a.tramitDias).slice(0,5).map(g=>g.nome).join(' · ') || '<i>nenhum</i>';
     return `<div class="tempo-faixa-row" data-tt="<b>${b.label}</b><br>${n} grupos (${pctTot}%) · ${NUM(b.qtdProc)} processos ativos<br><br>${topNomes}">
       <div class="fx-name"><span class="fx-dot fx-c-${b.k}"></span>${b.label}</div>
       <div class="fx-track"><div class="fx-fill fx-c-${b.k}" style="width:0" data-w="${pct}"></div></div>
@@ -1769,7 +1849,7 @@ function _renderTempoCritico(gs){
     `<b style="color:#fff">${NUM(totalCrit)}</b> processos ativos, ${pctCrit.toFixed(1)}% da carteira. Casos suscetíveis a risco de prescrição ou paralisia processual.`;
   const top = [...criticos].sort((a,b)=>b.tramitDias-a.tramitDias).slice(0,5);
   document.getElementById('tc-list').innerHTML = top.map(g=>`
-    <div class="tc-item"><span class="lbl">${g.nome.replace(/^Grupo\s+/,'')}</span>
+    <div class="tc-item"><span class="lbl">${g.nome}</span>
       <span class="val">${(g.tramitDias/365).toFixed(1)} anos</span></div>`).join('')
     || '<div class="tc-item"><span class="lbl">Nenhum grupo crítico.</span></div>';
 }
@@ -1789,7 +1869,7 @@ function _renderTempoRanking(gs){
     const f = _faixaDe(g.tramitDias);
     const podium = i===0?' top1':i===1?' top2':i===2?' top3':'';
     return `<div class="bar-row${podium}" style="animation-delay:${Math.min(i*35,600)}ms" data-tt="<b>${g.nome}</b><br>${NUM(Math.round(g.tramitDias))} dias · ${(g.tramitDias/365).toFixed(1)} anos<br>${f.label}">
-      <div class="name" title="${g.nome}"><span class="rk-badge">${i+1}</span>${g.nome.replace(/^Grupo\s+/,'')}</div>
+      <div class="name" title="${g.nome}"><span class="rk-badge">${i+1}</span>${g.nome}</div>
       <div class="bar-track"><div class="bar-fill sem-${f.k}" style="width:0" data-w="${pct}" data-v="${g.tramitDias}"></div></div>
       <div class="val"><span class="v-num" data-final="${Math.round(g.tramitDias)}">0</span><small>${(g.tramitDias/365).toFixed(1)} anos</small></div>
     </div>`;
@@ -1848,7 +1928,7 @@ function _renderTempoHist(gs, mediana){
     const rectX = xC - rectW/2;
     const rectY = y(n);
     const rectH = H-P.b - rectY;
-    const nomes = [...b.grupos].sort((a,b)=>b.tramitDias-a.tramitDias).slice(0,6).map(g=>g.nome.replace(/^Grupo\s+/,'')).join('<br>');
+    const nomes = [...b.grupos].sort((a,b)=>b.tramitDias-a.tramitDias).slice(0,6).map(g=>g.nome).join('<br>');
     const mais = b.grupos.length>6 ? `<br><i>+${b.grupos.length-6} outros</i>` : '';
     rects += `<rect x="${rectX}" y="${H-P.b}" width="${rectW}" height="0"
       fill="${b.hex}" rx="4"
@@ -2010,7 +2090,7 @@ function _renderPoloPilhas(gs){
       const pA = g.pctAtivo, pR = g.pctPassivo;
       const info = k==='combativo' ? `${pA.toFixed(0)}% autor` : k==='defensivo' ? `${pR.toFixed(0)}% réu` : `${pA.toFixed(0)}% / ${pR.toFixed(0)}%`;
       return `<div class="pc-list-row" data-tt="<b>${g.nome}</b><br>Autor: ${g.polAtivo} (${pA.toFixed(0)}%)<br>Réu: ${g.polPassivo} (${pR.toFixed(0)}%)<br>${g.polTot} processos total">
-        <div class="lbl">${g.nome.replace(/^Grupo\s+/,'')}</div>
+        <div class="lbl">${g.nome}</div>
         <div class="val">${info}</div>
       </div>`;
     }).join('') : `<div style="padding:12px 8px;color:var(--muted);font-size:11.5px;font-style:italic">Nenhum grupo neste perfil.</div>`;
@@ -2038,7 +2118,7 @@ function _renderPoloStack(gs){
     const pA = g.pctAtivo, pP = g.pctPassivo, pT = 100-pA-pP;
     const podium = i===0?' top1':i===1?' top2':i===2?' top3':'';
     return `<div class="stack-row${podium}" style="animation-delay:${Math.min(i*30,500)}ms" data-tt="<b>${g.nome}</b><br>Autor: ${g.polAtivo} (${pA.toFixed(0)}%)<br>Réu: ${g.polPassivo} (${pP.toFixed(0)}%)<br>Terceiro: ${g.polTerc} (${pT.toFixed(0)}%)">
-      <div class="name" title="${g.nome}">${g.nome.replace(/^Grupo\s+/,'')}</div>
+      <div class="name" title="${g.nome}">${g.nome}</div>
       <div class="stack-bar">
         <span style="width:0;background:linear-gradient(90deg,var(--polo-autor),var(--polo-autor-forte))" data-w="${pA}"></span>
         <span style="width:0;background:linear-gradient(90deg,var(--polo-reu),var(--polo-reu-forte))" data-w="${pP}"></span>
@@ -2157,7 +2237,7 @@ function renderPartes(){
       `Concentra <b>${pctLider}%</b> dos processos com adversário identificado. Aparece em <b>${lider.grupos.size} grupo${lider.grupos.size>1?'s':''}</b> do escritório.`;
     const gruposTop = [...lider.grupos].slice(0,4);
     document.getElementById('pt-lider-list').innerHTML = gruposTop.map(gn=>`
-      <div class="pl-item"><span class="lbl">${gn.replace(/^Grupo\s+/,'')}</span></div>`).join('') +
+      <div class="pl-item"><span class="lbl">${gn}</span></div>`).join('') +
       (lider.grupos.size>4 ? `<div class="pl-item"><span class="lbl" style="font-style:italic">+ ${lider.grupos.size-4} outros grupos</span></div>`:'');
   }
 
@@ -2174,7 +2254,7 @@ function _renderPartesRanking(todos, totalProcs){
   const container = document.getElementById('partes-top');
   container.innerHTML = rows.length ? rows.map((r,i)=>{
     const pct = r.qtd/max*100;
-    const gs = [...r.grupos].slice(0,6).map(gn=>gn.replace(/^Grupo\s+/,'')).join(', ');
+    const gs = [...r.grupos].slice(0,6).map(gn=>gn).join(', ');
     const mais = r.grupos.size>6 ? ` +${r.grupos.size-6}` : '';
     const podium = i===0?' top1':i===1?' top2':i===2?' top3':'';
     return `<div class="bar-row${podium}" style="animation-delay:${Math.min(i*35,600)}ms" data-tt="<b>${r.nome}</b><br>${NUM(r.qtd)} processos · ${(r.qtd/totalProcs*100).toFixed(1)}% do total<br>Em ${r.grupos.size} grupo(s): <i>${gs}${mais}</i>">
