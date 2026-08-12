@@ -285,11 +285,13 @@ table.pano tbody tr.top2 td.grp .grp-rank,table.pano tbody tr.top3 td.grp .grp-r
 .mov-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 @media(max-width:1180px){.mov-kpis{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.mov-kpis{grid-template-columns:1fr}}
-.mov-kpi{padding:18px 18px 16px;overflow:hidden}
-.mov-kpi .tk-num{font-size:26px;letter-spacing:-1.2px;white-space:nowrap;text-align:left;display:block}
-.mov-kpi .tk-eyebrow,.mov-kpi .tk-desc{text-align:left}
-@media(max-width:1180px){.mov-kpi .tk-num{font-size:22px}}
-@media(max-width:900px){.mov-kpi .tk-num{font-size:20px;letter-spacing:-1px}}
+.tk-card.mov-kpi{padding:16px 16px 14px;overflow:hidden;min-width:0}
+.tk-card.mov-kpi .tk-num{font-size:22px;letter-spacing:-.8px;white-space:nowrap;text-align:left;display:block;line-height:1}
+.tk-card.mov-kpi .tk-eyebrow,.tk-card.mov-kpi .tk-desc{text-align:left}
+.tk-card.mov-kpi .tk-num small{font-size:12px;margin-left:1px}
+@media(min-width:1280px){.tk-card.mov-kpi .tk-num{font-size:26px}}
+@media(max-width:1180px){.tk-card.mov-kpi .tk-num{font-size:20px}}
+@media(max-width:900px){.tk-card.mov-kpi .tk-num{font-size:22px}}
 .mov-kpi .tk-desc{font-size:11px}
 /* KPI de saldo — cor muda conforme sinal */
 .mov-kpi-saldo.pos .tk-num{color:#2f7a44}
