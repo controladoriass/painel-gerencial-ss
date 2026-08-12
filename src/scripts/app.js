@@ -238,6 +238,9 @@ function render(){
   ativarParallax();
   marcarKpiDestaques();
   ativarBackTop();
+  ativarReadingLine();
+  ativarKpiBlur();
+  ativarTabMorph();
 }
 
 /* --- Bloco H: Rankings executivos (carrossel 3 cards, meio em destaque) --- */
@@ -899,6 +902,101 @@ function ativarParallax(){
   };
   window.addEventListener('scroll', onScroll, {passive:true});
   atualizar();
+}
+
+/* Números principais "cristalizam": entram borrados e desfocam até nítidos.
+   Aplica-se aos KPIs grandes (hero, cards escuros, cards navy dourado). */
+function ativarKpiBlur(){
+  const alvos = [
+    ...document.querySelectorAll('#kpirow .kpi .v'),
+    ...document.querySelectorAll('.tk-card .tk-num'),
+    ...document.querySelectorAll('.area-insight .ai-headline'),
+    ...document.querySelectorAll('.foro-conc .fc-headline'),
+    ...document.querySelectorAll('.tempo-crit .tc-headline'),
+    ...document.querySelectorAll('.polo-dom .pd-headline'),
+    ...document.querySelectorAll('.mov-diag .md-headline'),
+    ...document.querySelectorAll('.partes-lider .pl-headline'),
+    ...document.querySelectorAll('.pir-val'),
+    ...document.querySelectorAll('.pc-num')
+  ];
+  alvos.forEach(el => el.classList.add('crystallize'));
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        setTimeout(()=>e.target.classList.add('done'), Math.random()*180);
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:.35});
+  alvos.forEach(el => io.observe(el));
+}
+
+/* Morph do fundo navy nas tabs em pílula: quando muda a aba ativa,
+   o fundo navy desliza da tab antiga para a nova (efeito iOS-like).
+   Robusto contra re-renders que destroem os filhos do container. */
+function ativarTabMorph(){
+  document.querySelectorAll('.metric-tabs.pill').forEach(container => {
+    const garantirIndicator = ()=>{
+      let ind = container.querySelector(':scope > .metric-tabs-indicator');
+      if(!ind){
+        ind = document.createElement('span');
+        ind.className = 'metric-tabs-indicator';
+        container.appendChild(ind);
+      }
+      return ind;
+    };
+    const posicionar = ()=>{
+      const ind = garantirIndicator();
+      const on = container.querySelector('button.on');
+      if(!on){ ind.style.opacity = '0'; return; }
+      const r = on.getBoundingClientRect();
+      const rc = container.getBoundingClientRect();
+      ind.style.opacity = '1';
+      ind.style.transform = `translate(${r.left - rc.left}px, ${r.top - rc.top}px)`;
+      ind.style.width = r.width + 'px';
+      ind.style.height = r.height + 'px';
+    };
+    const mo = new MutationObserver(()=>{
+      requestAnimationFrame(()=>{
+        posicionar();
+        container.querySelectorAll('button').forEach(b => {
+          if(b._morphBound) return;
+          b._morphBound = true;
+          b.addEventListener('click', ()=> setTimeout(posicionar, 5));
+        });
+      });
+    });
+    mo.observe(container, {childList:true, subtree:false});
+    setTimeout(()=>{
+      posicionar();
+      container.querySelectorAll('button').forEach(b => {
+        if(b._morphBound) return;
+        b._morphBound = true;
+        b.addEventListener('click', ()=> setTimeout(posicionar, 5));
+      });
+    }, 30);
+    setTimeout(posicionar, 300);
+    window.addEventListener('resize', ()=>setTimeout(posicionar, 20), {passive:true});
+  });
+}
+
+/* Fio dourado no topo: reflete o progresso de scroll da página */
+function ativarReadingLine(){
+  const line = document.getElementById('reading-line');
+  if(!line) return;
+  let ticking = false;
+  const atualizar = ()=>{
+    const scr = window.scrollY;
+    const alt = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = alt > 0 ? Math.min(100, Math.max(0, scr / alt * 100)) : 0;
+    line.style.setProperty('--progress', pct + '%');
+    ticking = false;
+  };
+  atualizar();
+  window.addEventListener('scroll', ()=>{
+    if(!ticking){ requestAnimationFrame(atualizar); ticking = true; }
+  }, {passive:true});
+  window.addEventListener('resize', atualizar, {passive:true});
 }
 
 /* Botão voltar ao topo: aparece após rolar 200px */

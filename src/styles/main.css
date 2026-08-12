@@ -303,7 +303,14 @@ section{margin-bottom:66px;scroll-margin-top:20px}
 /* ============ Ranking ============ */
 .rank-toolbar{display:flex;gap:14px;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap}
 /* tabs pílula moderna */
-.metric-tabs.pill{display:inline-flex;gap:2px;padding:3px;background:var(--paper2);border-radius:2px;border:0;width:auto;flex-wrap:nowrap}
+.metric-tabs.pill{display:inline-flex;gap:2px;padding:3px;background:var(--paper2);border-radius:2px;border:0;width:auto;flex-wrap:nowrap;position:relative}
+/* Indicador que desliza (adicionado por JS): fundo navy morph entre as tabs */
+.metric-tabs-indicator{position:absolute;top:0;left:0;background:var(--navy);border-radius:2px;pointer-events:none;transition:transform .38s cubic-bezier(.22,1,.36,1),width .38s cubic-bezier(.22,1,.36,1),height .38s cubic-bezier(.22,1,.36,1),opacity .3s;box-shadow:0 6px 16px -6px rgba(30,34,63,.55),inset 0 -2px 0 rgba(181,134,66,.6);opacity:0;z-index:0}
+.metric-tabs.pill button{position:relative;z-index:1}
+/* Quando o indicador existe, o botao ativo nao precisa mais do fundo proprio (deixa o morph brilhar) */
+.metric-tabs.pill:has(.metric-tabs-indicator) button.on{background:transparent;box-shadow:none}
+.metric-tabs.pill:has(.metric-tabs-indicator) button.on::after{background:linear-gradient(90deg,var(--gold-soft),var(--gold));z-index:2}
+body.theme-dark .metric-tabs-indicator{background:#12162A}
 .metric-tabs.pill button{font-family:inherit;font-size:11px;font-weight:700;color:var(--navy2);background:transparent;border:0;padding:9px 16px;cursor:pointer;transition:color .18s,background .28s cubic-bezier(.22,1,.36,1),box-shadow .28s;letter-spacing:.6px;text-transform:uppercase;border-radius:2px;position:relative;white-space:nowrap}
 .metric-tabs.pill button:hover{color:var(--navy)}
 .metric-tabs.pill button.on{background:var(--navy);color:#fff;box-shadow:0 6px 16px -6px rgba(30,34,63,.55),inset 0 -2px 0 rgba(181,134,66,.6)}
@@ -946,9 +953,24 @@ body.theme-dark .sn-theme-btn .sn-theme-moon{opacity:1;transform:rotate(0) scale
   .exec-arrow{width:42px;height:42px;font-size:18px}
 }
 
-/* Reveal on scroll: fade + slide + zoom sutil */
-.reveal{opacity:0;transform:translateY(28px) scale(.985);transition:opacity .85s cubic-bezier(.22,1,.36,1),transform .85s cubic-bezier(.22,1,.36,1)}
-.reveal.on{opacity:1;transform:none}
+/* Fio dourado de leitura: barra fina no topo que reflete o progresso do scroll */
+.reading-line{position:fixed;top:0;left:var(--sn-w);right:0;height:2px;background:transparent;z-index:70;pointer-events:none;overflow:hidden}
+.reading-line::before{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--progress,0%);background:linear-gradient(90deg,rgba(181,134,66,0) 0%,var(--gold-soft) 20%,var(--gold) 50%,var(--gold-soft) 80%,rgba(181,134,66,0) 100%);box-shadow:0 0 12px rgba(181,134,66,.55);transition:width .18s cubic-bezier(.22,1,.36,1)}
+@media(max-width:820px){.reading-line{left:0}}
+
+/* Reveal on scroll: fade + slide + zoom sutil.
+   Usamos animation keyframes em vez de transition — evita bug de transição travada
+   quando o parallax mexe transform dos filhos durante o próprio fade-in. */
+.reveal{opacity:0}
+.reveal.on{animation:revealIn .85s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes revealIn{
+  from{opacity:0;transform:translateY(28px) scale(.985)}
+  to{opacity:1;transform:none}
+}
+
+/* Números que "cristalizam" — surgem borrados e desfocam até nítidos */
+.crystallize{filter:blur(10px);opacity:0;transform:scale(.94);transition:filter .7s cubic-bezier(.22,1,.36,1),opacity .55s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.crystallize.done{filter:blur(0);opacity:1;transform:scale(1)}
 
 /* Halo pulsante dourado nos KPIs principais quando entram na viewport */
 .kpi-glow{position:relative}
