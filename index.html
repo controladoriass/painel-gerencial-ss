@@ -286,8 +286,10 @@ table.pano tbody tr.top2 td.grp .grp-rank,table.pano tbody tr.top3 td.grp .grp-r
 @media(max-width:1180px){.mov-kpis{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.mov-kpis{grid-template-columns:1fr}}
 .mov-kpi{padding:18px 18px 16px;overflow:hidden}
-.mov-kpi .tk-num{font-size:28px;letter-spacing:-1px;white-space:nowrap}
-@media(max-width:1180px){.mov-kpi .tk-num{font-size:24px}}
+.mov-kpi .tk-num{font-size:26px;letter-spacing:-1.2px;white-space:nowrap;text-align:left;display:block}
+.mov-kpi .tk-eyebrow,.mov-kpi .tk-desc{text-align:left}
+@media(max-width:1180px){.mov-kpi .tk-num{font-size:22px}}
+@media(max-width:900px){.mov-kpi .tk-num{font-size:20px;letter-spacing:-1px}}
 .mov-kpi .tk-desc{font-size:11px}
 /* KPI de saldo — cor muda conforme sinal */
 .mov-kpi-saldo.pos .tk-num{color:#2f7a44}
@@ -2125,10 +2127,15 @@ function _renderInstancia(inst){
     '2º Grau':'Casos em fase de reforma ou apelação.',
     'Superiores':'STF, STJ e TST. Casos de repercussão jurisprudencial.'
   };
-  const cores = {
-    '1º Grau':'linear-gradient(180deg,var(--gold-soft),var(--gold))',
-    '2º Grau':'linear-gradient(180deg,var(--navy2),var(--navy))',
-    'Superiores':'linear-gradient(180deg,var(--muted2),var(--navy2))'
+  const isDark = document.body.classList.contains('theme-dark');
+  const cores = isDark ? {
+    '1º Grau':'linear-gradient(180deg,#e4c78e 0%,#B58642 100%)',
+    '2º Grau':'linear-gradient(180deg,#5b6a94 0%,#2c3357 100%)',
+    'Superiores':'linear-gradient(180deg,#7a7f96 0%,#3F5276 100%)'
+  } : {
+    '1º Grau':'linear-gradient(180deg,#c9a54a 0%,#8a6534 100%)',
+    '2º Grau':'linear-gradient(180deg,#3F5276 0%,#1E223F 100%)',
+    'Superiores':'linear-gradient(180deg,#5b6a94 0%,#2c3357 100%)'
   };
 
   const container = document.getElementById('foro-inst-bars');
