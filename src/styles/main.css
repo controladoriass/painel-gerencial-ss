@@ -176,13 +176,11 @@ body.theme-dark .rank-toolbar,body.theme-dark .panel-label{color:#EDE9DC}
 body.theme-dark{background:#0a0d1e}
 
 /* ============ Cortina de loading ============ */
-.curtain{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden}
-.curtain-half{position:absolute;top:0;bottom:0;width:50%;background:linear-gradient(180deg,#161A31 0%,var(--navy-deep) 55%,#0f1226 100%);transition:transform 1.1s cubic-bezier(.72,0,.22,1)}
-.curtain-half.curtain-left{left:0;box-shadow:6px 0 24px -10px rgba(0,0,0,.55)}
-.curtain-half.curtain-right{right:0;box-shadow:-6px 0 24px -10px rgba(0,0,0,.55)}
-.curtain-half::before{content:"";position:absolute;top:-30%;height:60%;width:70%;background:radial-gradient(circle,rgba(181,134,66,.12),transparent 60%);pointer-events:none}
-.curtain-half.curtain-left::before{right:-20%}
-.curtain-half.curtain-right::before{left:-20%}
+.curtain{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden;background:linear-gradient(180deg,#161A31 0%,var(--navy-deep) 55%,#0f1226 100%);transition:opacity .9s cubic-bezier(.4,0,.2,1)}
+/* dois radial gradients dourados nos cantos para dar profundidade sem divisao vertical */
+.curtain-half{position:absolute;top:-30%;height:60%;width:70%;pointer-events:none;background:radial-gradient(circle,rgba(181,134,66,.12),transparent 60%)}
+.curtain-half.curtain-left{left:-20%}
+.curtain-half.curtain-right{right:-20%}
 .curtain-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;gap:22px;transition:opacity .55s cubic-bezier(.22,1,.36,1)}
 .curtain-logo-wrap{position:relative;overflow:hidden;padding:6px 12px;opacity:0;transform:translateY(6px);animation:curtainLogoIn .9s cubic-bezier(.22,1,.36,1) .15s forwards}
 .curtain-logo{display:block;height:76px;width:auto;filter:brightness(0) invert(1);opacity:.98}
@@ -194,8 +192,8 @@ body.theme-dark{background:#0a0d1e}
 .curtain-dots span:nth-child(3){animation-delay:.30s}
 
 /* estado aberto — cortinas deslizam para fora e conteúdo do centro faz fade */
-.curtain.open .curtain-half.curtain-left{transform:translateX(-102%)}
-.curtain.open .curtain-half.curtain-right{transform:translateX(102%)}
+/* Cortina aberta: fade suave da tela inteira, sem divisao */
+.curtain.open{opacity:0}
 .curtain.open .curtain-center{opacity:0;transition-delay:0s}
 .curtain.done{display:none}
 
